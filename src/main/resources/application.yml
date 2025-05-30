@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: zz-server
+
+
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:zz-server
+    username: zz-server
+    password: ENC(/ZrzO22PbR4jKDMbs1F5fGc1ouiwcDjo)
+
+  h2:
+    console:
+      enabled: true
+      path: /zz-server/h2-console
+
+
+
+server:
+  port: 9090

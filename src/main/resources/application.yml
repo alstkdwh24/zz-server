@@ -18,6 +18,6 @@ spring:
 
 jwt:
   expiration: 86400000
-  secret: zzServer123123zzClient123123===+++zzAuth123123123=======
+  secret: ${JWT-SECRET}
 server:
   port: 9090

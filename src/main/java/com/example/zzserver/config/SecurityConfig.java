@@ -42,6 +42,11 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable);
         http.cors((Customizer.withDefaults()));
 
+        // h2-console 에서 사용하는 X-FRAME-OPTIONS 허용
+        http.headers(headers -> headers
+            .frameOptions(FrameOptionsConfig::sameOrigin)
+        );
+
         //세션 관리 상태 없음으로 구성, Spring Security가 세션을 생성하지 않도록 설정
         http.sessionManagement(sessionMangement -> sessionMangement.sessionCreationPolicy(
                 SessionCreationPolicy.STATELESS

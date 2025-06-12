@@ -21,6 +21,7 @@ configurations {
 
 repositories {
     mavenCentral()
+
 }
 
 dependencies {
@@ -28,6 +29,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'junit:junit:4.13.1'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.h2database:h2'
@@ -35,9 +37,24 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
+// JWT 의존성
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'// Jackson 사용 시 필요
 
+    // Spring Security 의존성 25.06.09일 추가
+    implementation 'jakarta.persistence:jakarta.persistence-api'
+    implementation 'jakarta.validation:jakarta.validation-api'
+    implementation 'org.springframework.security:spring-security-crypto'
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4' //propterties 암호화를 위한 jasypt 라이브러리
+    implementation 'org.modelmapper:modelmapper:3.1.1'
+    // Jackson JSON 처리
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    // Spring Boot Validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    //25.06.09일 추가끝
 
 
 }

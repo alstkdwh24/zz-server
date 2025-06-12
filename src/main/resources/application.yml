@@ -9,7 +9,7 @@ spring:
     url: jdbc:h2:mem:zz-server;MODE=PostgreSQL
 
     username: zz-server
-    password: ENC(/ZrzO22PbR4jKDMbs1F5fGc1ouiwcDjo)
+    password: ENC(LBAe1oBu93ZFtB5zj0uNO8ZQ+O/dzTm/)
 
   h2:
     console:
@@ -20,6 +20,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
-
+jwt:
+  expiration: 86400000
+  secret: zzServer123123zzClient123123===+++zzAuth123123123=======
 server:
   port: 9090

@@ -2,15 +2,23 @@ package com.example.zzserver.config;
 
 import org.jasypt.util.text.BasicTextEncryptor;
 
+import java.util.Scanner;
+
 public class EncryptorTool {
     public static void main(String[] args) {
         BasicTextEncryptor textEncryptor = new BasicTextEncryptor();
-        textEncryptor.setPassword("zz-server1313"); // 환경변수에 설정한 키와 동일해야 함
+        String encryptorPassword = System.getenv("JASYPT-ENCRYPTOR-PASSWORD");
 
+        if (encryptorPassword == null || encryptorPassword.isEmpty()) {
+            throw new IllegalStateException("환경변수 'JASYPT-ENCRYPTOR-PASSWORD'가 설정되지 않았습니다.");
+        }
+        textEncryptor.setPassword(encryptorPassword);
 
-        String encryptedPassword = textEncryptor.encrypt("zz-server12");
-        System.getenv("JASYPT_ENCRYPTOR_PASSWORD");
-        System.out.println("Encrypted password: " + encryptedPassword);
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("암호화할 비밀번호를 입력하세요: ");
+        String plainPassword = scanner.nextLine();
+
+        String encryptedPassword = textEncryptor.encrypt(plainPassword);
+        System.out.println("Encrypted password: ENC(" + encryptedPassword + ")");
     }
-
 }

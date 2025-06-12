@@ -9,7 +9,7 @@ spring:
     url: jdbc:h2:mem:zz-server;MODE=PostgreSQL
 
     username: zz-server
-    password: ENC(LBAe1oBu93ZFtB5zj0uNO8ZQ+O/dzTm/)
+    password: ${JASYPT-ENCRYPTOR-PASSWORD}
 
   h2:
     console:
@@ -22,6 +22,10 @@ spring:
 
 jwt:
   expiration: 86400000
-  secret: 
+
+  secret: ${JWT-SECRET}
+
+
+
 server:
   port: 9090

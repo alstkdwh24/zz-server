@@ -25,7 +25,7 @@ public class SecurityConfig {
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     private static final String[] AUTH_WHITELIST = {"**", "/member/login", "/member/signup",
-            "/swagger-ui/**", "/api-docs", "swagger-ui-custom.html"
+            "/swagger-ui/**", "/api-docs", "swagger-ui-custom.html", "**/h2-console"
     };
 
     public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtUtil jwtUtil, CustomAccessDeniedHandler customAccessDeniedHandler, CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {

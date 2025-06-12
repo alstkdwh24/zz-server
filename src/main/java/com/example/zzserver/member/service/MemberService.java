@@ -57,7 +57,7 @@ public class MemberService {
             throw new IllegalArgumentException("This member UserId is already exist: " + member.getUserId());
         }
         member.setUserPw(encoder.encode(member.getUserPw())); // 비밀번호 암호화
-        memberRepository.create(member);
+        memberRepository.save(member);
 
         return member.getId();
     }

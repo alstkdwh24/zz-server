@@ -19,5 +19,6 @@ spring:
 jwt:
   expiration: 86400000
   secret: ${JWT-SECRET}
+
 server:
   port: 9090

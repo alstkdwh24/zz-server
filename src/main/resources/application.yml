@@ -6,7 +6,8 @@ spring:
 
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:zz-server
+    url: jdbc:h2:mem:zz-server;MODE=PostgreSQL
+
     username: zz-server
     password: ${JASYPT-ENCRYPTOR-PASSWORD}
 
@@ -14,11 +15,17 @@ spring:
     console:
       enabled: true
       path: /zz-server/h2-console
-
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 jwt:
   expiration: 86400000
+
   secret: ${JWT-SECRET}
+
+
 
 server:
   port: 9090

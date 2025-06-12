@@ -13,12 +13,9 @@ public class EncryptorTool {
             throw new IllegalStateException("환경변수 'JASYPT-ENCRYPTOR-PASSWORD'가 설정되지 않았습니다.");
         }
         textEncryptor.setPassword(encryptorPassword);
+        String encrypted = textEncryptor.encrypt(encryptorPassword);
+        System.out.println("Encrypted value: ENC(" + encrypted + ")");
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("암호화할 비밀번호를 입력하세요: ");
-        String plainPassword = scanner.nextLine();
 
-        String encryptedPassword = textEncryptor.encrypt(plainPassword);
-        System.out.println("Encrypted password: ENC(" + encryptedPassword + ")");
     }
 }

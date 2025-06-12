@@ -8,7 +8,7 @@ spring:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:zz-server
     username: zz-server
-    password: ENC(LBAe1oBu93ZFtB5zj0uNO8ZQ+O/dzTm/)
+    password: ${JASYPT-ENCRYPTOR-PASSWORD}
 
   h2:
     console:

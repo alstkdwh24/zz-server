@@ -14,7 +14,7 @@ public class AccommodationRestController {
     this.accommodationService = accommodationService;
   }
 
-  @GetMapping("accommodations")
+  @GetMapping("/api/accommodations")
   public ResponseEntity<?> getAccommodations() {
     return ResponseEntity.ok(accommodationService.readDisplayedList());
   }

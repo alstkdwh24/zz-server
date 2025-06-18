@@ -1,0 +1,112 @@
+<!--시험하는 코드 여기잘까랑 상관없음-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="appleid-signin-client-id" content="[CLIENT_ID]">
+    <meta name="appleid-signin-scope" content="[SCOPES]">
+    <meta name="appleid-signin-redirect-uri" content="[REDIRECT_URI]">
+    <meta name="appleid-signin-state" content="[STATE]">
+    <title>JO-JOHA(Login)</title>
+    <link rel="stylesheet" href="/css/jo_login.css">
+    <script src="/js/jquery-3.7.1.min.js"></script>
+<!--네이버-->
+    <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
+<!--애플-->
+    <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
+
+<!--카카오-->
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.5/kakao.min.js"
+            integrity="sha384-dok87au0gKqJdxs7msEdBPNnKSRT+/mhTVzq+qOhcL464zXwvcrpjeWvyj1kCdq6"
+            crossorigin="anonymous"></script>
+
+</head>
+
+
+<div th:replace="fragment/top-page-login :: topPageHeaders"></div>
+<div class="middle">
+    <div class="loginBox">
+        <div class="loginBoxOne">
+            JO-JOHA
+        </div>
+        <div class="loginBoxTwo">
+            <button class="kakao-login-btn">
+                <img src="/image/kakao_login (1)/ko/kakao_login_large_wide.png" alt="Kakao Login Button">
+            </button>
+            <button class="naver-login-btn" >
+                <div class="gleenButton">
+                    <img src="/image/2021_Login_with_naver_guidelines_Kr/btnG_아이콘사각.png" alt="Naver Login Button">
+                    <div class="naverLoginText">
+                        <p>네이버 로그인</p>
+                    </div>
+                </div>
+            </button>
+            <button class="gsi-material-button" >
+                <div class="gsi-material-button-content-wrapper">
+                    <div class="gsi-material-button-icon">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
+                             xmlns:xlink="http://www.w3.org/1999/xlink" style="display: block;" width="26px"
+                             height="26px">
+                            <path fill="#EA4335"
+                                  d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z">
+                            </path>
+                            <path fill="#4285F4"
+                                  d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z">
+                            </path>
+                            <path fill="#FBBC05"
+                                  d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z">
+                            </path>
+                            <path fill="#34A853"
+                                  d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z">
+                            </path>
+                            <path fill="none" d="M0 0h48v48H0z"></path>
+                        </svg>
+                    </div>
+                    <span class="gsi-material-button-contents">Sign in with Google</span>
+                    <span style="display: none;">Sign in with Google</span>
+                </div>
+            </button>
+
+            <button class="apple-login-btn">
+                <div class="appleid-signin">
+                    <img src="/image/appleid_button@2x (2).png" alt="Apple Login Button" class="apple-login-btn-image">
+                </div>
+                <div class="apple-login-box">
+                    <p>애플 로그인</p>
+                </div>
+
+            </button>
+            <button class="jo-joha-join-btn" id="jo-joha-join">
+                <div class="jo-joha-join-btn-box">
+                    <img src="/image/mail.png" alt="Email Login Button">
+                </div>
+                <div class="jo-joha-join-btn-function">JO-JOHA 회원가입</div>
+            </button>
+            <button class="jo-joha-login-btn">
+                <div class="jo-joha-signin">
+                    <img src="/image/user.png" alt="JO-JOHA Login Button" class="jo-joha-login-btn-image">
+                </div>
+                <div class="jo-joha-login-box">
+                    <p>JO-JOHA 로그인</p>
+                </div>
+            </button>
+        </div>
+
+    </div>
+</div>
+<div th:replace="/login/jo-joha-login.html :: jo-joha-join-modal">
+
+
+</div>
+<div th:replace="/login/jo-joha-real-login.html :: real-login"></div>
+<script>
+    window.kakaoLoginJavaScriptKey = '[[${kakaoLoginJavaScriptKey}]]';
+    window.naverClientId = '[[${naverClientId}]]';
+</script>
+<script src="/js/loginJS/jo-joha.js?v=1.0.1"></script>
+
+</html>

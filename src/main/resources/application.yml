@@ -1,8 +1,12 @@
 spring:
   application:
     name: zz-server
-
-
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+  web:
+    resources:
+      static-locations: classpath:/static/
 
   datasource:
     driver-class-name: org.h2.Driver
@@ -24,6 +28,14 @@ jwt:
   expiration: 86400000
 
   secret: ${JWT-SECRET}
+kakao:
+  KakaoLoginJavaScriptKey: ${KakaoLoginJavaScriptKey}
+  kakaoLoginRestApi: ${kakaoLoginRestApi}
+  kakaoNativeAppKey: ${kakaoNativeAppKey}
+naver:
+  naverClientId: ${naverClientId}
+  naverClientSecret: ${naverClientSecret}
+
 
 
 

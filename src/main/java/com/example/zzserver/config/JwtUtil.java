@@ -33,7 +33,7 @@ public class JwtUtil {
      */
 
     public String createAccessToken(CustomUserInfoDto member) {
-        System.out.println(member);
+        System.out.println("member24"+member.getEmail()+ member.getName() + member.getUserId() + " " + accessTokenExpTime);
         return createToken(member, accessTokenExpTime);
     }
 
@@ -49,6 +49,10 @@ public class JwtUtil {
 
         ZonedDateTime now = ZonedDateTime.now();
         ZonedDateTime tokenValidity = now.plusSeconds(accessTokenExpTime);
+        System.out.println("claims"+ claims.getId() + claims.get("id") + " "+ claims.get("userId") + " "+claims.get("userPw") + " "+claims.get("email") +" "+ claims.get("name") + " "+claims.get("role"));
+
+
+
 
         return Jwts.builder()
                 .setClaims(claims)

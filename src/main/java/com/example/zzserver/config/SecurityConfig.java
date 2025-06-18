@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -24,8 +25,8 @@ public class SecurityConfig {
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
-    private static final String[] AUTH_WHITELIST = {"**", "/member/login", "/member/signup",
-            "/swagger-ui/**", "/api-docs", "swagger-ui-custom.html", "**/h2-console"
+    private static final String[] AUTH_WHITELIST = {"/login/**", "/member/login", "/member/signup",
+            "/swagger-ui/**", "/api-docs", "swagger-ui-custom.html", "/h2-console/**"
     };
 
     public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtUtil jwtUtil, CustomAccessDeniedHandler customAccessDeniedHandler, CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {
@@ -41,6 +42,11 @@ public class SecurityConfig {
 
         http.csrf(AbstractHttpConfigurer::disable);
         http.cors((Customizer.withDefaults()));
+
+        // h2-console 에서 사용하는 X-FRAME-OPTIONS 허용
+        http.headers(headers -> headers
+                .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
+        );
 
         //세션 관리 상태 없음으로 구성, Spring Security가 세션을 생성하지 않도록 설정
         http.sessionManagement(sessionMangement -> sessionMangement.sessionCreationPolicy(

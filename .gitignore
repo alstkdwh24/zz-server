@@ -4,10 +4,6 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-**/src/main/java/resources/templates/
-**/src/main/java/resources/static/
-LoginController.java
-MainContainer.java
 
 
 
@@ -31,6 +27,12 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+
+**/src/main/java/resources/templates/
+**/src/main/java/resources/static/
+LoginController.java
+MainContainer.java
+
 
 ### NetBeans ###
 /nbproject/private/

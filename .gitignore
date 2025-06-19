@@ -6,6 +6,10 @@ build/
 !**/src/test/**/build/
 **/src/main/java/resources/templates/
 **/src/main/java/resources/static/
+LoginController.java
+MainContainer.java
+
+
 
 ### STS ###
 .apt_generated

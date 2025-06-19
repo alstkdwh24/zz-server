@@ -28,8 +28,8 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
-**/src/main/java/resources/templates/
-**/src/main/java/resources/static/
+**/src/main/resources/templates/
+**/src/main/resources/static/
 LoginController.java
 MainContainer.java
 

@@ -1,0 +1,15 @@
+ @GetMapping("/login")
+    public ResponseEntity<?> login(@RequestBody JoJoHaVO vo) {
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(vo.getUsername(), vo.getPassword());
+
+        Authentication authentication = authenticationManager.authenticate(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
+
+        String jwtToken = jwtTokenUtil.generateToken(myUserDetails);
+
+        return ResponseEntity.ok(Collections.singletonMap("token", "Bearer " + jwtToken
+        ));
+
+    }

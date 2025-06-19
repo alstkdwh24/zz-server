@@ -1,0 +1,819 @@
+/*<!--시험하는 코드 여기잘까랑 상관없음-->*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* 테두리 박스 모델 */
+}
+
+body {
+    height: 110%;
+}
+
+html {
+    height: 110%;
+    /* 전체 높이 */
+}
+
+.spacer {
+    width: 8%;
+    min-width: 57.54px;
+    /* 남은 공간을 차지 */
+
+}
+
+.title {
+    width: 20%;
+    color: dodgerblue;
+    cursor: pointer;
+}
+
+.titleSpacer {
+    width: 48.75%;
+}
+
+header {
+    position: fixed;           /* 스크롤 시 화면에 고정 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 63.09px;
+    height: 63.09px;           /* 2% 대신 실제 픽셀 값 사용 권장 */
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;             /* 다른 요소 위에 보이게 */
+}
+
+/* 로그인/회원가입 버튼 스타일 */
+.login-btn {
+    width: 12%;
+    background-color: white;
+    /* 배경색 */
+    /* 테두리 */
+    border-radius: 8px;
+    /* 모서리 둥글게 */
+    padding: 0.5rem 1rem;
+    /* 내부 여백 */
+    font-size: 1rem;
+    /* 글자 크기 */
+    cursor: pointer;
+    /* 마우스 포인터 변경 */
+}
+
+.login-btn:hover {
+    background-color: #f9f9f9;
+    /* 호버 시 배경색 */
+}
+
+/* 햄버거 메뉴 스타일 */
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    /* 세로로 정렬 */
+    justify-content: space-between;
+    /* 간격 균등 */
+    align-items: center;
+    width: 2.5%;
+    /* 햄버거 메뉴 너비 */
+    height: 18px;
+    /* 햄버거 메뉴 높이 */
+    cursor: pointer;
+    /* 마우스 포인터 변경 */
+}
+
+.hamburger div {
+    background-color: black;
+    /* 햄버거 바 색상 */
+    height: 3px;
+    /* 바 두께 */
+    border-radius: 2px;
+    /* 모서리 둥글게 */
+    width: 100%;
+    /* 바 너비 */
+}
+
+.login-btnSpacer1 {
+    width: 1.25%;
+}
+
+.login-btnSpacer2 {
+    width: 8%;
+}
+
+.middle {
+    width: 100%;
+    height: 90%;
+    display: flex;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.loginBox {
+    width: 34%;
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.loginBoxOne {
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 220%;
+    color: dodgerblue;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+
+}
+
+/* 로그인 버튼들 구성 */
+
+.loginBoxTwo {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+
+
+}
+
+.kakao-login-btn {
+    border: none;
+    /* 버튼 테두리 제거 */
+    background: none;
+    /* 버튼 배경 제거 */
+    padding: 0;
+    /* 내부 여백 제거 */
+    cursor: pointer;
+    /* 마우스 포인터 변경 */
+    width: 80%;
+    border-radius: 5px;
+}
+
+.kakao-login-btn img {
+    display: block;
+    width: 100%;
+    min-width: 244px;
+    /* 이미지 크기 조정 */
+    height: 100%;
+    /* 비율 유지 */
+    max-height: 50px;
+}
+
+.naver-login-btn {
+    border: none;
+    /* 버튼 테두리 제거 */
+    background: none;
+    /* 버튼 배경 제거 */
+    padding: 0;
+    /* 내부 여백 제거 */
+    cursor: pointer;
+    /* 마우스 포인터 변경 */
+    width: 80%;
+}
+
+.naver-login-btn img {
+    display: block;
+    width: 16%;
+    /* 이미지 크기 조정 */
+    height: 100%;
+    /* 비율 유지 */
+    max-height: 50px;
+}
+
+.gleenButton {
+    width: 100%;
+    height: 50px;
+    background-color: #03C75A;
+    color: white;
+    border: 1px solid #03C75A;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+}
+
+.naverLoginText {
+    width: 84%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    padding: 0 9% 0 0;
+
+}
+
+
+#customBtn {
+    display: inline-block;
+    background: white;
+    color: #444;
+    width: 190px;
+    border-radius: 5px;
+    border: thin solid #888;
+    box-shadow: 1px 1px 1px grey;
+    white-space: nowrap;
+}
+
+#customBtn:hover {
+    cursor: pointer;
+}
+
+/* 여기부터 구글버튼 */
+.gsi-material-button {
+
+    background-color: WHITE;
+    background-image: none;
+    border: 1px solid #747775;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #1f1f1f;
+    cursor: pointer;
+    font-family: 'Roboto', arial, sans-serif;
+    font-size: 14px;
+    max-height: 50px;
+    height: 100%;
+    letter-spacing: 0.25px;
+    outline: none;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    -webkit-transition: background-color .218s, border-color .218s, box-shadow .218s;
+    transition: background-color .218s, border-color .218s, box-shadow .218s;
+    vertical-align: middle;
+    white-space: nowrap;
+    width: auto;
+    max-width: 80%;
+    min-width: 80%;
+}
+
+.gsi-material-button .gsi-material-button-icon {
+    height: 50px;
+
+    min-width: 16%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.gsi-material-button-content-wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.gsi-material-button .gsi-material-button-content-wrapper {
+    -webkit-align-items: center;
+    align-items: center;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    height: 100%;
+    justify-content: space-between;
+    position: relative;
+    width: 100%;
+}
+
+.gsi-material-button .gsi-material-button-contents {
+    -webkit-flex-grow: 1;
+    flex-grow: 1;
+    font-family: 'Roboto', arial, sans-serif;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+    padding: 0 8% 0 0;
+}
+
+.gsi-material-button .gsi-material-button-state {
+    -webkit-transition: opacity .218s;
+    transition: opacity .218s;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.gsi-material-button:disabled {
+    cursor: default;
+    background-color: #ffffff61;
+    border-color: #1f1f1f1f;
+}
+
+.gsi-material-button:disabled .gsi-material-button-contents {
+    opacity: 38%;
+}
+
+.gsi-material-button:disabled .gsi-material-button-icon {
+    opacity: 38%;
+}
+
+.gsi-material-button:not(:disabled):active .gsi-material-button-state,
+.gsi-material-button:not(:disabled):focus .gsi-material-button-state {
+    background-color: #303030;
+    opacity: 12%;
+}
+
+.gsi-material-button:not(:disabled):hover {
+    -webkit-box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);
+    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);
+}
+
+.gsi-material-button:not(:disabled):hover .gsi-material-button-state {
+    background-color: #303030;
+    opacity: 8%;
+}
+
+/* 여기까지 */
+/* 여기부터는 이메일 */
+
+.jo-joha-join-btn {
+    border: none;
+    /* 버튼 테두리 제거 */
+    /* 버튼 배경 제거 */
+    padding: 0;
+    /* 내부 여백 제거 */
+    cursor: pointer;
+    /* 마우스 포인터 변경 */
+    width: 80%;
+    min-height: 50px;
+    display: flex;
+    background-color: black;
+    color: white;
+    /* 정확한 파란색 배경 */
+    /* 파란색 배경 */
+    /* 파란색 배경 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.jo-joha-join-btn-box img {
+    display: block;
+    width: 90%;
+    /* 이미지 크기 조정 */
+    height: 100%;
+    /* 비율 유지 */
+}
+
+.jo-joha-join-btn-function {
+    width: 84%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    padding: 0 9% 0 0;
+}
+
+.jo-joha-join-btn-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 16%;
+    height: 100%;
+}
+
+/* 애플버튼 */
+.apple-login-btn {
+    border: none;
+    /* 버튼 테두리 제거 */
+    background: none;
+    /* 버튼 배경 제거 */
+    padding: 0;
+    /* 내부 여백 제거 */
+    cursor: pointer;
+    /* 마우스 포인터 변경 */
+    width: 80%;
+    min-height: 50px;
+    max-height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: #000000;
+    /* 정확한 파란색 배경 */
+    /* 파란색 배경 */
+    /* 파란색 배경 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* 그림자 효과 */
+    border-radius: 5px;
+
+
+}
+
+.appleid-signin {
+    width: 16%;
+    height: 100%;
+}
+
+.apple-login-btn-image {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.apple-login-box {
+    width: 84%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    padding: 0 9% 0 0;
+    color: white
+}
+
+.jo-joha-login-btn {
+    border: none;
+    /* 버튼 테두리 제거 */
+    background: none;
+    /* 버튼 배경 제거 */
+    padding: 0;
+    /* 내부 여백 제거 */
+    cursor: pointer;
+    /* 마우스 포인터 변경 */
+    width: 80%;
+    min-height: 50px;
+    max-height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: #000000;
+    /* 정확한 파란색 배경 */
+    /* 파란색 배경 */
+    /* 파란색 배경 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* 그림자 효과 */
+    border-radius: 5px;
+
+}
+
+.jo-joha-signin {
+    width: 16%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.jo-joha-login-btn-image {
+    width: 50%;
+    height: 50%;
+    color: white;
+}
+
+.jo-joha-login-box {
+    width: 84%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    padding: 0 9% 0 0;
+    color: white
+}
+/*모달창 */
+#jo-joha-join-modal_fragment{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 검은색 반투명 배경 */
+    /* 모달창이 다른 요소 위에 오도록 설정 */
+
+}
+
+#jo-joha-join-modal{
+    position: fixed; /* 화면에 고정 */
+    border-radius: 10px;
+    min-width: 378px;
+    width: 30%;
+    height: 70%;
+    top: 50%; /* 화면 높이의 50% */
+    left: 50%; /* 화면 너비의 50% */
+    transform: translate(-50%, -50%); /* 정확히 중앙으로 이동 */
+
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+background-color: white;
+}
+
+.jo-joha-join-modal-header{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 150%;
+    color: dodgerblue;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+}
+
+.jo-joha-join-modal-middle-table-tbody{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.jo-joha-join-modal-middle-table{
+    width: 100%;
+    height: 66%;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-around ;
+    align-items: center;
+}
+
+.tr{
+    width: 100%;
+    height: 6%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.jo-joha-join-modal-middle-table-tr{
+    width: 100%;
+    height: 13%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.jo-joha-join-modal-bottom{
+    width: 100%;
+    height: 14%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: start;
+}
+.jo-joha-join-modal-middle-table-tr-td-one{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+[class^="table-tr-td-one-input-"] {
+    width: 80%;
+    height: 100%;
+
+}
+
+.jo-joha-join-button{
+    width: 80%;
+    height: 76%;
+    background-color: dodgerblue;
+    color: white;
+    border: 1px solid dodgerblue;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*모달 JO-JOHA로그인 모달*/
+.real-jo-joha-login-modal{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 검은색 반투명 배경 */
+    /* 모달창이 다른 요소 위에 오도록 설정 */
+}
+
+.real-jo-joha-login-modal-two{
+    position: fixed; /* 화면에 고정 */
+    border-radius: 10px;
+    min-width: 378px;
+    max-height: 308px;
+    width: 30%;
+    height: 60%;
+    top: 50%; /* 화면 높이의 50% */
+    left: 50%; /* 화면 너비의 50% */
+    transform: translate(-50%, -50%); /* 정확히 중앙으로 이동 */
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+
+}
+
+.modal-two-top{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 76%;
+}
+
+.modal-two-top-top{
+    height: 34%;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+.modal-two-top-bottom{
+    height: 66%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-two-bottom{
+    height: 19%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-two-find{
+    width: 100%;
+    height: 10%;
+    display: flex;
+    flex-direction: row;
+    font-size: 80%;
+    margin-bottom: 8%;
+}
+
+.modal-two-find-top{
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+}
+
+.modal-two-jo-joha-login{
+  width: 100%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+[class^="login-button-"]{
+    width: 16%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background-color: white;
+}
+
+.modal-two-top-top-font{
+    font-size: 36px;
+    font-weight: bold;
+    color: dodgerblue;
+}
+
+.modal-two-jo-joha-login-real{
+margin-top: 1%;
+    width: 100%;
+    height:74%;
+    display:flex;
+    flex-direction: row;
+}
+
+.modal-two-jo-joha-login-real-left{
+    width: 70%;
+    height: 100%;
+}
+
+.modal-two-jo-joha-login-real-right{
+    width: 30%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-two-jo-joha-login-real-right-button{
+    width: 100%;
+    height: 100%;
+    background-color: dodgerblue;
+    color: white;
+    font-size: 20px;
+    border: none;
+}
+
+.modal-two-jo-joha-login-real-left-table-tbody{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-two-jo-joha-login-real-left-table-tr{
+    width:100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.tr-id{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0;
+    border: 1px solid rgb(209, 207, 207);
+
+}
+
+.tr-pw{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0;
+    border: 1px solid rgb(209, 207, 207);
+
+}
+.black{
+    width: 5%;
+    height: 100%;
+}
+
+.id-padding{
+    width: 30%;
+    padding-right: 1%;
+}
+
+.pw-padding{
+    width: 40%;
+
+    padding-left: 3%;
+}
+
+.modal-two-find-right{
+    width: 30%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 14%;
+}

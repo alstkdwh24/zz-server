@@ -1,0 +1,35 @@
+<!--시험하는 코드 여기잘까랑 상관없음-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<body>
+    <header th:fragment="topPageHeader">
+        <div class="spacer"></div>
+        <div class="title" onclick="location.href='/main'">
+            <h1 onclick="location.href='/main'">JO-JOHA</h1>
+        </div>
+        <div class="titleSpacer"></div>
+
+        <button class="login-btn" onclick="location.href='/login/jo-login'">로그인/회원가입</button>
+        <div class="loginImage" onclick="location.href='/login/jo-login'">
+            <div class="img">LOGIN</div>
+        </div>
+        <div class="login-btnSpacer1"></div>
+        <!-- 햄버거 메뉴 -->
+        <div class="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="login-btnSpacer2"></div>
+    </header>
+</body>
+
+</html>

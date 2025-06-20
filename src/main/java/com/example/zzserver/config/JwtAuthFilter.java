@@ -33,6 +33,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                     final HttpServletResponse response,
                                     final FilterChain filterChain) throws ServletException, IOException {
         String authorizationHeader = request.getHeader("Authorization");
+        String path = request.getRequestURI();
+        if (path.startsWith("/api/kakao/")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         //JWT 헤더가 있는 경우
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){

@@ -6,9 +6,11 @@ import com.example.zzserver.member.entity.Member;
 import com.example.zzserver.member.service.MemberService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,9 @@ import static org.springframework.web.servlet.function.ServerResponse.status;
 @RequestMapping("/member")
 public class MemberController {
 
+    @Value("${kakao.KakaoLoginJavaScriptKey}")
+    private String kakaoLoginJavaScriptKey;
+
     private final MemberService memberService;
     private final ModelMapper modelMapper;
 
@@ -31,7 +36,8 @@ public class MemberController {
     }
 
     @PostMapping(value = "/login", consumes = "application/json")
-    public ResponseEntity<String> getMemberLogin(@Valid @RequestBody LoginRequestDto dto) {
+    public ResponseEntity<String> getMemberLogin(Model model, @Valid @RequestBody LoginRequestDto dto) {
+        model.addAttribute("kakaoLoginJavaScriptKey", kakaoLoginJavaScriptKey);
         String token = memberService.login(dto);
         return ResponseEntity.ok(token);
     }
@@ -42,6 +48,8 @@ public class MemberController {
         UUID id = memberService.signup(member);  // 서비스
         return ResponseEntity.status(HttpStatus.OK).body(id);
     }
+
+
 
 
 }

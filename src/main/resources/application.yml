@@ -32,6 +32,9 @@ kakao:
   KakaoLoginJavaScriptKey: ${KakaoLoginJavaScriptKey}
   kakaoLoginRestApi: ${kakaoLoginRestApi}
   kakaoNativeAppKey: ${kakaoNativeAppKey}
+  kakaoLoginSecretCode: ${kakaoLoginSecretCode}
+  client-authentication-method: POST
+
 naver:
   naverClientId: ${naverClientId}
   naverClientSecret: ${naverClientSecret}

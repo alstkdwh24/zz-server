@@ -29,10 +29,9 @@ public class SecurityConfig {
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
-    private static final String[] AUTH_WHITELIST = {"**", "/member/login", "/member/signup",
-            "/swagger-ui/**", "/api-docs", "swagger-ui-custom.html", "**/h2-console/**"
-
-    };
+    private static final String[] AUTH_WHITELIST = {"/**", "/member/login", "/member/signup",
+            "/swagger-ui/**", "/api-docs", "swagger-ui-custom.html", "**/h2-console/**", "/api/**"
+,"/api/kakao/**"    };
 
     public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtUtil jwtUtil, CustomAccessDeniedHandler customAccessDeniedHandler, CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {
         this.customUserDetailsService = customUserDetailsService;
@@ -70,6 +69,7 @@ public class SecurityConfig {
         //권한 규칙 작성
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(AUTH_WHITELIST).permitAll()
+
 
                 //@PreAuthorization 사용 -> 모든 경로에 대한 인증처리는 pass
                 .anyRequest().permitAll()

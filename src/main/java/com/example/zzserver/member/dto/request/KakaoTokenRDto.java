@@ -1,12 +1,11 @@
-package com.example.zzserver.member.dto.response;
+package com.example.zzserver.member.dto.request;
 
 import java.util.UUID;
 
-public class KakaoTokenDto {
-
+public class KakaoTokenRDto {
 
     private UUID id;
-    private String access_token;
+    private String access_Token;
     private String refresh_token;
 
     private Integer refresh_token_expires_in;
@@ -14,10 +13,10 @@ public class KakaoTokenDto {
     private String tokenType;
     private Integer expiresIn;
 
-    public KakaoTokenDto(){}
-    public KakaoTokenDto(UUID id, String access_token, String refresh_token, Integer refresh_token_expires_in, String scope, String tokenType, Integer expiresIn) {
+    public KakaoTokenRDto(){}
+    public KakaoTokenRDto(UUID id, String access_Token, String refresh_token, Integer refresh_token_expires_in, String scope, String tokenType, Integer expiresIn) {
         this.id = id;
-        this.access_token = access_token;
+        this.access_Token = access_Token;
         this.refresh_token = refresh_token;
         this.refresh_token_expires_in = refresh_token_expires_in;
         this.scope = scope;
@@ -34,11 +33,11 @@ public class KakaoTokenDto {
     }
 
     public String getAccess_token() {
-        return access_token;
+        return access_Token;
     }
 
-    public void setAccess_token(String access_token) {
-        this.access_token = access_token;
+    public void setAccess_token(String access_Token) {
+        this.access_Token = access_Token;
     }
 
     public String getRefresh_token() {
@@ -60,11 +59,9 @@ public class KakaoTokenDto {
     public String getScope() {
         return scope;
     }
-
     public void setScope(String scope) {
         this.scope = scope;
     }
-
     public String getTokenType() {
         return tokenType;
     }
@@ -80,6 +77,7 @@ public class KakaoTokenDto {
     public void setExpiresIn(Integer expiresIn) {
         this.expiresIn = expiresIn;
     }
+
 
 
 

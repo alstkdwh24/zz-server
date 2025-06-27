@@ -7,7 +7,6 @@ import com.example.zzserver.member.entity.Member;
 import com.example.zzserver.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;

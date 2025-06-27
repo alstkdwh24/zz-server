@@ -2,8 +2,6 @@ package com.example.zzserver.config;
 
 import org.jasypt.util.text.BasicTextEncryptor;
 
-import java.util.Scanner;
-
 public class EncryptorTool {
     public static void main(String[] args) {
         BasicTextEncryptor textEncryptor = new BasicTextEncryptor();

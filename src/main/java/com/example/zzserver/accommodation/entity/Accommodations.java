@@ -11,10 +11,19 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.util.UUID;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
+@Getter
+@Builder
 @Entity
 @Table(name = "ACCOMMODATIONS")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Accommodations {
 
   @Id
@@ -67,5 +76,15 @@ public class Accommodations {
 
   public AccommodationType getType() {
     return type;
+  }
+
+  public void update(String name, String phoneNumber, Address address,
+                     Double latitude, Double longitude, AccommodationType type) {
+    this.name = name;
+    this.phoneNumber = phoneNumber;
+    this.address = address;
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.type = type;
   }
 }

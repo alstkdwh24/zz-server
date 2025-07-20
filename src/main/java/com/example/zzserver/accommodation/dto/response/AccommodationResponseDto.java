@@ -3,8 +3,13 @@ package com.example.zzserver.accommodation.dto.response;
 import com.example.zzserver.accommodation.entity.AccommodationType;
 import com.example.zzserver.accommodation.entity.Accommodations;
 import com.example.zzserver.address.domain.Address;
+import lombok.Builder;
+import lombok.Getter;
+
 import java.util.UUID;
 
+@Getter
+@Builder
 public class AccommodationResponseDto {
 
   private UUID id;

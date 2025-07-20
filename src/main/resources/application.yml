@@ -13,7 +13,7 @@ spring:
     url: jdbc:h2:mem:zz-server;MODE=PostgreSQL
 
     username: zz-server
-    password: ${JASYPT-ENCRYPTOR-PASSWORD}
+    password: zz-server1313
 
   h2:
     console:
@@ -27,20 +27,21 @@ spring:
 jwt:
   expiration: 86400000
 
-  secret: ${JWT-SECRET}
+  secret: zzServer123123Client123123===+++zzAuth123123123=======++zzWeProject123123
 kakao:
-  KakaoLoginJavaScriptKey: ${KakaoLoginJavaScriptKey}
-  kakaoLoginRestApi: ${kakaoLoginRestApi}
-  kakaoNativeAppKey: ${kakaoNativeAppKey}
-  kakaoLoginSecretCode: ${kakaoLoginSecretCode}
+  KakaoLoginJavaScriptKey: 74759e5ef8fd0f1b9c8d1919072bbff1
+  kakaoLoginRestApi: 23a401571163385421de783f0ce5809b
+  kakaoNativeAppKey: 072979953306c0fea4f40dd07325bcf7
   client-authentication-method: POST
 
 naver:
-  naverClientId: ${naverClientId}
-  naverClientSecret: ${naverClientSecret}
+  naverClientId: e18MuCyrerbenSft0zGB
+  naverClientSecret: cDa5y15wNI
 
-
-
+# 로컬용 이미지 설정
+file:
+  upload-dir: ./uploads
+  access-base-url: http://localhost:9090/uploads
 
 server:
   port: 9090

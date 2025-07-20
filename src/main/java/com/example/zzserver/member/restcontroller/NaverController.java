@@ -52,5 +52,5 @@ public class NaverController {
     }
 
     @GetMapping("/userInfo")
-    public ResponseEntity<NaverLoginDto> getUserInfo(@ModelAttribute NaverLoginRDto dto) {}
+    public ResponseEntity<NaverLoginDto> getUserInfo(@ModelAttribute NaverLoginRDto dto) {return null;}
 }

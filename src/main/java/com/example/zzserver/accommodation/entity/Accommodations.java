@@ -1,5 +1,6 @@
 package com.example.zzserver.accommodation.entity;
 
+import com.example.zzserver.accommodation.consts.AccommodationType;
 import com.example.zzserver.address.domain.Address;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
@@ -53,30 +54,6 @@ public class Accommodations {
   private boolean displayed;
 
   private AccommodationType type;
-
-  public UUID getId() {
-    return id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public Address getAddress() {
-    return address;
-  }
-
-  public Double getLatitude() {
-    return latitude;
-  }
-
-  public Double getLongitude() {
-    return longitude;
-  }
-
-  public AccommodationType getType() {
-    return type;
-  }
 
   public void update(String name, String phoneNumber, Address address,
                      Double latitude, Double longitude, AccommodationType type) {

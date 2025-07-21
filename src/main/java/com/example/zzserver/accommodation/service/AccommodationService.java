@@ -8,18 +8,20 @@ import java.util.List;
 import java.util.UUID;
 
 import com.example.zzserver.address.domain.Address;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class AccommodationService {
 
   private final AccommodationRepository accommodationRepository;
 
-  public AccommodationService(AccommodationRepository accommodationRepository) {
-    this.accommodationRepository = accommodationRepository;
-  }
+  private final AccommodationImagesService accommodationImagesService;
+
 
   @Transactional(readOnly = true)
   public List<AccommodationResponseDto> readDisplayedList() {
@@ -37,54 +39,72 @@ public class AccommodationService {
             .orElseThrow(()-> new RuntimeException(id+"를 찾을수 없습니다."));
   }
 
-  public UUID createAccommodation(AccommodationRequest accommodationRequest) {
+  public UUID createAccommodation(AccommodationRequest accommodationRequest, List<MultipartFile> imageFiles) {
+    UUID requestAccommodationId = saveAccommodationOnly(accommodationRequest);
 
+    //첨부파일이 있는지의 여부
+    if(imageFiles != null && !imageFiles.isEmpty()) {
+      accommodationImagesService.uploadImages(requestAccommodationId, imageFiles);
+    }
+
+    return requestAccommodationId;
+  }
+
+  public UUID updateAccommodations(UUID id,
+                                   AccommodationRequest request,
+                                   List<MultipartFile> newImages,
+                                   List<UUID> deleteImageIds) {
+
+    Accommodations accommodations = accommodationRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("숙소가 존재하지 않습니다: " + id));
+
+    Address newAddress = Address.of(request.getZipCode(), request.getAddress(), request.getDetailAddress());
+    accommodations.update(request.getName(), request.getPhoneNumber(), newAddress,
+            request.getLatitude(), request.getLongitude(), request.getType());
+
+    // 이미지 삭제
+    if (deleteImageIds != null && !deleteImageIds.isEmpty()) {
+      accommodationImagesService.deleteImages(deleteImageIds);
+    }
+
+    // 새 이미지 추가
+    if (newImages != null && !newImages.isEmpty()) {
+      accommodationImagesService.uploadImages(id, newImages);
+    }
+    return id;
+  }
+
+  private UUID saveAccommodationOnly(AccommodationRequest request) {
     Address address = Address.of(
-            accommodationRequest.getZipCode(),
-            accommodationRequest.getAddress(),
-            accommodationRequest.getDetailAddress()
+            request.getZipCode(),
+            request.getAddress(),
+            request.getDetailAddress()
     );
 
     Accommodations accommodations = Accommodations
             .builder()
-            .name(accommodationRequest.getName())
-            .bussinessUserId(accommodationRequest.getBussinessUserId())
-            .type(accommodationRequest.getType())
-            .phoneNumber(accommodationRequest.getPhoneNumber())
+            .name(request.getName())
+            .bussinessUserId(request.getBussinessUserId())
+            .type(request.getType())
+            .displayed(true)
+            .phoneNumber(request.getPhoneNumber())
             .address(address)
-            .latitude(accommodationRequest.getLatitude())
-            .longitude(accommodationRequest.getLongitude())
-            .displayed(false)
+            .latitude(request.getLatitude())
+            .longitude(request.getLongitude())
             .build();
 
     return accommodationRepository.save(accommodations).getId();
   }
 
-  public UUID updateAccommodations(UUID id, AccommodationRequest accommodationRequest) {
-    Accommodations accommodations = accommodationRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("숙소가 존재하지 않습니다: " + id));
-
-    Address newAddress = Address.of(
-            accommodationRequest.getZipCode(),
-            accommodationRequest.getAddress(),
-            accommodationRequest.getDetailAddress()
-    );
-
-    accommodations.update(
-            accommodationRequest.getName(),
-            accommodationRequest.getPhoneNumber(),
-            newAddress,
-            accommodationRequest.getLatitude(),
-            accommodationRequest.getLongitude(),
-            accommodationRequest.getType()
-    );
-    return id;
-  }
-
   public void deleteById(UUID id) {
-    if(!accommodationRepository.existsById(id)) {
-      new RuntimeException("숙소가 존재하지 않습니다: " + id);
+    if (!accommodationRepository.existsById(id)) {
+      throw new RuntimeException("숙소가 존재하지 않습니다: " + id);
     }
+
+    // 이미지 먼저 삭제
+    accommodationImagesService.deleteImagesByAccommodationId(id);
+
+    // 숙소 삭제
     accommodationRepository.deleteById(id);
   }
 

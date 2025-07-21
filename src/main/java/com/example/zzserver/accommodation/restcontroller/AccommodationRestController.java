@@ -4,7 +4,9 @@ import com.example.zzserver.accommodation.dto.request.AccommodationRequest;
 import com.example.zzserver.accommodation.service.AccommodationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -28,13 +30,17 @@ public class AccommodationRestController {
   }
 
   @PostMapping("/")
-  public ResponseEntity<?> createAccommodations(@RequestBody AccommodationRequest accommodationRequest) {
-    return ResponseEntity.ok(accommodationService.createAccommodation(accommodationRequest));
+  public ResponseEntity<?> createAccommodations(@RequestPart(value = "request") AccommodationRequest accommodationRequest,
+                                                @RequestPart(value = "images",required = false) List<MultipartFile>files) {
+    return ResponseEntity.ok(accommodationService.createAccommodation(accommodationRequest,files));
   }
 
   @PatchMapping("/{id}")
-  public ResponseEntity<?> updateAccommodations(@PathVariable("id") UUID id, @RequestBody AccommodationRequest accommodationRequest) {
-    return ResponseEntity.ok(accommodationService.updateAccommodations(id,accommodationRequest));
+  public ResponseEntity<?> updateAccommodations(@PathVariable("id") UUID id,
+                                                @RequestPart(value = "request") AccommodationRequest accommodationRequest,
+                                                @RequestPart(value = "updated",required = false) List<MultipartFile> newImages,
+                                                @RequestPart(value = "deleteImageIds", required = false) List<UUID> imageIds) {
+    return ResponseEntity.ok(accommodationService.updateAccommodations(id,accommodationRequest,newImages,imageIds));
   }
 
   @DeleteMapping("/{id}")

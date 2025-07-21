@@ -1,4 +1,4 @@
-package com.example.zzserver.accommodation.entity;
+package com.example.zzserver.accommodation.consts;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

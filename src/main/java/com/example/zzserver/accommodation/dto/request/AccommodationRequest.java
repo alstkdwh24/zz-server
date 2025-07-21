@@ -1,6 +1,6 @@
 package com.example.zzserver.accommodation.dto.request;
 
-import com.example.zzserver.accommodation.entity.AccommodationType;
+import com.example.zzserver.accommodation.consts.AccommodationType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

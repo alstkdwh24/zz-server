@@ -6,10 +6,19 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.util.UUID;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
 @Entity
+@Getter
+@Builder
 @Table(name = "ROOMS")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Rooms {
 
   @Id

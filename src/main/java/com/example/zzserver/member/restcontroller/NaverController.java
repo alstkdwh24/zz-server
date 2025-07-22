@@ -2,11 +2,10 @@ package com.example.zzserver.member.restcontroller;
 
 import com.example.zzserver.member.dto.request.NaverLoginRDto;
 import com.example.zzserver.member.dto.response.NaverLoginDto;
+import com.example.zzserver.member.dto.response.NaverLoginInfoDto;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
@@ -51,6 +50,23 @@ public class NaverController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/userInfo")
-    public ResponseEntity<NaverLoginDto> getUserInfo(@ModelAttribute NaverLoginRDto dto) {return null;}
+//    @GetMapping("/userInfo")
+//    public ResponseEntity<NaverLoginDto> getUserInfo(@ModelAttribute NaverLoginRDto dto,  HttpSession session) {
+//        String accessToken = session.getAttribute("access_token").toString();
+//        String naverUserInfoUrl = "https://openapi.naver.com/v1/nid/me";
+//
+//
+//        RestTemplate restTemplate = new RestTemplate();
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setBearerAuth(accessToken); // "Bearer " 자동 추가
+//        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+//
+//        HttpEntity<Void> request = new HttpEntity<>( headers);
+//
+//        ResponseEntity<NaverLoginInfoDto> response= restTemplate.exchange(naverUserInfoUrl, HttpMethod.GET,request, NaverLoginInfoDto.class);
+//        System.out.println("Response: " + response.getBody());
+//
+//
+//        return ResponseEntity.ok(response.getBody());
+//    }
 }

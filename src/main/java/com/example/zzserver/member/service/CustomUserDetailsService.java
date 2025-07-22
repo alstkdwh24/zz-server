@@ -1,7 +1,6 @@
 package com.example.zzserver.member.service;
 
 import com.example.zzserver.config.CustomUserDetails;
-import com.example.zzserver.config.CustomUserInfoDto;
 import com.example.zzserver.member.entity.Member;
 import com.example.zzserver.member.repository.MemberRepository;
 import org.springframework.security.core.userdetails.UserDetails;

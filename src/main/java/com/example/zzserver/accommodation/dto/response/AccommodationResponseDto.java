@@ -1,10 +1,16 @@
 package com.example.zzserver.accommodation.dto.response;
 
-import com.example.zzserver.accommodation.entity.AccommodationType;
+import com.example.zzserver.accommodation.consts.AccommodationType;
 import com.example.zzserver.accommodation.entity.Accommodations;
 import com.example.zzserver.address.domain.Address;
+import lombok.*;
+
 import java.util.UUID;
 
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AccommodationResponseDto {
 
   private UUID id;
@@ -19,14 +25,7 @@ public class AccommodationResponseDto {
 
   private AccommodationType type;
 
-  private AccommodationResponseDto(UUID id, String name, Address address, Double latitude, Double longitude, AccommodationType type) {
-    this.id = id;
-    this.name = name;
-    this.address = address;
-    this.latitude = latitude;
-    this.longitude = longitude;
-    this.type = type;
-  }
+  private Boolean displayed;
 
   public static AccommodationResponseDto from(Accommodations accommodation) {
     return new AccommodationResponseDto(
@@ -35,6 +34,7 @@ public class AccommodationResponseDto {
         accommodation.getAddress(),
         accommodation.getLatitude(),
         accommodation.getLongitude(),
-        accommodation.getType());
+        accommodation.getType(),
+        accommodation.isDisplayed());
   }
 }

@@ -43,3 +43,4 @@ MainContainer.java
 
 ### VS Code ###
 .vscode/
+*.yml

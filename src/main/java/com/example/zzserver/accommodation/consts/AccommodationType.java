@@ -1,4 +1,4 @@
-package com.example.zzserver.accommodation.entity;
+package com.example.zzserver.accommodation.consts;
 
 public enum AccommodationType {
   MOTEL,

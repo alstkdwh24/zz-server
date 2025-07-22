@@ -16,8 +16,8 @@ import java.util.UUID;
 @Getter
 @Builder
 @Table(name = "AMENITIES")
-@NoArgsConstructor
-@AllArgsConstructor
+//@NoArgsConstructor
+//@AllArgsConstructor
 public class Amenities {
 
   @Id

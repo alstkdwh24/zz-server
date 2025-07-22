@@ -1,7 +1,8 @@
 package com.example.zzserver.member.service;
 
-import com.example.zzserver.config.CustomUserInfoDto;
+import com.example.zzserver.config.dto.CustomUserInfoDto;
 import com.example.zzserver.config.JwtUtil;
+import com.example.zzserver.config.dto.TokenResponseDTO;
 import com.example.zzserver.member.dto.request.LoginRequestDto;
 import com.example.zzserver.member.entity.Member;
 import com.example.zzserver.member.repository.MemberRepository;
@@ -32,7 +33,7 @@ public class MemberService {
     }
 
     @Transactional
-    public String login(LoginRequestDto dto){
+    public TokenResponseDTO login(LoginRequestDto dto){
         String userId = dto.getUserId();
         String userPw = dto.getUserPw();
 

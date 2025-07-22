@@ -1,5 +1,6 @@
 package com.example.zzserver.member.restcontroller;
 
+import com.example.zzserver.config.dto.TokenResponseDTO;
 import com.example.zzserver.member.dto.request.LoginRequestDto;
 import com.example.zzserver.member.dto.request.MemberRequestDto;
 import com.example.zzserver.member.entity.Member;
@@ -33,10 +34,10 @@ public class MemberController {
     }
 
     @PostMapping(value = "/login", consumes = "application/json")
-    public ResponseEntity<String> getMemberLogin(Model model, @Valid @RequestBody LoginRequestDto dto) {
+    public ResponseEntity<TokenResponseDTO> getMemberLogin(Model model, @Valid @RequestBody LoginRequestDto dto) {
         model.addAttribute("kakaoLoginJavaScriptKey", kakaoLoginJavaScriptKey);
-        String token = memberService.login(dto);
-        return ResponseEntity.ok(token);
+        TokenResponseDTO tokenDto = memberService.login(dto); // 반환 타입 수정
+        return ResponseEntity.ok(tokenDto);
     }
 
     @PostMapping("/signup")

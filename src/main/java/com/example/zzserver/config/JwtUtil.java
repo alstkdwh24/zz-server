@@ -1,5 +1,8 @@
 package com.example.zzserver.config;
 
+import com.example.zzserver.config.dto.CustomUserInfoDto;
+import com.example.zzserver.config.dto.TokenResponseDTO;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +21,12 @@ public class JwtUtil {
     private final Key key;
     private final long accessTokenExpTime;
 
-    public JwtUtil(@Value("${jwt.secret}") final String secretKey, @Value("${jwt.expiration}") final long accessTokenExpTime) {
+    private final long refreshTokenExpTime;
+
+    private final String userId = ""; // Refresh Token의 Subject로 사용될 값
+
+    public JwtUtil(@Value("${jwt.secret}") final String secretKey, @Value("${jwt.expiration}") final long accessTokenExpTime, @Value("${jwt.refreshTokenExpiration}") final long  refreshTokenExpTime) {
+        this.refreshTokenExpTime = refreshTokenExpTime;
         Key secretKeys = Keys.hmacShaKeyFor(secretKey.getBytes());        System.out.println("JwtUtil initialized with secretKey: " + secretKey + " and accessTokenExpTime: " + accessTokenExpTime);
         key = secretKeys;
         this.accessTokenExpTime = accessTokenExpTime;
@@ -32,9 +40,11 @@ public class JwtUtil {
      * @return Access Token String
      */
 
-    public String createAccessToken(CustomUserInfoDto member) {
-        System.out.println("member24"+member.getEmail()+ member.getName() + member.getUserId() + " " + accessTokenExpTime);
-        return createToken(member, accessTokenExpTime);
+    public TokenResponseDTO createAccessToken(CustomUserInfoDto member) {
+        String accessToken = createToken(member, accessTokenExpTime);
+        String refreshToken = createRefreshToken(member,refreshTokenExpTime);
+
+        return new TokenResponseDTO(accessToken, refreshToken);
     }
 
 
@@ -61,6 +71,20 @@ public class JwtUtil {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
+    }
+
+    private String createRefreshToken(CustomUserInfoDto member,long exTime){
+        ZonedDateTime now = ZonedDateTime.now();
+        ZonedDateTime refreshTokenValidity = now.plusSeconds(exTime);
+        Claims claims = Jwts.claims();
+        claims.put("id", member.getId());
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(Date.from (now.toInstant()))
+                .setExpiration(Date.from(refreshTokenValidity.toInstant()))
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.example.zzserver.config;
+package com.example.zzserver.config.dto;
 
 import com.example.zzserver.member.dto.request.MemberRequestDto;
 

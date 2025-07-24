@@ -1,9 +1,15 @@
 package com.example.zzserver.member.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class NaverLoginDto {
+    @JsonProperty("access_token")
     private String access_token;
+    @JsonProperty("refresh_token")
     private String refresh_token;
+    @JsonProperty("token_type")
     private String token_type;
+    @JsonProperty("expires_in")
     private String expires_in;
     public NaverLoginDto() {}
     public NaverLoginDto(String access_token, String refresh_token, String token_type, String expires_in) {
@@ -40,4 +46,6 @@ public class NaverLoginDto {
     public void setExpires_in(String expires_in) {
         this.expires_in = expires_in;
     }
+
+
 }

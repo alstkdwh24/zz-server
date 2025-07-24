@@ -7,7 +7,7 @@ public class NaverLoginInfoDto {
 
     private String resultcode;
     private String message;
-    private NaverLoginInfoRDto.NaverUser response; // 네이버 유저 정보는 여기 안에 있음
+    private NaverLoginInfoDto.NaverUser response; // 네이버 유저 정보는 여기 안에 있음
 
     public String getResultcode() {
         return resultcode;
@@ -22,10 +22,10 @@ public class NaverLoginInfoDto {
         this.message = message;
     }
 
-    public NaverLoginInfoRDto.NaverUser getResponse() {
+    public NaverLoginInfoDto.NaverUser getResponse() {
         return response;
     }
-    public void setResponse(NaverLoginInfoRDto.NaverUser response) {
+    public void setResponse(NaverLoginInfoDto.NaverUser response) {
         this.response = response;
     }
 

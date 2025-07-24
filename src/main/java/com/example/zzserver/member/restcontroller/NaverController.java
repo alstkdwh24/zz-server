@@ -1,21 +1,25 @@
 package com.example.zzserver.member.restcontroller;
 
+import com.example.zzserver.config.AppConfig;
 import com.example.zzserver.member.dto.request.NaverLoginRDto;
 import com.example.zzserver.member.dto.response.NaverLoginDto;
 import com.example.zzserver.member.dto.response.NaverLoginInfoDto;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/api/naver")
+@Import(AppConfig.class)
 public class NaverController {
 
     @Value("${naver.naverClientSecret}")
@@ -24,8 +28,11 @@ public class NaverController {
     @Value("${naver.naverClientId}")
     private String clientId;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
     @PostMapping("/token")
-    public ResponseEntity<NaverLoginDto> getNaverToken(@ModelAttribute NaverLoginRDto dto) {
+    public ResponseEntity<NaverLoginDto> getNaverToken(@ModelAttribute NaverLoginRDto dto, HttpSession session) {
         String tokenUrl = "https://nid.naver.com/oauth2.0/token";
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
@@ -41,32 +48,32 @@ public class NaverController {
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
 
-        RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<NaverLoginDto> responseEntity = restTemplate.postForEntity(tokenUrl, request, NaverLoginDto.class);
 
         NaverLoginDto response = responseEntity.getBody();
         System.out.println("Response: " + response);
 
+        session.setAttribute("access_token", response.getAccess_token());
         return ResponseEntity.ok(response);
     }
 
-//    @GetMapping("/userInfo")
-//    public ResponseEntity<NaverLoginDto> getUserInfo(@ModelAttribute NaverLoginRDto dto,  HttpSession session) {
-//        String accessToken = session.getAttribute("access_token").toString();
-//        String naverUserInfoUrl = "https://openapi.naver.com/v1/nid/me";
-//
-//
-//        RestTemplate restTemplate = new RestTemplate();
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setBearerAuth(accessToken); // "Bearer " 자동 추가
-//        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-//
-//        HttpEntity<Void> request = new HttpEntity<>( headers);
-//
-//        ResponseEntity<NaverLoginInfoDto> response= restTemplate.exchange(naverUserInfoUrl, HttpMethod.GET,request, NaverLoginInfoDto.class);
-//        System.out.println("Response: " + response.getBody());
-//
-//
-//        return ResponseEntity.ok(response.getBody());
-//    }
+
+    @GetMapping("/userInfo")
+    public ResponseEntity<NaverLoginInfoDto> getUserInfo(@ModelAttribute NaverLoginRDto dto,  HttpSession session) {
+        String accessToken = session.getAttribute("access_token").toString();
+        String naverUserInfoUrl = "https://openapi.naver.com/v1/nid/me";
+
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(accessToken); // "Bearer " 자동 추가
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        HttpEntity<Void> request = new HttpEntity<>( headers);
+
+        ResponseEntity<NaverLoginInfoDto> response= restTemplate.exchange(naverUserInfoUrl, HttpMethod.GET,request, NaverLoginInfoDto.class);
+        System.out.println("Response: " + response.getBody());
+
+
+        return ResponseEntity.ok(response.getBody());
+    }
 }

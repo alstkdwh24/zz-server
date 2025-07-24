@@ -1,10 +1,7 @@
 package com.example.zzserver.accommodation.dto.request;
 
 import com.example.zzserver.accommodation.consts.AccommodationType;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -12,6 +9,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class AccommodationRequest {
     private UUID bussinessUserId;
     private String name;
@@ -22,4 +20,6 @@ public class AccommodationRequest {
     private Double longitude;
     private String phoneNumber;
     private AccommodationType type;
+
+
 }

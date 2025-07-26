@@ -23,9 +23,10 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -135,5 +136,26 @@ public class AmenitiesControllerTest {
         ;
 
 
+    }
+
+    @Test
+    public void apiAmenitiesIdTestDelete() throws Exception {
+
+
+        UUID newId = amenitiesResponse4.getId();
+        when(amenitiesService.create(any())).thenReturn(newId);
+
+
+        doNothing().when(amenitiesService).deleteById(newId);
+
+
+        mockMvc.perform(
+                        delete("/api/amenities/{id}", newId)
+        )
+                .andExpect(status().isNoContent())
+                .andDo(MockMvcResultHandlers.print())
+                .andDo(MockMvcRestDocumentation.document("{class-name}/{method-name}",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())));
     }
 }

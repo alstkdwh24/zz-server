@@ -1,6 +1,5 @@
 package com.example.zzserver.member.dto.response;
 
-import com.example.zzserver.member.dto.request.NaverLoginInfoRDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class NaverLoginInfoDto {

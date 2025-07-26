@@ -1,19 +1,25 @@
 package com.example.zzserver.config;
 
-import com.example.zzserver.config.dto.CustomUserInfoDto;
-import com.example.zzserver.config.dto.TokenResponseDTO;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.security.Key;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.Date;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import com.example.zzserver.config.dto.CustomUserInfoDto;
+import com.example.zzserver.config.dto.TokenResponseDTO;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtUtil {
     private static final Logger logger = LogManager.getLogger(JwtUtil.class);

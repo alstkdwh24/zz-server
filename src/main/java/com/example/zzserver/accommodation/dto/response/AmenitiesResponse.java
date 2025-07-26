@@ -1,7 +1,5 @@
 package com.example.zzserver.accommodation.dto.response;
 
-import com.example.zzserver.accommodation.entity.Amenities;
-import junit.runner.Version;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

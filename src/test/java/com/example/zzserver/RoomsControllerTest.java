@@ -2,7 +2,6 @@ package com.example.zzserver;
 
 import com.example.zzserver.accommodation.dto.response.RoomsResponse;
 import com.example.zzserver.accommodation.service.RoomsService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,8 +11,6 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
@@ -28,7 +25,6 @@ import java.util.UUID;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -251,8 +247,7 @@ public class RoomsControllerTest {
                 .available(true)
                 .peopleCount(0)
                 .build();
-        Mockito.when(roomsService.create(Mockito.any())).thenReturn(roomsResponse);
-
+        Mockito.when(roomsService.create(Mockito.any())).thenReturn(roomsResponseToDeleteTest);
         // Mocking the service call
         Mockito.doNothing().when(roomsService).delete(id);
 

@@ -1,8 +1,8 @@
 package com.example.zzserver.config.dto;
 
-import com.example.zzserver.member.dto.request.MemberRequestDto;
-
 import java.util.UUID;
+
+import com.example.zzserver.member.dto.request.MemberRequestDto;
 
 public class CustomUserInfoDto extends MemberRequestDto {
 

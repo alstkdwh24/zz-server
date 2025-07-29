@@ -1,11 +1,13 @@
 package com.example.zzserver.member.service;
 
-import com.example.zzserver.config.dto.CustomUserInfoDto;
 import com.example.zzserver.config.JwtUtil;
+import com.example.zzserver.config.dto.CustomUserInfoDto;
 import com.example.zzserver.config.dto.TokenResponseDTO;
 import com.example.zzserver.member.dto.request.LoginRequestDto;
 import com.example.zzserver.member.entity.Member;
+import com.example.zzserver.member.entity.RefreshToken;
 import com.example.zzserver.member.repository.MemberRepository;
+import com.example.zzserver.member.repository.RefreshRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,22 +24,25 @@ public class MemberService {
 
     private final JwtUtil jwtUtil;
     private final MemberRepository memberRepository;
+
+    private final RefreshRepository refreshRepository;;
     private final PasswordEncoder encoder;
     private final ModelMapper modelMapper;
 
-    public MemberService(JwtUtil jwtUtil, MemberRepository memberRepository, PasswordEncoder encoder, ModelMapper modelMapper) {
+    public MemberService(JwtUtil jwtUtil, MemberRepository memberRepository, RefreshRepository refreshRepository, PasswordEncoder encoder, ModelMapper modelMapper) {
         this.jwtUtil = jwtUtil;
         this.memberRepository = memberRepository;
+        this.refreshRepository = refreshRepository;
         this.encoder = encoder;
         this.modelMapper = modelMapper;
     }
 
     @Transactional
     public TokenResponseDTO login(LoginRequestDto dto){
-        String userId = dto.getUserId();
+        String email = dto.getEmail();
         String userPw = dto.getUserPw();
 
-        Optional<Member> member = memberRepository.findMemberByUserId(userId);
+        Optional<Member> member = memberRepository.findMemberByEmail(email);
         if(member.isEmpty()){
             throw new UsernameNotFoundException("사용자를 찾을 수 없습니다.");
         }
@@ -46,15 +51,19 @@ public class MemberService {
         }
 
         CustomUserInfoDto info = modelMapper.map(member.get(),CustomUserInfoDto.class);
+        TokenResponseDTO tokenResponse = jwtUtil.createAccessToken(info);
+        System.out.println("  1234  "+tokenResponse.getRefresh_token() + "  1234  ");
+        RefreshToken refreshToken = new RefreshToken(UUID.randomUUID(),tokenResponse.getRefresh_token()); // 필요한 필드 채우기
+        refreshRepository.save(refreshToken);
         return jwtUtil.createAccessToken(info);
     }
 
     @Transactional
     public UUID signup(Member member) {
-        Optional<Member> validMember = memberRepository.findMemberByUserId(member.getUserId());
+        Optional<Member> validMember = memberRepository.findMemberByEmail(member.getEmail());
 
         if (validMember.isPresent()) {
-            throw new IllegalArgumentException("This member UserId is already exist: " + member.getUserId());
+            throw new IllegalArgumentException("This member UserId is already exist: " + member.getEmail());
         }
         member.setUserPw(encoder.encode(member.getUserPw())); // 비밀번호 암호화
         memberRepository.save(member);

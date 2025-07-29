@@ -1,10 +1,9 @@
 package com.example.zzserver.member.service;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Service;
-
 import com.example.zzserver.member.entity.RefreshToken;
 import com.example.zzserver.member.repository.RefreshRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
 
 @Service("refreshTokenService")
 public class RefreshTokenService {
@@ -19,6 +18,8 @@ public class RefreshTokenService {
 
         RefreshToken newToken = new RefreshToken();
         newToken.setRefresh_token(refreshToken);
+
+        System.out.println("RefreshTokenService: Inserting new refresh token: " + newToken.getRefresh_token());
         refreshRepository.save(newToken);
 
         return 1; // Token inserted successfully

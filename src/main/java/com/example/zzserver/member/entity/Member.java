@@ -14,8 +14,8 @@ public class Member {
     @GeneratedValue
     @Column(name = "id")
     private UUID id;
-    @Column(name = "userId", nullable = false, unique = true)
-    private String userId;
+//    @Column(name = "userId", nullable = false, unique = true)
+//    private String userId;
     @Column(name = "userPw", nullable = false)
 
     private String userPw;
@@ -37,14 +37,14 @@ public class Member {
         return id;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-
-    }
+//    public String getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(String userId) {
+//        this.userId = userId;
+//
+//    }
 
     public String getUserPw() {
         return userPw;

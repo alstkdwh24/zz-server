@@ -37,6 +37,7 @@ public class MemberController {
     public ResponseEntity<TokenResponseDTO> getMemberLogin(Model model, @Valid @RequestBody LoginRequestDto dto) {
         model.addAttribute("kakaoLoginJavaScriptKey", kakaoLoginJavaScriptKey);
         TokenResponseDTO tokenDto = memberService.login(dto); // 반환 타입 수정
+
         return ResponseEntity.ok(tokenDto);
     }
 

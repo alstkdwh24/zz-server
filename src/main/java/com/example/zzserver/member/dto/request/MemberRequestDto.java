@@ -6,11 +6,11 @@ import java.util.UUID;
 
 public class MemberRequestDto {
     private UUID id;
-    @NotBlank(message = "아이디는 필수 입력값입니다.")
 
-    private String userId;
+//    private String userId;
     @NotBlank(message = "이메일은 필수 입력값입니다.")
     private String userPw;
+    @NotBlank(message = "이메일은 필수 입력값입니다.")
 
     private String email;
 
@@ -23,9 +23,9 @@ public class MemberRequestDto {
 
     public MemberRequestDto() {}
 
-    public MemberRequestDto(UUID id, String userId, String userPw, String email, String name, String role) {
+    public MemberRequestDto(UUID id, String userPw, String email, String name, String role) {
         this.id = id;
-        this.userId = userId;
+//        this.userId = userId;
         this.userPw = userPw;
         this.email = email;
         this.name = name;
@@ -40,13 +40,13 @@ public class MemberRequestDto {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+//    public String getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(String userId) {
+//        this.userId = userId;
+//    }
 
     public String getUserPw() {
         return userPw;
@@ -84,6 +84,7 @@ public class MemberRequestDto {
     public void setRole(String role) {
         this.role = role;
     }
+
 
 
 }

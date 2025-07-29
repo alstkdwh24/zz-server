@@ -1,17 +1,12 @@
 package com.example.zzserver;
 
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.modifyHeaders;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.Optional;
-import java.util.UUID;
-
+import com.example.zzserver.config.dto.TokenResponseDTO;
+import com.example.zzserver.member.dto.request.LoginRequestDto;
+import com.example.zzserver.member.dto.request.MemberRequestDto;
+import com.example.zzserver.member.entity.Member;
+import com.example.zzserver.member.repository.MemberRepository;
+import com.example.zzserver.member.service.MemberService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +28,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import com.example.zzserver.config.dto.TokenResponseDTO;
-import com.example.zzserver.member.dto.request.LoginRequestDto;
-import com.example.zzserver.member.dto.request.MemberRequestDto;
-import com.example.zzserver.member.entity.Member;
-import com.example.zzserver.member.repository.MemberRepository;
-import com.example.zzserver.member.service.MemberService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Optional;
+
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -75,11 +70,11 @@ class ZzServerApplicationTests {
     public void setUp() {
         LoginRequestDto dto = new LoginRequestDto();
         try {
-            dto.setUserId(username);
+            dto.setEmail(username);
             memberService.login(dto);
         } catch (Exception e) {
             Member member = new Member();
-            member.setUserId(username);
+            member.setEmail(username);
             member.setUserPw(passwordEncoder.encode("testpassword"));
             member.setEmail("testuser@example.com");
             member.setName("TestUser");
@@ -90,18 +85,18 @@ class ZzServerApplicationTests {
     @Test
     public void TestMemberLogin() throws Exception {
         LoginRequestDto dto = new LoginRequestDto();
-        dto.setUserId(username);
+        dto.setEmail(username);
         dto.setUserPw("testpassword");
 
         TokenResponseDTO jwtToken = memberService.login(dto); // JWT 토큰 반환
-        Optional<Member> memberOpt = memberRepository.findMemberByUserId(dto.getUserId());
+        Optional<Member> memberOpt = memberRepository.findMemberByEmail(dto.getEmail());
         if (memberOpt.isEmpty()) {
             throw new UsernameNotFoundException("User not found");
         }
 
         Member member = memberOpt.get();
 
-        UserDetails userDetails = User.withUsername(member.getUserId()).password(member.getUserPw()).roles("USER").build();
+        UserDetails userDetails = User.withUsername(member.getEmail()).password(member.getUserPw()).roles("USER").build();
 
 
         mockMvc.perform(post("/test/member/login")
@@ -126,19 +121,17 @@ class ZzServerApplicationTests {
     public void TestMemberSignup() throws Exception {
         MemberRequestDto memberdto = new MemberRequestDto();
 
-        memberdto.setUserId(UUID.randomUUID().toString());
         memberdto.setUserPw("newpassword");
         memberdto.setEmail("alkfqj2@naver.com");
         memberdto.setName("New User");
         Member member = new Member();
         member.getId();
-        member.setUserId(memberdto.getUserId());
         member.setUserPw(memberdto.getUserPw());
         member.setEmail(memberdto.getEmail());
         member.setName(memberdto.getName());
 
 
-        memberRepository.findMemberByUserId(member.getUserId())
+        memberRepository.findMemberByEmail(member.getEmail())
                 .ifPresent(existingMember -> {
                     throw new IllegalArgumentException("이미 존재하는 회원입니다.");
                 });

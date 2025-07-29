@@ -35,7 +35,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return member.getUserId().toString();
+        return member.getEmail(); // username 필드에 맞게 반환
     }
 
     @Override
@@ -48,6 +48,7 @@ public class CustomUserDetails implements UserDetails {
         return true;
     }
 
+    @Override
     public boolean isCredentialsNonExpired(){
         return true;
     }

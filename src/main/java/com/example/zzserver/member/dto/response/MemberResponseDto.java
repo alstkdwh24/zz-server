@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class MemberResponseDto {
     private UUID id;
-    private String userId;
+//    private String userId;
     private String userPw;
     private String email;
     private String name;
@@ -12,9 +12,9 @@ public class MemberResponseDto {
 
     public MemberResponseDto() {}
 
-    public MemberResponseDto(UUID id, String userId, String userPw, String email, String name, String role) {
+    public MemberResponseDto(UUID id, String userPw, String email, String name, String role) {
         this.id = id;
-        this.userId = userId;
+//        this.userId = userId;
         this.userPw = userPw;
         this.email = email;
         this.name = name;
@@ -28,13 +28,13 @@ public class MemberResponseDto {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+//    public String getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(String userId) {
+//        this.userId = userId;
+//    }
 
     public String getUserPw() {
         return userPw;

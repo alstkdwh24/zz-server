@@ -18,6 +18,8 @@ public class RefreshTokenService {
 
         RefreshToken newToken = new RefreshToken();
         newToken.setRefresh_token(refreshToken);
+
+        System.out.println("RefreshTokenService: Inserting new refresh token: " + newToken.getRefresh_token());
         refreshRepository.save(newToken);
 
         return 1; // Token inserted successfully

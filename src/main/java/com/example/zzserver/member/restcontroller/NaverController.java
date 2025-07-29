@@ -4,8 +4,10 @@ import com.example.zzserver.config.AppConfig;
 import com.example.zzserver.member.dto.request.NaverLoginRDto;
 import com.example.zzserver.member.dto.response.NaverLoginDto;
 import com.example.zzserver.member.dto.response.NaverLoginInfoDto;
+import com.example.zzserver.member.service.NaverService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.*;
@@ -13,8 +15,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
-import java.util.UUID;
 
 
 @RestController
@@ -27,6 +27,10 @@ public class NaverController {
 
     @Value("${naver.naverClientId}")
     private String clientId;
+
+    @Autowired
+    @Qualifier("naverService")
+    private NaverService naverService;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -54,6 +58,10 @@ public class NaverController {
         System.out.println("Response: " + response);
 
         session.setAttribute("access_token", response.getAccess_token());
+
+        naverService.insertRefreshToken(response.getRefresh_token());
+
+
         return ResponseEntity.ok(response);
     }
 

@@ -1,17 +1,22 @@
 package com.example.zzserver;
 
-import com.example.zzserver.member.dto.request.LoginRequestDto;
-import com.example.zzserver.member.dto.request.MemberRequestDto;
-import com.example.zzserver.member.entity.Member;
-import jakarta.validation.Valid;
-import org.modelmapper.ModelMapper;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.zzserver.member.dto.request.LoginRequestDto;
+import com.example.zzserver.member.dto.request.MemberRequestDto;
+import com.example.zzserver.member.entity.Member;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/test")

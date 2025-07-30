@@ -9,8 +9,12 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "refresh_token")
+
 public class RefreshToken {
 
+
+    @Column
+    private String email;
 
 
    @Id
@@ -21,11 +25,19 @@ public class RefreshToken {
     private String refresh_token;
 
    public RefreshToken() {}
-    public RefreshToken(UUID id, String refresh_token) {
+    public RefreshToken(UUID id, String refresh_token, String email) {
+
        this.id = id;
+        this.email = email;
        this.refresh_token = refresh_token;
     }
 
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
     public void setRefresh_token(String refreshToken) {
 
         this.refresh_token = refreshToken;

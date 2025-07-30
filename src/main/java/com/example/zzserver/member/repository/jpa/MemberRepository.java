@@ -1,4 +1,4 @@
-package com.example.zzserver.member.repository;
+package com.example.zzserver.member.repository.jpa;
 
 import com.example.zzserver.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;

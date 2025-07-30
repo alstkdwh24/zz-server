@@ -5,9 +5,11 @@ import com.example.zzserver.config.dto.CustomUserInfoDto;
 import com.example.zzserver.config.dto.TokenResponseDTO;
 import com.example.zzserver.member.dto.request.LoginRequestDto;
 import com.example.zzserver.member.entity.Member;
+import com.example.zzserver.member.entity.RedisRefreshToken;
 import com.example.zzserver.member.entity.RefreshToken;
-import com.example.zzserver.member.repository.MemberRepository;
-import com.example.zzserver.member.repository.RefreshRepository;
+import com.example.zzserver.member.repository.jpa.MemberRepository;
+import com.example.zzserver.member.repository.jpa.RefreshRepository;
+import com.example.zzserver.member.repository.redis.RefreshTokenRedisRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -26,13 +28,16 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     private final RefreshRepository refreshRepository;;
+
+    private final RefreshTokenRedisRepository refreshTokenRedisRepository;
     private final PasswordEncoder encoder;
     private final ModelMapper modelMapper;
 
-    public MemberService(JwtUtil jwtUtil, MemberRepository memberRepository, RefreshRepository refreshRepository, PasswordEncoder encoder, ModelMapper modelMapper) {
+    public MemberService(JwtUtil jwtUtil, MemberRepository memberRepository, RefreshRepository refreshRepository, RefreshTokenRedisRepository refreshTokenRedisRepository, PasswordEncoder encoder, ModelMapper modelMapper) {
         this.jwtUtil = jwtUtil;
         this.memberRepository = memberRepository;
         this.refreshRepository = refreshRepository;
+        this.refreshTokenRedisRepository = refreshTokenRedisRepository;
         this.encoder = encoder;
         this.modelMapper = modelMapper;
     }
@@ -41,8 +46,11 @@ public class MemberService {
     public TokenResponseDTO login(LoginRequestDto dto){
         String email = dto.getEmail();
         String userPw = dto.getUserPw();
-
+//jpa
         Optional<Member> member = memberRepository.findMemberByEmail(email);
+     //   //redis
+        Optional<RedisRefreshToken> members = refreshTokenRedisRepository.findMemberByEmail(email);
+
         if(member.isEmpty()){
             throw new UsernameNotFoundException("사용자를 찾을 수 없습니다.");
         }
@@ -53,7 +61,7 @@ public class MemberService {
         CustomUserInfoDto info = modelMapper.map(member.get(),CustomUserInfoDto.class);
         TokenResponseDTO tokenResponse = jwtUtil.createAccessToken(info);
         System.out.println("  1234  "+tokenResponse.getRefresh_token() + "  1234  ");
-        RefreshToken refreshToken = new RefreshToken(UUID.randomUUID(),tokenResponse.getRefresh_token()); // 필요한 필드 채우기
+        RefreshToken refreshToken = new RefreshToken(UUID.randomUUID(),"alstdqdlqdq@naver.com",tokenResponse.getRefresh_token()); // 필요한 필드 채우기
         refreshRepository.save(refreshToken);
         return jwtUtil.createAccessToken(info);
     }

@@ -2,7 +2,7 @@ package com.example.zzserver.member.service;
 
 import com.example.zzserver.config.CustomUserDetails;
 import com.example.zzserver.member.entity.Member;
-import com.example.zzserver.member.repository.MemberRepository;
+import com.example.zzserver.member.repository.jpa.MemberRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

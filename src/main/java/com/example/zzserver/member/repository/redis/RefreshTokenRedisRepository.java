@@ -10,4 +10,5 @@ public interface RefreshTokenRedisRepository  extends CrudRepository<RedisRefres
     Optional<RedisRefreshToken> findByEmail(String email);
     Optional<RedisRefreshToken> findMemberByEmail(String email);
 
+    RedisRefreshToken findByRefreshToken(String refreshToken);
 }

@@ -14,6 +14,7 @@ import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 
@@ -58,6 +59,7 @@ public class NaverController {
         System.out.println("Response: " + response);
 
         session.setAttribute("access_token", response.getAccess_token());
+        session.setAttribute("refresh_token", response.getRefresh_token());
 
         naverService.insertRefreshToken(response.getRefresh_token());
 
@@ -68,20 +70,37 @@ public class NaverController {
 
     @GetMapping("/userInfo")
     public ResponseEntity<NaverLoginInfoDto> getUserInfo(@ModelAttribute NaverLoginRDto dto,  HttpSession session) {
-        String accessToken = session.getAttribute("access_token").toString();
-        String naverUserInfoUrl = "https://openapi.naver.com/v1/nid/me";
+
+        Object accessTokenObj = session.getAttribute("access_token");
+        Object refreshTokenObj = session.getAttribute("refresh_token");
+
+        if (accessTokenObj == null || refreshTokenObj == null) {
+            throw new IllegalStateException("세션에 access_token 또는 refresh_token이 없습니다.");
+        }
+
+        String accessToken = accessTokenObj.toString();
+        String refreshToken = refreshTokenObj.toString();
+          String naverUserInfoUrl = "https://openapi.naver.com/v1/nid/me";
 
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(accessToken); // "Bearer " 자동 추가
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+          HttpHeaders headers = new HttpHeaders();
+          headers.setBearerAuth(accessToken); // "Bearer " 자동 추가
+          headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-        HttpEntity<Void> request = new HttpEntity<>( headers);
+          HttpEntity<Void> request = new HttpEntity<>(headers);
+        try {
+          ResponseEntity<NaverLoginInfoDto> response = restTemplate.exchange(naverUserInfoUrl, HttpMethod.GET, request, NaverLoginInfoDto.class);
+          System.out.println("Response: " + response.getBody());
+          return ResponseEntity.ok(response.getBody());
 
-        ResponseEntity<NaverLoginInfoDto> response= restTemplate.exchange(naverUserInfoUrl, HttpMethod.GET,request, NaverLoginInfoDto.class);
-        System.out.println("Response: " + response.getBody());
+      } catch (HttpClientErrorException e) {
 
+          if(e.getStatusCode().value() == 401){
+              naverService.reissueAccessToken(refreshToken);
 
-        return ResponseEntity.ok(response.getBody());
+          }
+          throw new RuntimeException(e);
+      }
+
     }
 }

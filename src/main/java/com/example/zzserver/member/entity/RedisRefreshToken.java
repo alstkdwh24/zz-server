@@ -34,13 +34,13 @@ public class RedisRefreshToken {
         this.email = email; // 이메일 초기화
     }
 
-    public void setRefresh_token(String refreshToken) {
+    public void setRefreshToken(String refreshToken) {
 
         this.refresh_token = refreshToken;
 
     }
-    public String getRefresh_token() {
-        return refresh_token;
+    public String getRefreshToken() {
+        return this.refresh_token;
     }
     public UUID getId() {
         return id;

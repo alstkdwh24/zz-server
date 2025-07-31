@@ -83,6 +83,7 @@ public class KakaoController {
     @PostMapping("/userinfo")
     public ResponseEntity<String> kakaoGetUserInfo(@ModelAttribute KakaoTokenRDto dto) {
         String accessToken = dto.getAccess_token();
+        String refreshToken = dto.getRefresh_token();
         System.out.println("메서드 진입" + accessToken);
 
 
@@ -110,6 +111,15 @@ public class KakaoController {
             return ResponseEntity.ok(response.getBody());
         } catch (HttpClientErrorException e) {
             // 에러 응답 바디 출력
+            if (e.getStatusCode().value() == 401) {
+                refreshTokenService.reissueAccessToken(refreshToken);
+
+            }
+            System.err.println("HTTP Status Code: " + e.getStatusCode());
+            System.err.println("Response Headers: " + e.getResponseHeaders());
+            System.err.println("Response Body: " + e.getResponseBodyAsString());
+            e.printStackTrace();
+
             return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
         }
     }

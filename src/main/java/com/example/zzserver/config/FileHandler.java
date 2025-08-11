@@ -2,6 +2,7 @@ package com.example.zzserver.config;
 
 import com.example.zzserver.accommodation.dto.request.FileMetadata;
 import com.example.zzserver.accommodation.entity.AccommodationImages;
+import com.example.zzserver.accommodation.entity.RoomImages;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -70,7 +71,7 @@ public class FileHandler {
     /**
      * 저장된 AccommodationImages 목록에서 로컬 파일 삭제
      */
-    public void deleteFiles(List<AccommodationImages> images) {
+    public void deleteAccommodationFiles(List<AccommodationImages> images) {
         for (AccommodationImages image : images) {
             try {
                 String fullPath = resolveFilePathFromUrl(image.getImageUrl());
@@ -85,6 +86,27 @@ public class FileHandler {
                 log.error("파일 삭제 중 예외 발생: {}", image.getImageUrl(), e);
             }
         }
+    }
+
+    /**
+     * 저장된 RoomsImages 목록에서 로컬 파일 삭제
+     */
+    public void deleteRoomFiles(List<RoomImages> images) {
+        for(RoomImages image: images) {
+            try {
+                String fullPath = resolveFilePathFromUrl(image.getImageUrl());
+                File file = new File(fullPath);
+                if(file.exists()) {
+                    boolean deleted = file.delete();
+                    log.info("파일 삭제: {} → {}", fullPath, deleted);
+                } else {
+                    log.warn("삭제 대상 파일이 존재하지 않음: {}", fullPath);
+                }
+            } catch (Exception e) {
+                log.error("파일 삭제 중 예외 발생: {}", image.getImageUrl(), e);
+            }
+        }
+
     }
 
     /**

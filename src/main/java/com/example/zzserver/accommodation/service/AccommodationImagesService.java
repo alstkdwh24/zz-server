@@ -76,7 +76,7 @@ public class AccommodationImagesService {
         List<AccommodationImages> targets = accommodationImagesRepository.findAllById(imageIds);
         if (!targets.isEmpty()) {
             accommodationImagesRepository.deleteAll(targets);
-            fileHandler.deleteFiles(targets);
+            fileHandler.deleteAccommodationFiles(targets);
         }
     }
 
@@ -87,7 +87,7 @@ public class AccommodationImagesService {
         List<AccommodationImages> targets = accommodationImagesRepository.findByAccommodationId(accommodationId);
         if (!targets.isEmpty()) {
             accommodationImagesRepository.deleteAll(targets);
-            fileHandler.deleteFiles(targets);
+            fileHandler.deleteAccommodationFiles(targets);
         }
     }
 }

@@ -18,9 +18,9 @@ public class RoomsService {
     private final RoomsRepository roomsRepository;
 
     private final RoomImageService roomImageService;
-
+/*여기는 컨트롤러가 에러가 떠서 주석으로 처리했습니다.*/
     // 방생성
-    public UUID create(RoomsRequest request, List<MultipartFile> imageFiles) {
+    public UUID create(RoomsRequest request, List<MultipartFile> imageFiles)) {
         UUID roomImageId = saveRooms(request);
 
         if(imageFiles != null && !imageFiles.isEmpty()) {

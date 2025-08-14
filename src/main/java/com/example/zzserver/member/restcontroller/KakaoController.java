@@ -55,8 +55,8 @@ public class KakaoController {
         try {
             ResponseEntity<KakaoTokenDto> response = restTemplate.postForEntity(url, requestEntity, KakaoTokenDto.class);
             System.out.println("Request Body: " + response.getBody());
-            String accessToken = response.getBody().getRefresh_token();
-            refreshTokenService.insertRefreshToken(accessToken);
+            String refresh_token = response.getBody().getRefresh_token();
+            refreshTokenService.insertRefreshToken(refresh_token);
 
             try {
                 return ResponseEntity.ok(response.getBody());
@@ -87,9 +87,9 @@ public class KakaoController {
         System.out.println("메서드 진입" + accessToken);
 
 
-//        if (accessToken == null || accessToken.isBlank()) {
-//            return ResponseEntity.badRequest().body("access_token is missing");
-//        }
+        if (accessToken == null || accessToken.isBlank()) {
+            return ResponseEntity.badRequest().body("access_token is missing");
+        }
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -107,8 +107,16 @@ public class KakaoController {
 
         try {
             ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
-            System.out.println("wwwwwwww" + response);
-            return ResponseEntity.ok(response.getBody());
+            try {
+                System.out.println("Response Body: " + response.getBody());
+
+
+                refreshTokenService.reissueAccessToken(refreshToken);
+
+                return ResponseEntity.ok(response.getBody());
+            } catch (Exception e) {
+                System.err.println("Response Body is null or empty");
+            }
         } catch (HttpClientErrorException e) {
             // 에러 응답 바디 출력
             if (e.getStatusCode().value() == 401) {
@@ -121,7 +129,10 @@ public class KakaoController {
             e.printStackTrace();
 
             return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+
         }
+
+        return null;
     }
 
     @PostMapping("/kakaoRefreshToken")
@@ -152,5 +163,6 @@ public class KakaoController {
             e.printStackTrace();
             return ResponseEntity.status(500).body(null);
         }
+
     }
 }

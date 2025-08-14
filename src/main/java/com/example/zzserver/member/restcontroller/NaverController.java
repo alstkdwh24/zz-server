@@ -61,7 +61,7 @@ public class NaverController {
         session.setAttribute("access_token", response.getAccess_token());
         session.setAttribute("refresh_token", response.getRefresh_token());
 
-        naverService.insertRefreshToken(response.getRefresh_token());
+        naverService.insertRefreshTokens(response.getRefresh_token());
 
 
         return ResponseEntity.ok(response);

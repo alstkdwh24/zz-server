@@ -14,6 +14,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.UUID;
+
 @Service("refreshTokenService")
 public class RefreshTokenService {
     private final RefreshRepository refreshRepository;
@@ -30,7 +32,8 @@ public class RefreshTokenService {
         this.modelMapper = new ModelMapper();
     }
 
-    public int insertRefreshToken(String refreshToken) {
+    public void insertRefreshToken(String refreshToken) {
+
 
         RefreshToken newToken = new RefreshToken();
         newToken.setRefresh_token(refreshToken);
@@ -40,12 +43,12 @@ public class RefreshTokenService {
         refreshRepository.save(newToken);
 
         RedisRefreshToken redisRefreshToken = new RedisRefreshToken();
-        redisRefreshToken.setId(newToken.getId());
-        redisRefreshToken.setEmail("test@naver.com");
+        redisRefreshToken.setId(UUID.randomUUID());
+
         redisRefreshToken.setRefreshToken(refreshToken);
         System.out.println("RefreshTokenService: Saving to Redis: " + redisRefreshToken.getRefreshToken());
+
         refreshTokenRedisRepository.save(redisRefreshToken);
-        return 1; // Token inserted successfully
 
     }
 
@@ -74,7 +77,6 @@ public class RefreshTokenService {
 
         KakaoRefreshTokenResDto body = response.getBody();
 
-        RedisRefreshToken redisRefreshToken = new RedisRefreshToken();
 
         String access_token = body.getAccessToken();
 
@@ -95,7 +97,6 @@ public class RefreshTokenService {
                 userInfoRequest,
                 String.class
         );
-        refreshTokenRedisRepository.save(redisRefreshToken);
 
         if (response.getStatusCode() == HttpStatus.OK) {
         } else {

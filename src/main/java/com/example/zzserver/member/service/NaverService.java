@@ -41,22 +41,24 @@ public class NaverService {
         this.restTemplate = restTemplate;
     }
 
-    public String insertRefreshToken(String refreshToken) {
+    public void insertRefreshTokens(String refreshToken) {
 
         RefreshToken refreshTokenEntity = new RefreshToken(UUID.randomUUID(), refreshToken, "aslfmdqpdmqwkl@naver.com");
 
         System.out.println("insertRefreshToken: " + refreshTokenEntity.getRefresh_token());
 
         naverRepository.save(refreshTokenEntity);
-
+        if(refreshToken==null || refreshToken.isEmpty()) {
+            throw new IllegalStateException("사용자 정보 없음");
+        }
         RedisRefreshToken redisRefreshToken = new RedisRefreshToken();
-        redisRefreshToken.setId(UUID.randomUUID());
-        redisRefreshToken.setEmail("test@naver.com");
+
         redisRefreshToken.setRefreshToken(refreshToken);
 
 
         refreshTokenRedisRepository.save(redisRefreshToken);
-        return refreshToken;
+
+
     }
 
     public String reissueAccessToken(String refreshToken) {

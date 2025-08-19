@@ -19,10 +19,10 @@ public class RoomsController {
     private final RoomsService roomsService;
 
     // 방 등록
-    @PostMapping
-    public ResponseEntity<RoomsResponse> createRoom(@RequestBody RoomsRequest request) {
-        return ResponseEntity.ok(roomsService.create(request));
-    }
+//    @PostMapping
+//    public ResponseEntity<RoomsResponse> createRoom(@RequestBody RoomsRequest request) {
+//        return ResponseEntity.ok(roomsService.create(request));
+//    }
 
     // 특정 방 조회
     @GetMapping("/{id}")
@@ -37,10 +37,10 @@ public class RoomsController {
     }
 
 //    // 방 정보 수정
-    @PatchMapping("/{id}")
-    public ResponseEntity<RoomsResponse> updateRoom(@PathVariable UUID id, @RequestBody RoomsRequest request) {
-        return ResponseEntity.ok(roomsService.update(id, request));
-    }
+//    @PatchMapping("/{id}")
+//    public ResponseEntity<RoomsResponse> updateRoom(@PathVariable UUID id, @RequestBody RoomsRequest request) {
+//        return ResponseEntity.ok(roomsService.update(id, request));
+//    }
 
     // 방 삭제
     @DeleteMapping("/{id}")

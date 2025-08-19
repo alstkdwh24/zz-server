@@ -20,14 +20,14 @@ public class RoomsService {
     private final RoomImageService roomImageService;
 /*여기는 컨트롤러가 에러가 떠서 주석으로 처리했습니다.*/
     // 방생성
-    public UUID create(RoomsRequest request, List<MultipartFile> imageFiles)) {
-        UUID roomImageId = saveRooms(request);
-
-        if(imageFiles != null && !imageFiles.isEmpty()) {
-            roomImageService.uploadRoomsImages(roomImageId, imageFiles);
-        }
-        return roomImageId;
-    }
+//    public UUID create(RoomsRequest request, List<MultipartFile> imageFiles)) {
+//        UUID roomImageId = saveRooms(request);
+//
+//        if(imageFiles != null && !imageFiles.isEmpty()) {
+//            roomImageService.uploadRoomsImages(roomImageId, imageFiles);
+//        }
+//        return roomImageId;
+//    }
 
     // 방 조회
     public RoomsResponse findById(UUID roomsId) {

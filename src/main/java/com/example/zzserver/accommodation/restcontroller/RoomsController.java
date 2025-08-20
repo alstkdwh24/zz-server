@@ -36,7 +36,7 @@ public class RoomsController {
         return ResponseEntity.ok(roomsService.getAllByAccommodation(accommodationId));
     }
 
-//    // 방 정보 수정
+//    //    // 방 정보 수정
 //    @PatchMapping("/{id}")
 //    public ResponseEntity<RoomsResponse> updateRoom(@PathVariable UUID id, @RequestBody RoomsRequest request) {
 //        return ResponseEntity.ok(roomsService.update(id, request));

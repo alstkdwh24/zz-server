@@ -1,6 +1,6 @@
 package com.example.zzserver.member.repository.redis;
 
-import com.example.zzserver.member.entity.RedisRefreshToken;
+import com.example.zzserver.member.entity.redis.RedisRefreshToken;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

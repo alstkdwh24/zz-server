@@ -2,8 +2,8 @@ package com.example.zzserver.member.service;
 
 import com.example.zzserver.member.dto.response.NaverLoginInfoDto;
 import com.example.zzserver.member.dto.response.NaverRefreshTokenResDto;
-import com.example.zzserver.member.entity.RedisRefreshToken;
 import com.example.zzserver.member.entity.RefreshToken;
+import com.example.zzserver.member.entity.redis.RedisRefreshToken;
 import com.example.zzserver.member.repository.jpa.NaverRepository;
 import com.example.zzserver.member.repository.redis.RefreshTokenRedisRepository;
 import org.springframework.beans.factory.annotation.Value;

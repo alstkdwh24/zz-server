@@ -1,25 +1,20 @@
 package com.example.zzserver.config;
 
-import java.security.Key;
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.util.Date;
-
+import com.example.zzserver.config.dto.CustomUserInfoDto;
+import com.example.zzserver.config.dto.TokenResponseDTO;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.example.zzserver.config.dto.CustomUserInfoDto;
-import com.example.zzserver.config.dto.TokenResponseDTO;
+import java.security.Key;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.util.Date;
+import java.util.UUID;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.UnsupportedJwtException;
-import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtUtil {
     private static final Logger logger = LogManager.getLogger(JwtUtil.class);
@@ -31,9 +26,10 @@ public class JwtUtil {
 
     private final String userId = ""; // Refresh Token의 Subject로 사용될 값
 
-    public JwtUtil(@Value("${jwt.secret}") final String secretKey, @Value("${jwt.expiration}") final long accessTokenExpTime, @Value("${jwt.refreshTokenExpiration}") final long  refreshTokenExpTime) {
+    public JwtUtil(@Value("${jwt.secret}") final String secretKey, @Value("${jwt.expiration}") final long accessTokenExpTime, @Value("${jwt.refreshTokenExpiration}") final long refreshTokenExpTime) {
         this.refreshTokenExpTime = refreshTokenExpTime;
-        Key secretKeys = Keys.hmacShaKeyFor(secretKey.getBytes());        System.out.println("JwtUtil initialized with secretKey: " + secretKey + " and accessTokenExpTime: " + accessTokenExpTime);
+        Key secretKeys = Keys.hmacShaKeyFor(secretKey.getBytes());
+        System.out.println("JwtUtil initialized with secretKey: " + secretKey + " and accessTokenExpTime: " + accessTokenExpTime);
         key = secretKeys;
         this.accessTokenExpTime = accessTokenExpTime;
     }
@@ -48,26 +44,20 @@ public class JwtUtil {
 
     public TokenResponseDTO createAccessToken(CustomUserInfoDto member) {
         String accessToken = createToken(member, accessTokenExpTime);
-        String refreshToken = createRefreshToken(member,refreshTokenExpTime);
+        String refreshToken = createRefreshToken(member, refreshTokenExpTime);
 
-        return new TokenResponseDTO(accessToken, refreshToken);
+        return new TokenResponseDTO(null,accessToken, refreshToken);
     }
 
 
     private String createToken(CustomUserInfoDto member, long expTime) {
         Claims claims = Jwts.claims();
         claims.put("id", member.getId());
-        claims.put("userId", member.getUserId());
-        claims.put("userPw", member.getUserPw());
-        claims.put("email", member.getEmail());
-        claims.put("name", member.getName());
-        claims.put("role", member.getRole());
+
 
         ZonedDateTime now = ZonedDateTime.now();
         ZonedDateTime tokenValidity = now.plusSeconds(accessTokenExpTime);
-        System.out.println("claims"+ claims.getId() + claims.get("id") + " "+ claims.get("userId") + " "+claims.get("userPw") + " "+claims.get("email") +" "+ claims.get("name") + " "+claims.get("role"));
-
-
+        System.out.println("claims" + claims.getId() + claims.get("id") + " " + claims.get("userId") + " " + claims.get("userPw") + " " + claims.get("email") + " " + claims.get("name") + " " + claims.get("role"));
 
 
         return Jwts.builder()
@@ -79,7 +69,7 @@ public class JwtUtil {
 
     }
 
-    private String createRefreshToken(CustomUserInfoDto member,long exTime){
+    private String createRefreshToken(CustomUserInfoDto member, long exTime) {
         ZonedDateTime now = ZonedDateTime.now();
         ZonedDateTime refreshTokenValidity = now.plusSeconds(exTime);
         Claims claims = Jwts.claims();
@@ -87,7 +77,7 @@ public class JwtUtil {
 
         return Jwts.builder()
                 .setClaims(claims)
-                .setIssuedAt(Date.from (now.toInstant()))
+                .setIssuedAt(Date.from(now.toInstant()))
                 .setExpiration(Date.from(refreshTokenValidity.toInstant()))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
@@ -128,14 +118,115 @@ public class JwtUtil {
     }
 
     public Claims parseClaims(String accessToken) {
-        try{
+        try {
             return Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
                     .parseClaimsJws(accessToken)
                     .getBody();
-        } catch(ExpiredJwtException e){
+        } catch (ExpiredJwtException e) {
             return e.getClaims();
+        }
+    }
+
+    public UUID getUserIdFromAccessToken(String accessToken) {
+        try {
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(accessToken).getBody();
+            return UUID.fromString(claims.get("id", String.class));
+        } catch (ExpiredJwtException e) {
+            logger.error("Access token has expired", e);
+            return null; // 토큰이 만료된 경우 null 반환
+        } catch (Exception e) {
+            logger.error("Failed to parse access token", e);
+            return null; // 토큰 파싱 실패 시 null 반환
+        }
+    }
+
+    public TokenResponseDTO refreshAccessToken(String refreshToken) {
+        try {
+
+            if (!isValidToken(refreshToken)) {
+                throw new ExpiredJwtException(null, null, "Refresh token is invalid or expired");
+            }
+            Claims claims = parseClaims(refreshToken);
+            String userId = claims.get("id", String.class);
+
+            CustomUserInfoDto member = new CustomUserInfoDto();
+            member.setId(UUID.fromString(userId));
+
+            String newAccessToken = createToken(member, accessTokenExpTime);
+
+            return new TokenResponseDTO(null,newAccessToken, refreshToken);
+        } catch (ExpiredJwtException e) {
+            logger.error("Refresh token has expired", e);
+            throw e; // 만료된 토큰은 예외를 던져 처리
+        } catch (Exception e) {
+            logger.error("Failed to refresh access token", e);
+            throw new RuntimeException("Failed to refresh access token", e);
+        }
+    }
+
+    //    토큰 완료시간 확인
+    public Date getExpirationDate(String token) {
+        try {
+            Claims claims = parseClaims(token);
+            return claims.getExpiration();
+        } catch (Exception e) {
+            logger.error("Failed to get expiration date from token", e);
+            return null; // 토큰 파싱 실패 시 null 반환
+        }
+    }
+
+    public boolean isTokenExpired(String token) {
+        Date expirationDate = getExpirationDate(token);
+        if (expirationDate == null) {
+            return true; // 토큰 파싱 실패 시 만료로 간주
+        }
+        return expirationDate.before(new Date()); // 현재 시간보다 만료 시간이 이전인지 확인
+    }
+
+    public TokenResponseDTO refreshBothTokens(String refreshToken) {
+        try {
+            if (refreshToken == null || refreshToken.trim().isEmpty()) {
+                throw new IllegalArgumentException("REFRESH_TOKEN_NULL");
+            }
+
+            // 2. Refresh Token 유효성 검증
+            if (!isValidToken(refreshToken)) {
+                throw new RuntimeException("REFRESH_TOKEN_INVALID");
+            }
+            Claims claims = parseClaims(refreshToken);
+            Object idClaim = claims.get("id", String.class);
+
+            UUID userId;
+            try {
+                String userIdString = idClaim.toString();
+                userId = UUID.fromString(userIdString);
+                logger.debug("Successfully extracted user ID: {}", userId);
+            } catch (IllegalArgumentException e) {
+                logger.error("Invalid UUID format in refresh token: {}", idClaim);
+                throw new RuntimeException("INVALID_USER_ID_FORMAT");
+            }
+            CustomUserInfoDto member = new CustomUserInfoDto();
+            member.setId(userId);
+            TokenResponseDTO tokenResponseDTO = new TokenResponseDTO();
+            // 3. Access Token 생성
+            tokenResponseDTO.setAccess_token(createToken(member, accessTokenExpTime));
+            tokenResponseDTO.setRefresh_token(createRefreshToken(member, refreshTokenExpTime));
+            return tokenResponseDTO;
+
+        } catch (IllegalArgumentException e) {
+            logger.error("Refresh token is null: {}", e.getMessage());
+            throw new RuntimeException("LOGIN_REQUIRED", e);
+        } catch (ExpiredJwtException e) {
+            logger.error("Refresh token has expired", e);
+            throw new RuntimeException("LOGIN_REQUIRED", e);
+        } catch (Exception e) {
+            logger.error("Failed to refresh tokens", e);
+            throw new RuntimeException("LOGIN_REQUIRED", e);
         }
     }
 

@@ -2,8 +2,8 @@ package com.example.zzserver.member.service;
 
 import com.example.zzserver.member.dto.request.KakaoRefreshTokenDto;
 import com.example.zzserver.member.dto.response.KakaoRefreshTokenResDto;
-import com.example.zzserver.member.entity.RedisRefreshToken;
 import com.example.zzserver.member.entity.RefreshToken;
+import com.example.zzserver.member.entity.redis.RedisRefreshToken;
 import com.example.zzserver.member.repository.jpa.RefreshRepository;
 import com.example.zzserver.member.repository.redis.RefreshTokenRedisRepository;
 import org.modelmapper.ModelMapper;

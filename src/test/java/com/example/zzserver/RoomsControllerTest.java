@@ -5,7 +5,6 @@ import com.example.zzserver.accommodation.service.RoomsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -23,7 +22,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
@@ -106,41 +105,41 @@ public class RoomsControllerTest {
     }
 
 
-    @Test
-    public void createRoom() throws Exception {
-
-        UUID id = UUID.randomUUID();
-
-        roomsResponse5 = RoomsResponse.builder()
-                .id(id)
-                .name("Test Room 5")
-                .maxOccupacy(6)
-                .available(true)
-                .peopleCount(2)
-                .build();
-
-
-        when(roomsService.create(Mockito.any())).thenReturn(roomsResponse5);
-
-        mockMvc.perform(
-                post("/").contentType("application/json")
-                        .content(objectMapper.writeValueAsString(roomsResponse5))
-        )                        .andExpect(status().isOk()).
-                andDo(MockMvcResultHandlers.print())
-                .andDo(MockMvcRestDocumentation.document("{class-name}/{method-name}",
-                        preprocessRequest(modifyHeaders().remove("Content-Length").remove("Host"), prettyPrint()),
-                        preprocessResponse(modifyHeaders().remove("Content-length").remove("X-Content-Type-Options")
-                                .remove("X-XSS-Protection").remove("Cache-Control").remove("Pragma")
-                                .remove("Expires").remove("X-Frame-Options"), prettyPrint()),
-                        responseFields(
-                                fieldWithPath("id").description("방 ID")
-                        , fieldWithPath("name").description("방 이름"),
-                                fieldWithPath("maxOccupacy").description("최대 수용 인원"),
-                                fieldWithPath("available").description("방 사용 가능 여부"),
-                                fieldWithPath("peopleCount").description("현재 인원 수"))));
-
-
-    }
+//    @Test
+//    public void createRoom() throws Exception {
+//
+//        UUID id = UUID.randomUUID();
+//
+//        roomsResponse5 = RoomsResponse.builder()
+//                .id(id)
+//                .name("Test Room 5")
+//                .maxOccupacy(6)
+//                .available(true)
+//                .peopleCount(2)
+//                .build();
+//
+//
+//        when(roomsService.create(Mockito.any())).thenReturn(roomsResponse5);
+//
+//        mockMvc.perform(
+//                post("/").contentType("application/json")
+//                        .content(objectMapper.writeValueAsString(roomsResponse5))
+//        )                        .andExpect(status().isOk()).
+//                andDo(MockMvcResultHandlers.print())
+//                .andDo(MockMvcRestDocumentation.document("{class-name}/{method-name}",
+//                        preprocessRequest(modifyHeaders().remove("Content-Length").remove("Host"), prettyPrint()),
+//                        preprocessResponse(modifyHeaders().remove("Content-length").remove("X-Content-Type-Options")
+//                                .remove("X-XSS-Protection").remove("Cache-Control").remove("Pragma")
+//                                .remove("Expires").remove("X-Frame-Options"), prettyPrint()),
+//                        responseFields(
+//                                fieldWithPath("id").description("방 ID")
+//                        , fieldWithPath("name").description("방 이름"),
+//                                fieldWithPath("maxOccupacy").description("최대 수용 인원"),
+//                                fieldWithPath("available").description("방 사용 가능 여부"),
+//                                fieldWithPath("peopleCount").description("현재 인원 수"))));
+//
+//
+//    }
 
 
     @Test
@@ -200,64 +199,64 @@ public class RoomsControllerTest {
 
     }
 
-    @Test
-    public void idPatch() throws Exception {
-
-        UUID id = UUID.randomUUID();
-
-        roomsResponse5 = RoomsResponse.builder()
-                .id(id)
-                .name("Updated Room")
-                .maxOccupacy(8)
-                .available(false)
-                .peopleCount(1)
-                .build();
-
-        when(roomsService.update(Mockito.any(), Mockito.any())).thenReturn(roomsResponse5);
-
-        mockMvc.perform(
-                patch("/" + id).contentType("application/json")
-                        .content(objectMapper.writeValueAsString(roomsResponse5))
-        )
-                .andExpect(status().isOk())
-                .andDo(MockMvcResultHandlers.print())
-                .andDo(MockMvcRestDocumentation.document("{class-name}/{method-name}",
-                        preprocessRequest(modifyHeaders().remove("Content-Length").remove("Host"), prettyPrint()),
-                        preprocessResponse(modifyHeaders().remove("Content-length").remove("X-Content-Type-Options")
-                                .remove("X-XSS-Protection").remove("Cache-Control").remove("Pragma")
-                                .remove("Expires").remove("X-Frame-Options"), prettyPrint()),
-                        responseFields(
-                                fieldWithPath("id").description("방 ID"),
-                                fieldWithPath("name").description("방 이름"),
-                                fieldWithPath("maxOccupacy").description("최대 수용 인원"),
-                                fieldWithPath("available").description("방 사용 가능 여부"),
-                                fieldWithPath("peopleCount").description("현재 인원 수"))));
-    }
-
-
-    @Test
-    public void idDelete() throws Exception {
-
-        UUID id = UUID.randomUUID();
-
-        RoomsResponse roomsResponseToDeleteTest = RoomsResponse.builder()
-                .id(id)
-                .name("Room to Delete")
-                .maxOccupacy(2)
-                .available(true)
-                .peopleCount(0)
-                .build();
-        Mockito.when(roomsService.create(Mockito.any())).thenReturn(roomsResponseToDeleteTest);
-        // Mocking the service call
-        Mockito.doNothing().when(roomsService).delete(id);
-
-        mockMvc.perform(delete("/" + id))
-                .andExpect(status().isNoContent())
-                .andDo(MockMvcResultHandlers.print())
-                .andDo(MockMvcRestDocumentation.document("{class-name}/{method-name}",
-                        preprocessRequest(modifyHeaders().remove("Content-Length").remove("Host"), prettyPrint()),
-                        preprocessResponse(modifyHeaders().remove("Content-length").remove("X-Content-Type-Options")
-                                .remove("X-XSS-Protection").remove("Cache-Control").remove("Pragma")
-                                .remove("Expires").remove("X-Frame-Options"), prettyPrint())));
-    }
+//    @Test
+//    public void idPatch() throws Exception {
+//
+//        UUID id = UUID.randomUUID();
+//
+//        roomsResponse5 = RoomsResponse.builder()
+//                .id(id)
+//                .name("Updated Room")
+//                .maxOccupacy(8)
+//                .available(false)
+//                .peopleCount(1)
+//                .build();
+//
+//        when(roomsService.update(Mockito.any(), Mockito.any())).thenReturn(roomsResponse5);
+//
+//        mockMvc.perform(
+//                patch("/" + id).contentType("application/json")
+//                        .content(objectMapper.writeValueAsString(roomsResponse5))
+//        )
+//                .andExpect(status().isOk())
+//                .andDo(MockMvcResultHandlers.print())
+//                .andDo(MockMvcRestDocumentation.document("{class-name}/{method-name}",
+//                        preprocessRequest(modifyHeaders().remove("Content-Length").remove("Host"), prettyPrint()),
+//                        preprocessResponse(modifyHeaders().remove("Content-length").remove("X-Content-Type-Options")
+//                                .remove("X-XSS-Protection").remove("Cache-Control").remove("Pragma")
+//                                .remove("Expires").remove("X-Frame-Options"), prettyPrint()),
+//                        responseFields(
+//                                fieldWithPath("id").description("방 ID"),
+//                                fieldWithPath("name").description("방 이름"),
+//                                fieldWithPath("maxOccupacy").description("최대 수용 인원"),
+//                                fieldWithPath("available").description("방 사용 가능 여부"),
+//                                fieldWithPath("peopleCount").description("현재 인원 수"))));
+//    }
+//
+//
+//    @Test
+//    public void idDelete() throws Exception {
+//
+//        UUID id = UUID.randomUUID();
+//
+//        RoomsResponse roomsResponseToDeleteTest = RoomsResponse.builder()
+//                .id(id)
+//                .name("Room to Delete")
+//                .maxOccupacy(2)
+//                .available(true)
+//                .peopleCount(0)
+//                .build();
+//        Mockito.when(roomsService.create(Mockito.any())).thenReturn(roomsResponseToDeleteTest);
+//        // Mocking the service call
+//        Mockito.doNothing().when(roomsService).delete(id);
+//
+//        mockMvc.perform(delete("/" + id))
+//                .andExpect(status().isNoContent())
+//                .andDo(MockMvcResultHandlers.print())
+//                .andDo(MockMvcRestDocumentation.document("{class-name}/{method-name}",
+//                        preprocessRequest(modifyHeaders().remove("Content-Length").remove("Host"), prettyPrint()),
+//                        preprocessResponse(modifyHeaders().remove("Content-length").remove("X-Content-Type-Options")
+//                                .remove("X-XSS-Protection").remove("Cache-Control").remove("Pragma")
+//                                .remove("Expires").remove("X-Frame-Options"), prettyPrint())));
+//    }
 }

@@ -19,15 +19,17 @@ public class RoomsService {
 
     private final RoomImageService roomImageService;
 
+    /*여기는 컨트롤러가 에러가 떠서 주석으로 처리했습니다.*/
     // 방생성
-    public UUID create(RoomsRequest request, List<MultipartFile> imageFiles) {
-        UUID roomImageId = saveRooms(request);
-
-        if(imageFiles != null && !imageFiles.isEmpty()) {
-            roomImageService.uploadRoomsImages(roomImageId, imageFiles);
-        }
-        return roomImageId;
-    }
+// 방생성
+//    public UUID create(RoomsRequest request, List<MultipartFile> imageFiles) {
+//        UUID roomImageId = saveRooms(request);
+//
+//        if(imageFiles != null && !imageFiles.isEmpty()) {
+//            roomImageService.uploadRoomsImages(roomImageId, imageFiles);
+//        }
+//        return roomImageId;
+//    }
 
     // 방 조회
     public RoomsResponse findById(UUID roomsId) {
@@ -45,10 +47,10 @@ public class RoomsService {
 
     // 방 수정
     public UUID update(
-                        UUID id,
-                        RoomsRequest request,
-                        List<MultipartFile> newImages,
-                        List<UUID> deleteImageIds) {
+            UUID id,
+            RoomsRequest request,
+            List<MultipartFile> newImages,
+            List<UUID> deleteImageIds) {
         //방조회
         Rooms room = roomsRepository.findById(id).orElseThrow(()->new RuntimeException("방이 없습니다."));
         //방수정
@@ -66,7 +68,7 @@ public class RoomsService {
 
     // 방 삭제
     public void delete(UUID id) {
-        if(!roomsRepository.existsById(id)) {
+        if (!roomsRepository.existsById(id)) {
             throw new RuntimeException("방이 존재하지 않습니다: " + id);
         }
         // 이미지 삭제

@@ -2,8 +2,8 @@ package com.example.zzserver.member.service;
 
 import com.example.zzserver.member.dto.request.KakaoRefreshTokenDto;
 import com.example.zzserver.member.dto.response.KakaoRefreshTokenResDto;
-import com.example.zzserver.member.entity.RedisRefreshToken;
 import com.example.zzserver.member.entity.RefreshToken;
+import com.example.zzserver.member.entity.redis.RedisRefreshToken;
 import com.example.zzserver.member.repository.jpa.RefreshRepository;
 import com.example.zzserver.member.repository.redis.RefreshTokenRedisRepository;
 import org.modelmapper.ModelMapper;
@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.UUID;
 
 @Service("refreshTokenService")
 public class RefreshTokenService {
@@ -30,22 +32,23 @@ public class RefreshTokenService {
         this.modelMapper = new ModelMapper();
     }
 
-    public int insertRefreshToken(String refreshToken) {
+    public RedisRefreshToken insertRefreshToken(String refreshToken, String accessToken) {
+
 
         RefreshToken newToken = new RefreshToken();
         newToken.setRefresh_token(refreshToken);
 
 
         System.out.println("RefreshTokenService: Inserting new refresh token: " + newToken.getRefresh_token());
-        refreshRepository.save(newToken);
+        RefreshToken save=refreshRepository.save(newToken);
 
         RedisRefreshToken redisRefreshToken = new RedisRefreshToken();
-        redisRefreshToken.setId(newToken.getId());
-        redisRefreshToken.setEmail("test@naver.com");
+        redisRefreshToken.setId(save.getId());
+        redisRefreshToken.setAccessToken(accessToken);
         redisRefreshToken.setRefreshToken(refreshToken);
         System.out.println("RefreshTokenService: Saving to Redis: " + redisRefreshToken.getRefreshToken());
-        refreshTokenRedisRepository.save(redisRefreshToken);
-        return 1; // Token inserted successfully
+
+        return refreshTokenRedisRepository.save(redisRefreshToken);
 
     }
 
@@ -74,7 +77,6 @@ public class RefreshTokenService {
 
         KakaoRefreshTokenResDto body = response.getBody();
 
-        RedisRefreshToken redisRefreshToken = new RedisRefreshToken();
 
         String access_token = body.getAccessToken();
 
@@ -95,7 +97,6 @@ public class RefreshTokenService {
                 userInfoRequest,
                 String.class
         );
-        refreshTokenRedisRepository.save(redisRefreshToken);
 
         if (response.getStatusCode() == HttpStatus.OK) {
         } else {
@@ -105,6 +106,14 @@ public class RefreshTokenService {
         // 2. 카카오 API 등 외부 서비스에 새 액세스 토큰 요청
         // 3. 새 액세스 토큰 반환
     }
+    public RedisRefreshToken RedisInsertSearch(UUID id){
+        RedisRefreshToken redisRefreshToken = refreshTokenRedisRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("리프레시 토큰을 찾을 수 없습니다."));
 
+        System.out.println("RedisRefreshTokenService: Found refresh token in Redis: " + redisRefreshToken.getRefreshToken());
+        return redisRefreshToken;
+
+
+    }
 
 }

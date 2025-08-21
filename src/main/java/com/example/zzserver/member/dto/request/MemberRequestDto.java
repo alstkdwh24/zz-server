@@ -1,5 +1,6 @@
 package com.example.zzserver.member.dto.request;
 
+import com.example.zzserver.member.entity.Role;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.UUID;
@@ -14,16 +15,19 @@ public class MemberRequestDto {
 
     private String email;
 
+    private String nickname;
+
 
     private String name;
 
 
-    private String role;
+    private Role role;
 
 
     public MemberRequestDto() {}
 
-    public MemberRequestDto(UUID id, String userPw, String email, String name, String role) {
+    public MemberRequestDto(UUID id, String userPw, String email, String name, Role role /*String userId*/, String nickname) {
+        this.nickname = nickname;
         this.id = id;
 //        this.userId = userId;
         this.userPw = userPw;
@@ -76,13 +80,19 @@ public class MemberRequestDto {
     }
 
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
+    }
+    public String getNickname() {
+        return nickname;
+    }
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
 

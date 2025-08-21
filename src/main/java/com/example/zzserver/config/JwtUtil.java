@@ -22,6 +22,7 @@ public class JwtUtil {
     private final Key key;
     private final long accessTokenExpTime;
 
+
     private final long refreshTokenExpTime;
 
     private final String userId = ""; // Refresh Token의 Subject로 사용될 값
@@ -46,7 +47,7 @@ public class JwtUtil {
         String accessToken = createToken(member, accessTokenExpTime);
         String refreshToken = createRefreshToken(member, refreshTokenExpTime);
 
-        return new TokenResponseDTO(null,accessToken, refreshToken);
+        return new TokenResponseDTO(null, accessToken, refreshToken);
     }
 
 
@@ -159,7 +160,7 @@ public class JwtUtil {
 
             String newAccessToken = createToken(member, accessTokenExpTime);
 
-            return new TokenResponseDTO(null,newAccessToken, refreshToken);
+            return new TokenResponseDTO(null, newAccessToken, refreshToken);
         } catch (ExpiredJwtException e) {
             logger.error("Refresh token has expired", e);
             throw e; // 만료된 토큰은 예외를 던져 처리
@@ -228,6 +229,42 @@ public class JwtUtil {
             logger.error("Failed to refresh tokens", e);
             throw new RuntimeException("LOGIN_REQUIRED", e);
         }
+    }
+
+    public long getExpirationFromToken(String token) {
+        try {
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+
+            Date expirationDate = claims.getExpiration();
+            if (expirationDate == null) {
+                logger.error("Expiration date is null in token");
+                return System.currentTimeMillis(); // 현재 시간 반환
+            }
+            return expirationDate.getTime();
+
+        } catch (ExpiredJwtException e) {
+            // 만료된 토큰이라도 실제 만료 시간을 반환해야 블랙리스트 TTL 설정 가능
+            logger.warn("Token has expired, but returning actual expiration time");
+            Date expiration = e.getClaims().getExpiration();
+            return expiration != null ? expiration.getTime() : System.currentTimeMillis();
+
+        } catch (SignatureException e) {
+            logger.error("Invalid JWT signature: {}", e.getMessage());
+            return System.currentTimeMillis(); // 서명 오류 시 현재 시간
+
+        } catch (Exception e) {
+            logger.error("Failed to get expiration from token: {}", e.getMessage());
+            return System.currentTimeMillis(); // 예외 던지지 말고 현재 시간 반환
+        }
+    }
+
+    public Date getExpirationDateFromToken(String token) {
+        long expiration = getExpirationFromToken(token);
+        return new Date(expiration);
     }
 
 }

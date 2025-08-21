@@ -27,7 +27,7 @@ public class SecurityConfig {
 
     private static final String[] AUTH_WHITELIST = {"/**", "/member/login", "/member/signup",
             "/swagger-ui/**", "/api-docs", "swagger-ui-custom.html", "**/h2-console/**", "/api/**"
-,"/api/kakao/**"    };
+,"/api/kakao/**"  ,"/member/logout"  };
 
     public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtUtil jwtUtil, CustomAccessDeniedHandler customAccessDeniedHandler, CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {
         this.customUserDetailsService = customUserDetailsService;

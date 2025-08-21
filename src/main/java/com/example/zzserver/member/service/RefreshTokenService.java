@@ -32,7 +32,7 @@ public class RefreshTokenService {
         this.modelMapper = new ModelMapper();
     }
 
-    public void insertRefreshToken(String refreshToken) {
+    public RedisRefreshToken insertRefreshToken(String refreshToken, String accessToken) {
 
 
         RefreshToken newToken = new RefreshToken();
@@ -40,15 +40,15 @@ public class RefreshTokenService {
 
 
         System.out.println("RefreshTokenService: Inserting new refresh token: " + newToken.getRefresh_token());
-        refreshRepository.save(newToken);
+        RefreshToken save=refreshRepository.save(newToken);
 
         RedisRefreshToken redisRefreshToken = new RedisRefreshToken();
-        redisRefreshToken.setId(UUID.randomUUID());
-
+        redisRefreshToken.setId(save.getId());
+        redisRefreshToken.setAccessToken(accessToken);
         redisRefreshToken.setRefreshToken(refreshToken);
         System.out.println("RefreshTokenService: Saving to Redis: " + redisRefreshToken.getRefreshToken());
 
-        refreshTokenRedisRepository.save(redisRefreshToken);
+        return refreshTokenRedisRepository.save(redisRefreshToken);
 
     }
 
@@ -106,6 +106,14 @@ public class RefreshTokenService {
         // 2. 카카오 API 등 외부 서비스에 새 액세스 토큰 요청
         // 3. 새 액세스 토큰 반환
     }
+    public RedisRefreshToken RedisInsertSearch(UUID id){
+        RedisRefreshToken redisRefreshToken = refreshTokenRedisRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("리프레시 토큰을 찾을 수 없습니다."));
 
+        System.out.println("RedisRefreshTokenService: Found refresh token in Redis: " + redisRefreshToken.getRefreshToken());
+        return redisRefreshToken;
+
+
+    }
 
 }

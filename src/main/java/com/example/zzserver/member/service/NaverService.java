@@ -1,11 +1,7 @@
 package com.example.zzserver.member.service;
 
-import com.example.zzserver.member.dto.response.NaverLoginInfoDto;
-import com.example.zzserver.member.dto.response.NaverRefreshTokenResDto;
-import com.example.zzserver.member.entity.RefreshToken;
-import com.example.zzserver.member.entity.redis.RedisRefreshToken;
-import com.example.zzserver.member.repository.jpa.NaverRepository;
-import com.example.zzserver.member.repository.redis.RefreshTokenRedisRepository;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -16,7 +12,12 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.UUID;
+import com.example.zzserver.member.dto.response.NaverLoginInfoDto;
+import com.example.zzserver.member.dto.response.NaverRefreshTokenResDto;
+import com.example.zzserver.member.entity.RefreshToken;
+import com.example.zzserver.member.entity.redis.RedisRefreshToken;
+import com.example.zzserver.member.repository.jpa.NaverRepository;
+import com.example.zzserver.member.repository.redis.RefreshTokenRedisRepository;
 
 @Service("naverService")
 public class NaverService {
@@ -27,15 +28,13 @@ public class NaverService {
     @Value("${naver.naverClientSecret}")
     private String naverClientSecret;
 
-
     private final RestTemplate restTemplate;
     private final NaverRepository naverRepository;
 
     private final RefreshTokenRedisRepository refreshTokenRedisRepository;
 
-    public NaverService(NaverRepository naverRepository,
-                        RefreshTokenRedisRepository refreshTokenRedisRepository,
-                        RestTemplate restTemplate) {
+    public NaverService(NaverRepository naverRepository, RefreshTokenRedisRepository refreshTokenRedisRepository,
+            RestTemplate restTemplate) {
         this.naverRepository = naverRepository;
         this.refreshTokenRedisRepository = refreshTokenRedisRepository;
         this.restTemplate = restTemplate;
@@ -43,21 +42,20 @@ public class NaverService {
 
     public void insertRefreshTokens(String refreshToken) {
 
-        RefreshToken refreshTokenEntity = new RefreshToken(UUID.randomUUID(), refreshToken, "aslfmdqpdmqwkl@naver.com");
+        RefreshToken refreshTokenEntitys = new RefreshToken(UUID.randomUUID(), refreshToken,
+                "aslfmdqpdmqwkl@naver.com");
 
-        System.out.println("insertRefreshToken: " + refreshTokenEntity.getRefresh_token());
+        System.out.println("insertRefreshToken: " + refreshTokenEntitys.getRefresh_token());
 
-        naverRepository.save(refreshTokenEntity);
-        if(refreshToken==null || refreshToken.isEmpty()) {
+        naverRepository.save(refreshTokenEntitys);
+        if (refreshToken == null || refreshToken.isEmpty()) {
             throw new IllegalStateException("사용자 정보 없음");
         }
         RedisRefreshToken redisRefreshToken = new RedisRefreshToken();
 
         redisRefreshToken.setRefreshToken(refreshToken);
 
-
         refreshTokenRedisRepository.save(redisRefreshToken);
-
 
     }
 
@@ -80,7 +78,7 @@ public class NaverService {
 
             HttpEntity<MultiValueMap<String, String>> tokenRequest = new HttpEntity<>(tokenParams, tokenHeaders);
 
-            ResponseEntity<NaverRefreshTokenResDto> tokenResponse ;
+            ResponseEntity<NaverRefreshTokenResDto> tokenResponse;
             try {
                 tokenResponse = newToken.postForEntity(tokenUrl, tokenRequest, NaverRefreshTokenResDto.class);
                 if (tokenResponse == null) {
@@ -109,19 +107,16 @@ public class NaverService {
 
             HttpEntity<Void> userInfoRequest = new HttpEntity<>(userInfoHeaders);
 
-            ResponseEntity<NaverLoginInfoDto> userInfoResponse = restTemplate.exchange(
-                    userInfoUrl,
-                    HttpMethod.GET,
-                    userInfoRequest,
-                    NaverLoginInfoDto.class
-            );
+            ResponseEntity<NaverLoginInfoDto> userInfoResponse = restTemplate.exchange(userInfoUrl, HttpMethod.GET,
+                    userInfoRequest, NaverLoginInfoDto.class);
 
-            if (userInfoResponse == null || userInfoResponse.getBody() == null || userInfoResponse.getBody().getResponse() == null) {
+            if (userInfoResponse == null || userInfoResponse.getBody() == null
+                    || userInfoResponse.getBody().getResponse() == null) {
                 throw new IllegalStateException("네이버 사용자 정보 응답이 비어있음");
             }
             String email = userInfoResponse.getBody().getResponse().getEmail();
 
-// 3. Redis 저장
+            // 3. Redis 저장
             RedisRefreshToken redisRefreshToken = new RedisRefreshToken();
             redisRefreshToken.setId(UUID.randomUUID());
             redisRefreshToken.setEmail(email);

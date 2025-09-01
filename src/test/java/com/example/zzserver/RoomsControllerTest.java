@@ -1,5 +1,6 @@
 package com.example.zzserver;
 
+import com.example.zzserver.accommodation.dto.request.RoomsRequest;
 import com.example.zzserver.accommodation.dto.response.RoomsResponse;
 import com.example.zzserver.accommodation.service.RoomsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -120,7 +121,7 @@ public class RoomsControllerTest {
                 .build();
 
 
-        when(roomsService.create(Mockito.any())).thenReturn(roomsResponse5);
+        when(roomsService.create(Mockito.any(),List.of(Mockito.any()))).thenReturn(id);
 
         mockMvc.perform(
                 post("/").contentType("application/json")
@@ -213,7 +214,7 @@ public class RoomsControllerTest {
                 .peopleCount(1)
                 .build();
 
-        when(roomsService.update(Mockito.any(), Mockito.any())).thenReturn(roomsResponse5);
+        when(roomsService.update(Mockito.any(), (RoomsRequest.Update) List.of(Mockito.any()), Mockito.any(),List.of(Mockito.any()))).thenReturn(id);
 
         mockMvc.perform(
                 patch("/" + id).contentType("application/json")
@@ -247,7 +248,7 @@ public class RoomsControllerTest {
                 .available(true)
                 .peopleCount(0)
                 .build();
-        Mockito.when(roomsService.create(Mockito.any())).thenReturn(roomsResponseToDeleteTest);
+        Mockito.when(roomsService.create(Mockito.any(),Mockito.any())).thenReturn(id);
         // Mocking the service call
         Mockito.doNothing().when(roomsService).delete(id);
 

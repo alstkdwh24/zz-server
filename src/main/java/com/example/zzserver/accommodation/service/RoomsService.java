@@ -4,6 +4,8 @@ import com.example.zzserver.accommodation.dto.request.RoomsRequest;
 import com.example.zzserver.accommodation.dto.response.RoomsResponse;
 import com.example.zzserver.accommodation.entity.Rooms;
 import com.example.zzserver.accommodation.repository.RoomsRepository;
+import com.example.zzserver.config.exception.CustomException;
+import com.example.zzserver.config.exception.ErrorCode;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,21 +23,20 @@ public class RoomsService {
 
     /*여기는 컨트롤러가 에러가 떠서 주석으로 처리했습니다.*/
     // 방생성
-// 방생성
-//    public UUID create(RoomsRequest request, List<MultipartFile> imageFiles) {
-//        UUID roomImageId = saveRooms(request);
-//
-//        if(imageFiles != null && !imageFiles.isEmpty()) {
-//            roomImageService.uploadRoomsImages(roomImageId, imageFiles);
-//        }
-//        return roomImageId;
-//    }
+    public UUID create(RoomsRequest.Request request, List<MultipartFile> imageFiles) {
+        UUID roomImageId = saveRooms(request);
+
+        if(imageFiles != null && !imageFiles.isEmpty()) {
+            roomImageService.uploadRoomsImages(roomImageId, imageFiles);
+        }
+        return roomImageId;
+    }
 
     // 방 조회
     public RoomsResponse findById(UUID roomsId) {
         return roomsRepository.findById(roomsId)
                 .map(rooms -> RoomsResponse.from(rooms))
-                .orElseThrow(() -> new RuntimeException("방을 찾을 수 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.ROOM_NOT_FOUND));
     }
 
     // 숙소번호로 방 조회
@@ -47,12 +48,13 @@ public class RoomsService {
 
     // 방 수정
     public UUID update(
-            UUID id,
-            RoomsRequest request,
-            List<MultipartFile> newImages,
-            List<UUID> deleteImageIds) {
+                        UUID id,
+                        RoomsRequest.Update request,
+                        List<MultipartFile> newImages,
+                        List<UUID> deleteImageIds) {
+
         //방조회
-        Rooms room = roomsRepository.findById(id).orElseThrow(()->new RuntimeException("방이 없습니다."));
+        Rooms room = roomsRepository.findById(id).orElseThrow(()->new CustomException(ErrorCode.ROOM_NOT_FOUND));
         //방수정
         room.update(request.getName(), request.getMaxOccupacy(), request.isAvailable(), request.getPeopleCount());
         //이미지 삭제
@@ -68,8 +70,8 @@ public class RoomsService {
 
     // 방 삭제
     public void delete(UUID id) {
-        if (!roomsRepository.existsById(id)) {
-            throw new RuntimeException("방이 존재하지 않습니다: " + id);
+        if(!roomsRepository.existsById(id)) {
+            throw new CustomException(ErrorCode.ROOM_NOT_FOUND);
         }
         // 이미지 삭제
         roomImageService.deleteImagesByRoomId(id);
@@ -78,7 +80,7 @@ public class RoomsService {
     }
 
 
-    private UUID saveRooms(RoomsRequest request) {
+    private UUID saveRooms(RoomsRequest.Request request) {
         Rooms rooms = Rooms
                 .builder()
                 .accommodationId(request.getAccommodationId())

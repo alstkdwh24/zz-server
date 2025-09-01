@@ -87,6 +87,7 @@ class ZzServerApplicationTests {
         LoginRequestDto dto = new LoginRequestDto();
         dto.setEmail(username);
         dto.setUserPw("testpassword");
+        UserDetails userDetails = User.withUsername(dto.getEmail()).password(dto.getUserPw()).roles("USER").build();
 
         TokenResponseDTO jwtToken = memberService.login(dto); // JWT 토큰 반환
         Optional<Member> memberOpt = memberRepository.findMemberByEmail(dto.getEmail());
@@ -95,9 +96,6 @@ class ZzServerApplicationTests {
         }
 
         Member member = memberOpt.get();
-
-        UserDetails userDetails = User.withUsername(member.getEmail()).password(member.getUserPw()).roles("USER").build();
-
 
         mockMvc.perform(post("/test/member/login")
                         .contentType("application/json")

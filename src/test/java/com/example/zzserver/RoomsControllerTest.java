@@ -1,5 +1,6 @@
 package com.example.zzserver;
 
+import com.example.zzserver.accommodation.dto.request.RoomsRequest;
 import com.example.zzserver.accommodation.dto.response.RoomsResponse;
 import com.example.zzserver.accommodation.service.RoomsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -105,6 +106,41 @@ public class RoomsControllerTest {
     }
 
 
+    @Test
+    public void createRoom() throws Exception {
+
+        UUID id = UUID.randomUUID();
+
+        roomsResponse5 = RoomsResponse.builder()
+                .id(id)
+                .name("Test Room 5")
+                .maxOccupacy(6)
+                .available(true)
+                .peopleCount(2)
+                .build();
+
+
+        when(roomsService.create(Mockito.any(),List.of(Mockito.any()))).thenReturn(id);
+
+        mockMvc.perform(
+                post("/").contentType("application/json")
+                        .content(objectMapper.writeValueAsString(roomsResponse5))
+        )                        .andExpect(status().isOk()).
+                andDo(MockMvcResultHandlers.print())
+                .andDo(MockMvcRestDocumentation.document("{class-name}/{method-name}",
+                        preprocessRequest(modifyHeaders().remove("Content-Length").remove("Host"), prettyPrint()),
+                        preprocessResponse(modifyHeaders().remove("Content-length").remove("X-Content-Type-Options")
+                                .remove("X-XSS-Protection").remove("Cache-Control").remove("Pragma")
+                                .remove("Expires").remove("X-Frame-Options"), prettyPrint()),
+                        responseFields(
+                                fieldWithPath("id").description("방 ID")
+                        , fieldWithPath("name").description("방 이름"),
+                                fieldWithPath("maxOccupacy").description("최대 수용 인원"),
+                                fieldWithPath("available").description("방 사용 가능 여부"),
+                                fieldWithPath("peopleCount").description("현재 인원 수"))));
+
+
+    }
 //    @Test
 //    public void createRoom() throws Exception {
 //
@@ -199,6 +235,66 @@ public class RoomsControllerTest {
 
     }
 
+    @Test
+    public void idPatch() throws Exception {
+
+        UUID id = UUID.randomUUID();
+
+        roomsResponse5 = RoomsResponse.builder()
+                .id(id)
+                .name("Updated Room")
+                .maxOccupacy(8)
+                .available(false)
+                .peopleCount(1)
+                .build();
+
+        when(roomsService.update(Mockito.any(), (RoomsRequest.Update) List.of(Mockito.any()), Mockito.any(),List.of(Mockito.any()))).thenReturn(id);
+
+        mockMvc.perform(
+                patch("/" + id).contentType("application/json")
+                        .content(objectMapper.writeValueAsString(roomsResponse5))
+        )
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andDo(MockMvcRestDocumentation.document("{class-name}/{method-name}",
+                        preprocessRequest(modifyHeaders().remove("Content-Length").remove("Host"), prettyPrint()),
+                        preprocessResponse(modifyHeaders().remove("Content-length").remove("X-Content-Type-Options")
+                                .remove("X-XSS-Protection").remove("Cache-Control").remove("Pragma")
+                                .remove("Expires").remove("X-Frame-Options"), prettyPrint()),
+                        responseFields(
+                                fieldWithPath("id").description("방 ID"),
+                                fieldWithPath("name").description("방 이름"),
+                                fieldWithPath("maxOccupacy").description("최대 수용 인원"),
+                                fieldWithPath("available").description("방 사용 가능 여부"),
+                                fieldWithPath("peopleCount").description("현재 인원 수"))));
+    }
+
+
+    @Test
+    public void idDelete() throws Exception {
+
+        UUID id = UUID.randomUUID();
+
+        RoomsResponse roomsResponseToDeleteTest = RoomsResponse.builder()
+                .id(id)
+                .name("Room to Delete")
+                .maxOccupacy(2)
+                .available(true)
+                .peopleCount(0)
+                .build();
+        Mockito.when(roomsService.create(Mockito.any(),Mockito.any())).thenReturn(id);
+        // Mocking the service call
+        Mockito.doNothing().when(roomsService).delete(id);
+
+        mockMvc.perform(delete("/" + id))
+                .andExpect(status().isNoContent())
+                .andDo(MockMvcResultHandlers.print())
+                .andDo(MockMvcRestDocumentation.document("{class-name}/{method-name}",
+                        preprocessRequest(modifyHeaders().remove("Content-Length").remove("Host"), prettyPrint()),
+                        preprocessResponse(modifyHeaders().remove("Content-length").remove("X-Content-Type-Options")
+                                .remove("X-XSS-Protection").remove("Cache-Control").remove("Pragma")
+                                .remove("Expires").remove("X-Frame-Options"), prettyPrint())));
+    }
 //    @Test
 //    public void idPatch() throws Exception {
 //

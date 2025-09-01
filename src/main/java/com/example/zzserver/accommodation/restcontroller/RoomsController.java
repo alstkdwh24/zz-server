@@ -1,12 +1,16 @@
 package com.example.zzserver.accommodation.restcontroller;
 
-import com.example.zzserver.accommodation.dto.request.RoomsRequest;
 import com.example.zzserver.accommodation.dto.response.RoomsResponse;
 import com.example.zzserver.accommodation.service.RoomsService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
 
 import java.util.List;
 import java.util.UUID;

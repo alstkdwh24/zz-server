@@ -24,6 +24,7 @@ public class KakaoTokenRDto {
         this.expiresIn = expiresIn;
     }
 
+
     public UUID getId() {
         return id;
     }
@@ -77,6 +78,7 @@ public class KakaoTokenRDto {
     public void setExpiresIn(Integer expiresIn) {
         this.expiresIn = expiresIn;
     }
+
 
 
 

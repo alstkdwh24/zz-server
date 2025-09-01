@@ -2,7 +2,7 @@ package com.example.zzserver;
 
 import com.example.zzserver.config.JpaConfig;
 import com.example.zzserver.config.RedisConfig;
-import com.example.zzserver.member.entity.RedisRefreshToken;
+import com.example.zzserver.member.entity.redis.RedisRefreshToken;
 import com.example.zzserver.member.repository.redis.RefreshTokenRedisRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class RefreshTokenServiceTest {
     private StringRedisTemplate redisTemplate;
     @Test
     void 리프레시토큰_저장_조회() {
-        RedisRefreshToken token = new RedisRefreshToken(UUID.randomUUID(), "vqvqevqwqwvqwqwqwvqwqvwqvw", "test@email.com");
+        RedisRefreshToken token = new RedisRefreshToken(UUID.randomUUID(), "vqvqevqwqwvqwqwqwvqwqvwqvw", "test@email.com","vpqvfowpcjvopqwvoqwojvoqpwvow");
         refreshTokenRedisRepository.save(token);
 
         Set<String> keys = redisTemplate.keys("refreshToken*");

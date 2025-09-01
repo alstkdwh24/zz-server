@@ -21,6 +21,7 @@ public class RoomsService {
 
     private final RoomImageService roomImageService;
 
+    /*여기는 컨트롤러가 에러가 떠서 주석으로 처리했습니다.*/
     // 방생성
     public UUID create(RoomsRequest.Request request, List<MultipartFile> imageFiles) {
         UUID roomImageId = saveRooms(request);
@@ -51,6 +52,7 @@ public class RoomsService {
                         RoomsRequest.Update request,
                         List<MultipartFile> newImages,
                         List<UUID> deleteImageIds) {
+
         //방조회
         Rooms room = roomsRepository.findById(id).orElseThrow(()->new CustomException(ErrorCode.ROOM_NOT_FOUND));
         //방수정

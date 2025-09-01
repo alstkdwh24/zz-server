@@ -14,8 +14,8 @@ public class Member {
     @GeneratedValue
     @Column(name = "id")
     private UUID id;
-//    @Column(name = "userId", nullable = false, unique = true)
-//    private String userId;
+    @Column(name = "userId")
+    private String userId;
     @Column(name = "userPw", nullable = false)
 
     private String userPw;
@@ -26,9 +26,22 @@ public class Member {
 
     private String name;
 
+    @Column(name = "nickname", nullable = false, unique = true)
+    private String nickname;
+
     @Enumerated(EnumType.STRING) // Enum 타입으로 변경
     private Role role;
 
+    public Member() {
+    }
+    public Member(UUID id, String userId, String userPw, String email, String name, Role role) {
+        this.id = id;
+        this.userId = userId;
+        this.userPw = userPw;
+        this.email = email;
+        this.name = name;
+        this.role = role;
+    }
     public void setId(UUID id) {
         this.id = id;
     }
@@ -37,14 +50,14 @@ public class Member {
         return id;
     }
 
-//    public String getUserId() {
-//        return userId;
-//    }
-//
-//    public void setUserId(String userId) {
-//        this.userId = userId;
-//
-//    }
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+
+    }
 
     public String getUserPw() {
         return userPw;
@@ -77,6 +90,12 @@ public class Member {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+    public String getNickname() {
+        return nickname;
+    }
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
 }

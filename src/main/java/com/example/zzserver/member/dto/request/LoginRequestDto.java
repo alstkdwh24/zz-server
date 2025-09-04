@@ -15,7 +15,8 @@ public class LoginRequestDto {
     public LoginRequestDto() {}
 
 
-    public LoginRequestDto( String userPw) {
+    public LoginRequestDto(String email, String userPw) {
+        this.email = email;
 //        this.userId = userId;
         this.userPw = userPw;
     }

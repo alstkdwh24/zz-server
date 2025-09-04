@@ -21,7 +21,7 @@
     @RestController
     @RequestMapping("/api/naver")
     @Import(AppConfig.class)
-    public class NaverController {
+    public class ApiNaverController {
 
         @Value("${naver.naverClientSecret}")
         private String naverClientSecret;

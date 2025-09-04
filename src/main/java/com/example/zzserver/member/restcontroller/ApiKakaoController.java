@@ -25,7 +25,7 @@ import java.util.UUID;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/kakao")
-public class KakaoController {
+public class ApiKakaoController {
 
     @Value("${kakao.kakaoLoginRestApi}")
     private String kakaoLoginRestApi;

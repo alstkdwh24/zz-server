@@ -7,15 +7,14 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "MEMBER")
-public class Member {
+public class Members {
 
     @jakarta.persistence.Id
     @Id
     @GeneratedValue
     @Column(name = "id")
     private UUID id;
-    @Column(name = "userId")
-    private String userId;
+
     @Column(name = "userPw", nullable = false)
 
     private String userPw;
@@ -32,11 +31,10 @@ public class Member {
     @Enumerated(EnumType.STRING) // Enum 타입으로 변경
     private Role role;
 
-    public Member() {
+    public Members() {
     }
-    public Member(UUID id, String userId, String userPw, String email, String name, Role role) {
+    public Members(UUID id, String userPw, String email, String name, Role role) {
         this.id = id;
-        this.userId = userId;
         this.userPw = userPw;
         this.email = email;
         this.name = name;
@@ -50,14 +48,9 @@ public class Member {
         return id;
     }
 
-    public String getUserId() {
-        return userId;
-    }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
 
-    }
+
 
     public String getUserPw() {
         return userPw;

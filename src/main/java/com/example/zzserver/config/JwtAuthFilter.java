@@ -5,6 +5,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +18,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtUtil jwtUtil;
+    private static final Logger logger = LoggerFactory.getLogger(JwtAuthFilter.class);
 
 
     public JwtAuthFilter(CustomUserDetailsService customUserDetailsService, JwtUtil jwtUtil) {
@@ -52,14 +55,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             String token = authorizationHeader.substring(7);
 
             if (jwtUtil.isValidToken(token)) {
-                String userIdString = jwtUtil.getUserId(token);
+                String emailString = jwtUtil.getEmail(token);
 
-                if (userIdString != null && !userIdString.isEmpty()) {
+                if (emailString != null && !emailString.isEmpty()) {
                     try {
-                        Long userId = Long.valueOf(userIdString);
 
                         // 토큰에서 유저와 토큰이 일치시에 userDetails 생성
-                        UserDetails userDetails = customUserDetailsService.loadUserByUsername(userId.toString());
+                        UserDetails userDetails = customUserDetailsService.loadUserByUsername(emailString);
 
                         if (userDetails != null) {
                             // UserDetails, Password, Role -> 접근 권한 인증 토큰을 생성
@@ -69,7 +71,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                         }
                     } catch (NumberFormatException e) {
-                        logger.error("Invalid userId format in token: " + userIdString, e);
+                        logger.error("Invalid userId format in token: " + emailString, e);
                     }
                 } else {
                     logger.error("UserId is null or empty in token");

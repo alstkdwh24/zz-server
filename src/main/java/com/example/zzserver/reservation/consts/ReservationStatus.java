@@ -1,4 +1,4 @@
-package com.example.zzserver.reservation.entity;
+package com.example.zzserver.reservation.consts;
 
 public enum ReservationStatus {
 

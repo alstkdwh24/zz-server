@@ -19,8 +19,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGenericException(Exception e) {
-        // 로그 찍어두고
-        e.printStackTrace();
         ErrorResponse response = new ErrorResponse(
                 "INTERNAL_SERVER_ERROR",
                 "서버 오류가 발생했습니다."

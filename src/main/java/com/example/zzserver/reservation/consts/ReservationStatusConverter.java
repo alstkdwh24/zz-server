@@ -1,5 +1,6 @@
-package com.example.zzserver.reservation.entity;
+package com.example.zzserver.reservation.consts;
 
+import com.example.zzserver.reservation.consts.ReservationStatus;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 

@@ -27,9 +27,11 @@ public class AmenitiesService {
      * @return uuid 편의시설의 uuid
      **/
     public UUID create(AmenitiesRequest request) {
-        Amenities amenities = new Amenities();
-        amenities.setName(request.getName());
-        amenities.setIconUrl(request.getIconUrl());
+        Amenities amenities = Amenities
+                .builder()
+                .name(request.getName())
+                .iconUrl(request.getIconUrl())
+                .build();
         return amenitiesRepository.save(amenities).getId();
     }
 

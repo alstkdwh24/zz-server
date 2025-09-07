@@ -22,7 +22,12 @@ public class RoomsService {
     private final RoomImageService roomImageService;
 
     /*여기는 컨트롤러가 에러가 떠서 주석으로 처리했습니다.*/
-    // 방생성
+    /**
+     * 방생성
+     * @param request 방생성에 필요한 DTO
+     * @param imageFiles 방생성에 필요한 이미지 MultipartFile List
+     * @return uuid 생성시 나오는 uuid
+     **/
     public UUID create(RoomsRequest.Request request, List<MultipartFile> imageFiles) {
         UUID roomImageId = saveRooms(request);
 
@@ -32,21 +37,36 @@ public class RoomsService {
         return roomImageId;
     }
 
-    // 방 조회
+    /**
+     * 방 조회
+     * @param roomsId 방조회에서 필요한 uuid
+     * @return RoomResponse
+     **/
     public RoomsResponse findById(UUID roomsId) {
         return roomsRepository.findById(roomsId)
                 .map(rooms -> RoomsResponse.from(rooms))
                 .orElseThrow(() -> new CustomException(ErrorCode.ROOM_NOT_FOUND));
     }
 
-    // 숙소번호로 방 조회
+    /**
+     * 숙소번호로 방 조회
+     * @param accommodationId 방목록을 조회하기 위한 숙소 uuid
+     * @return List<RoomResponse>
+     **/
     public List<RoomsResponse> getAllByAccommodation(UUID accommodationId) {
         return roomsRepository.findByAccommodationId(accommodationId).stream()
                 .map(RoomsResponse::from)
                 .toList();
     }
 
-    // 방 수정
+    /**
+     * 방 수정
+     * @param id 조회에 필요한 uuid
+     * @param request 수정에 필요한 DTO
+     * @param newImages 수정에 필요한 MultipartFile
+     * @param deleteImageIds 수정에 필요한 이미지 uuid
+     * @return uuid 수정된 방의 uuid
+     **/
     public UUID update(
                         UUID id,
                         RoomsRequest.Update request,
@@ -68,7 +88,11 @@ public class RoomsService {
         return id;
     }
 
-    // 방 삭제
+    /**
+     * 방 삭제
+     * @param id 방 조회에 필요한 uuid
+     * @exception CustomException : ROOM_NOT_FOUND
+     **/
     public void delete(UUID id) {
         if(!roomsRepository.existsById(id)) {
             throw new CustomException(ErrorCode.ROOM_NOT_FOUND);
@@ -80,6 +104,9 @@ public class RoomsService {
     }
 
 
+    /**
+     * 방 생성
+     **/
     private UUID saveRooms(RoomsRequest.Request request) {
         Rooms rooms = Rooms
                 .builder()

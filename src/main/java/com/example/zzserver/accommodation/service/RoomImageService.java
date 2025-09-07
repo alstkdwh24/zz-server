@@ -23,7 +23,11 @@ public class RoomImageService {
 
     private final FileHandler fileHandler;
 
-    //방 번호를 대상으로 방이미지를 조회
+    /**
+     * 방 번호를 대상으로 방이미지를 조회
+     * @param roomId 방조회에 필요한 uuid
+     * @return List<RoomsImageResponse>
+     **/
     @Transactional(readOnly = true)
     public List<RoomsImageResponse> findAll(UUID roomId) {
          return roomsImagesRepository

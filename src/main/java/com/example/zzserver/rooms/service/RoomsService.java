@@ -1,9 +1,9 @@
-package com.example.zzserver.accommodation.service;
+package com.example.zzserver.rooms.service;
 
-import com.example.zzserver.accommodation.dto.request.RoomsRequest;
-import com.example.zzserver.accommodation.dto.response.RoomsResponse;
-import com.example.zzserver.accommodation.entity.Rooms;
-import com.example.zzserver.accommodation.repository.RoomsRepository;
+import com.example.zzserver.rooms.dto.request.RoomsRequest;
+import com.example.zzserver.rooms.dto.response.RoomsResponse;
+import com.example.zzserver.rooms.entity.Rooms;
+import com.example.zzserver.rooms.repository.RoomsRepository;
 import com.example.zzserver.config.exception.CustomException;
 import com.example.zzserver.config.exception.ErrorCode;
 import lombok.AllArgsConstructor;

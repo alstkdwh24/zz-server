@@ -1,6 +1,6 @@
-package com.example.zzserver.accommodation.repository;
+package com.example.zzserver.rooms.repository;
 
-import com.example.zzserver.accommodation.entity.RoomImages;
+import com.example.zzserver.rooms.entity.RoomImages;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

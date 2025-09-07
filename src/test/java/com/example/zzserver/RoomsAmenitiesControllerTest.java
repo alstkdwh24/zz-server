@@ -1,8 +1,8 @@
 package com.example.zzserver;
 
-import com.example.zzserver.accommodation.dto.request.RoomAmenityRequest;
-import com.example.zzserver.accommodation.dto.response.RoomAmenityResponse;
-import com.example.zzserver.accommodation.service.RoomsAmenitiesService;
+import com.example.zzserver.amenities.dto.request.RoomAmenityRequest;
+import com.example.zzserver.amenities.dto.response.RoomAmenityResponse;
+import com.example.zzserver.amenities.service.RoomsAmenitiesService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

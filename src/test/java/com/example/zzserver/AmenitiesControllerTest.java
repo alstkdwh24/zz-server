@@ -31,9 +31,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import com.example.zzserver.accommodation.dto.request.AmenitiesRequest;
-import com.example.zzserver.accommodation.dto.response.AmenitiesResponse;
-import com.example.zzserver.accommodation.service.AmenitiesService;
+import com.example.zzserver.amenities.dto.request.AmenitiesRequest;
+import com.example.zzserver.amenities.dto.response.AmenitiesResponse;
+import com.example.zzserver.amenities.service.AmenitiesService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest

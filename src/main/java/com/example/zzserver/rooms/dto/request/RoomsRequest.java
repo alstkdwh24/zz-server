@@ -1,4 +1,4 @@
-package com.example.zzserver.accommodation.dto.request;
+package com.example.zzserver.rooms.dto.request;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

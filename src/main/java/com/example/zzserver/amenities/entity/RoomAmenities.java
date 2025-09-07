@@ -1,4 +1,4 @@
-package com.example.zzserver.accommodation.entity;
+package com.example.zzserver.amenities.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

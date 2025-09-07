@@ -1,4 +1,4 @@
-package com.example.zzserver.accommodation.entity;
+package com.example.zzserver.rooms.entity;
 
 import com.example.zzserver.config.exception.CustomException;
 import com.example.zzserver.config.exception.ErrorCode;

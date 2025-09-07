@@ -1,7 +1,7 @@
 package com.example.zzserver.reservation.service;
 
-import com.example.zzserver.accommodation.entity.Rooms;
-import com.example.zzserver.accommodation.repository.RoomsRepository;
+import com.example.zzserver.rooms.entity.Rooms;
+import com.example.zzserver.rooms.repository.RoomsRepository;
 import com.example.zzserver.cart.entity.Cart;
 import com.example.zzserver.cart.repository.CartRepository;
 import com.example.zzserver.config.exception.CustomException;

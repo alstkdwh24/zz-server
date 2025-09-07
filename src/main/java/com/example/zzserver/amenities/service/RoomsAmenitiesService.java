@@ -1,9 +1,9 @@
-package com.example.zzserver.accommodation.service;
+package com.example.zzserver.amenities.service;
 
-import com.example.zzserver.accommodation.dto.request.RoomAmenityRequest;
-import com.example.zzserver.accommodation.dto.response.RoomAmenityResponse;
-import com.example.zzserver.accommodation.entity.RoomAmenities;
-import com.example.zzserver.accommodation.repository.RoomAmenitiesRepository;
+import com.example.zzserver.amenities.dto.request.RoomAmenityRequest;
+import com.example.zzserver.amenities.dto.response.RoomAmenityResponse;
+import com.example.zzserver.amenities.entity.RoomAmenities;
+import com.example.zzserver.amenities.repsoitory.RoomAmenitiesRepository;
 import com.example.zzserver.config.exception.CustomException;
 import com.example.zzserver.config.exception.ErrorCode;
 import lombok.AllArgsConstructor;

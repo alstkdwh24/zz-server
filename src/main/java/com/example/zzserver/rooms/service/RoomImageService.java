@@ -1,9 +1,9 @@
-package com.example.zzserver.accommodation.service;
+package com.example.zzserver.rooms.service;
 
 import com.example.zzserver.accommodation.dto.request.FileMetadata;
-import com.example.zzserver.accommodation.dto.response.RoomsImageResponse;
-import com.example.zzserver.accommodation.entity.RoomImages;
-import com.example.zzserver.accommodation.repository.RoomsImagesRepository;
+import com.example.zzserver.rooms.dto.response.RoomsImageResponse;
+import com.example.zzserver.rooms.entity.RoomImages;
+import com.example.zzserver.rooms.repository.RoomsImagesRepository;
 import com.example.zzserver.config.FileHandler;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

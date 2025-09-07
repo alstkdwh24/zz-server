@@ -1,8 +1,8 @@
-package com.example.zzserver.accommodation.restcontroller;
+package com.example.zzserver.rooms.controller;
 
-import com.example.zzserver.accommodation.dto.request.RoomsRequest;
-import com.example.zzserver.accommodation.dto.response.RoomsResponse;
-import com.example.zzserver.accommodation.service.RoomsService;
+import com.example.zzserver.rooms.dto.request.RoomsRequest;
+import com.example.zzserver.rooms.dto.response.RoomsResponse;
+import com.example.zzserver.rooms.service.RoomsService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

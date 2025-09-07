@@ -1,4 +1,4 @@
-package com.example.zzserver.accommodation.dto.request;
+package com.example.zzserver.amenities.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

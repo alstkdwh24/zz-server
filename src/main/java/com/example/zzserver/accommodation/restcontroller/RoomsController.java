@@ -1,5 +1,6 @@
 package com.example.zzserver.accommodation.restcontroller;
 
+import com.example.zzserver.accommodation.dto.request.RoomsRequest;
 import com.example.zzserver.accommodation.dto.response.RoomsResponse;
 import com.example.zzserver.accommodation.service.RoomsService;
 import lombok.AllArgsConstructor;

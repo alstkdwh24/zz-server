@@ -27,9 +27,11 @@ public class RoomsAmenitiesService {
      * @return uuid : 방 편의시설의 uuid 생성값
      **/
     public UUID create(UUID roomId, UUID amenityId) {
-        RoomAmenities roomAmenity = new RoomAmenities();
-        roomAmenity.setRoomId(roomId);
-        roomAmenity.setAmenityId(amenityId);
+        RoomAmenities roomAmenity = RoomAmenities
+                .builder()
+                .roomId(roomId)
+                .amenityId(amenityId)
+                .build();
         return roomAmenitiesRepository.save(roomAmenity).getRoomId();
     }
 

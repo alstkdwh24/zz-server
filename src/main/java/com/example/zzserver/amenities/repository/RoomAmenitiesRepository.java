@@ -1,4 +1,4 @@
-package com.example.zzserver.amenities.repsoitory;
+package com.example.zzserver.amenities.repository;
 
 import com.example.zzserver.amenities.entity.RoomAmenities;
 import org.springframework.data.jpa.repository.JpaRepository;

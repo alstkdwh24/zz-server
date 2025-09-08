@@ -116,10 +116,11 @@ public class RoomReservationService {
                 .status(ReservationStatus.PENDING)
                 .build();
 
+        UUID reservationId = roomReservationRepository.save(reservation).getId();
         // 장바구니 비우기
         cartRepository.delete(cart);
         // 예약 저장
-        return roomReservationRepository.save(reservation).getId();
+        return reservationId;
     }
 
     /**

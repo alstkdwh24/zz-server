@@ -3,7 +3,7 @@ package com.example.zzserver.amenities.service;
 import com.example.zzserver.amenities.dto.request.AmenitiesRequest;
 import com.example.zzserver.amenities.dto.response.AmenitiesResponse;
 import com.example.zzserver.amenities.entity.Amenities;
-import com.example.zzserver.amenities.repsoitory.AmenitiesRepository;
+import com.example.zzserver.amenities.repository.AmenitiesRepository;
 import com.example.zzserver.config.exception.CustomException;
 import com.example.zzserver.config.exception.ErrorCode;
 import lombok.AllArgsConstructor;

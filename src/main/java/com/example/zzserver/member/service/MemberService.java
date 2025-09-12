@@ -1,21 +1,5 @@
 package com.example.zzserver.member.service;
 
-import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
-
-import org.modelmapper.ModelMapper;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
 import com.example.zzserver.config.JwtUtil;
 import com.example.zzserver.config.dto.CustomUserInfoDto;
 import com.example.zzserver.config.dto.TokenResponseDTO;
@@ -26,8 +10,22 @@ import com.example.zzserver.member.entity.redis.RedisRefreshToken;
 import com.example.zzserver.member.repository.jpa.MemberRepository;
 import com.example.zzserver.member.repository.jpa.RefreshRepository;
 import com.example.zzserver.member.repository.redis.RefreshTokenRedisRepository;
-
 import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class MemberService {
@@ -54,7 +52,6 @@ public class MemberService {
         this.redisTemplate = redisTemplate;
     }
 
-    @Transactional
     public TokenResponseDTO login(LoginRequestDto dto) {
         String email = dto.getEmail();
         String userPw = dto.getUserPw();

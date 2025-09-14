@@ -1,12 +1,10 @@
 package com.example.zzserver;
 
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import com.example.zzserver.config.dto.TokenResponseDTO;
+import com.example.zzserver.member.dto.request.LoginRequestDto;
+import com.example.zzserver.member.dto.request.MemberRequestDto;
+import com.example.zzserver.member.entity.Role;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -19,11 +17,12 @@ import org.springframework.restdocs.payload.PayloadDocumentation;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.example.zzserver.config.dto.TokenResponseDTO;
-import com.example.zzserver.member.dto.request.LoginRequestDto;
-import com.example.zzserver.member.dto.request.MemberRequestDto;
-import com.example.zzserver.member.entity.Role;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
@@ -43,7 +42,7 @@ class MemberTests {
         @Order(1)
         public void createUser() throws Exception {
                 MemberRequestDto request = new MemberRequestDto(null, "alsalsals@naver.com", "password123", "만만만",
-                                Role.USER, "닉네임");
+                                Role.ROLE_USER, "닉네임");
 
                 // 회원가입
                 mockMvc.perform(post("/member/signup").contentType("application/json")

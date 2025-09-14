@@ -1,85 +1,69 @@
-package com.example.zzserver.member.entity;
+package com.example.zzserver.member.dto.request;
 
-import jakarta.persistence.*;
+import com.example.zzserver.member.entity.Role;
 
 import java.util.UUID;
 
-@Entity
-@Table(name = "MEMBER")
-public class Members {
+public class MemberUpdateDTO {
 
-    @jakarta.persistence.Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
     private UUID id;
 
-    @Column(name = "userPw", nullable = false)
-
+    // private String userId;
     private String userPw;
-    @Column(name = "email", length = 50, updatable = false, unique = true)
 
     private String email;
-    @Column(name = "name", nullable = false)
+
+    private String nickname;
 
     private String name;
 
-    @Column(name = "nickname", nullable = false, unique = true)
-    private String nickname;
-
-    @Enumerated(EnumType.STRING) // Enum 타입으로 변경
     private Role role;
+    public MemberUpdateDTO(){
 
-    public Members() {
     }
-    public Members(UUID id, String userPw, String email, String name, Role role, String nickname) {
-        this.nickname = nickname;
+    public MemberUpdateDTO(UUID id, String email, String userPw, String name, Role role, String nickname) {
         this.id = id;
-        this.userPw = userPw;
         this.email = email;
+
+        // this.userId = userId;
+        this.userPw = userPw;
         this.name = name;
+
         this.role = role;
+
+        this.nickname = nickname;
+
+    }
+    public UUID getId() {
+        return id;
     }
     public void setId(UUID id) {
         this.id = id;
     }
-
-    public UUID getId() {
-        return id;
-    }
-
-
-
-
-
     public String getUserPw() {
         return userPw;
     }
-
     public void setUserPw(String userPw) {
         this.userPw = userPw;
-    }
 
+    }
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }
-
     public String getName() {
         return name;
-    }
 
+    }
     public void setName(String name) {
         this.name = name;
     }
 
-
     public Role getRole() {
         return role;
     }
-
     public void setRole(Role role) {
         this.role = role;
     }

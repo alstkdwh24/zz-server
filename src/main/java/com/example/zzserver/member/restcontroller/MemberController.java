@@ -1,25 +1,26 @@
 package com.example.zzserver.member.restcontroller;
 
-import java.util.Map;
-import java.util.UUID;
-
+import com.example.zzserver.config.JwtUtil;
+import com.example.zzserver.config.dto.TokenResponseDTO;
+import com.example.zzserver.member.dto.request.LoginRequestDto;
+import com.example.zzserver.member.dto.request.MemberRequestDto;
+import com.example.zzserver.member.dto.request.MemberUpdateDTO;
+import com.example.zzserver.member.dto.response.MemberResponseDto;
+import com.example.zzserver.member.entity.Members;
+import com.example.zzserver.member.service.MemberService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.zzserver.config.JwtUtil;
-import com.example.zzserver.config.dto.TokenResponseDTO;
-import com.example.zzserver.member.dto.request.LoginRequestDto;
-import com.example.zzserver.member.dto.request.MemberRequestDto;
-import com.example.zzserver.member.entity.Members;
-import com.example.zzserver.member.service.MemberService;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
+import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/member")
@@ -35,7 +36,7 @@ public class MemberController {
     private JwtUtil jwtUtil;
 
     public MemberController(MemberService memberService, ModelMapper modelMapper, JwtUtil jwtUtil,
-            RedisTemplate<Object, Object> redisTemplate) {
+                            RedisTemplate<Object, Object> redisTemplate) {
         this.jwtUtil = jwtUtil;
         this.memberService = memberService;
         this.modelMapper = modelMapper;
@@ -56,10 +57,10 @@ public class MemberController {
         String id = memberService.signup(member); // 서비스
         return ResponseEntity.status(HttpStatus.OK).body(id);
     }
-
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/MemberUserInfo")
     public ResponseEntity<?> getUserInfo(@RequestParam("access_token") String accessToken,
-            @RequestParam("refresh_token") String refreshToken, @RequestParam("id") UUID id) {
+                                         @RequestParam("refresh_token") String refreshToken, @RequestParam("id") UUID id) {
         System.out.println("refreshToken = " + refreshToken);
 
         try {
@@ -72,9 +73,27 @@ public class MemberController {
 
     @PostMapping("/logout")
     public ResponseEntity<Map<String, String>> logout(@RequestParam("access_token") String token,
-            @RequestParam("id") UUID id, HttpServletRequest request) {
+                                                      @RequestParam("id") UUID id, HttpServletRequest request) {
         ResponseEntity<Map<String, String>> response = memberService.getLogout(id, token);
         return response;
+
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<String> updateMember(@RequestHeader("Authorization") String token, @Valid @RequestBody MemberUpdateDTO dto) {
+        String cleanToken = token.replace("Bearer ", "");
+
+        UUID id = jwtUtil.getUserIdFromAccessToken(cleanToken);
+        if (id == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+        }
+        memberService.updateMember(id, dto);
+        return ResponseEntity.status(HttpStatus.OK).body("Member updated successfully");
+    }
+    @PutMapping("/userDetail")
+    public ResponseEntity<MemberResponseDto> getMemberDetail(@RequestHeader("Authorization") String token) {
+        ResponseEntity<MemberResponseDto> memberDetail=memberService.userDetail(token);
+        return ResponseEntity.ok(memberDetail.getBody());
 
     }
 

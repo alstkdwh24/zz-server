@@ -4,13 +4,15 @@ import com.example.zzserver.config.JwtUtil;
 import com.example.zzserver.config.dto.CustomUserInfoDto;
 import com.example.zzserver.config.dto.TokenResponseDTO;
 import com.example.zzserver.member.dto.request.LoginRequestDto;
+import com.example.zzserver.member.dto.request.MemberUpdateDTO;
+import com.example.zzserver.member.dto.response.MemberResponseDto;
 import com.example.zzserver.member.entity.Members;
 import com.example.zzserver.member.entity.RefreshToken;
+import com.example.zzserver.member.entity.Role;
 import com.example.zzserver.member.entity.redis.RedisRefreshToken;
 import com.example.zzserver.member.repository.jpa.MemberRepository;
 import com.example.zzserver.member.repository.jpa.RefreshRepository;
 import com.example.zzserver.member.repository.redis.RefreshTokenRedisRepository;
-import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
@@ -33,7 +35,8 @@ public class MemberService {
     private final JwtUtil jwtUtil;
     private final MemberRepository memberRepository;
 
-    private final RefreshRepository refreshRepository;;
+    private final RefreshRepository refreshRepository;
+    ;
 
     private final RefreshTokenRedisRepository refreshTokenRedisRepository;
     private final BCryptPasswordEncoder encoder;
@@ -41,8 +44,8 @@ public class MemberService {
     private final ModelMapper modelMapper;
 
     public MemberService(JwtUtil jwtUtil, MemberRepository memberRepository, RefreshRepository refreshRepository,
-            RefreshTokenRedisRepository refreshTokenRedisRepository, BCryptPasswordEncoder encoder,
-            ModelMapper modelMapper, RedisTemplate<String, String> redisTemplate) {
+                         RefreshTokenRedisRepository refreshTokenRedisRepository, BCryptPasswordEncoder encoder,
+                         ModelMapper modelMapper, RedisTemplate<String, String> redisTemplate) {
         this.jwtUtil = jwtUtil;
         this.memberRepository = memberRepository;
         this.refreshRepository = refreshRepository;
@@ -51,6 +54,8 @@ public class MemberService {
         this.modelMapper = modelMapper;
         this.redisTemplate = redisTemplate;
     }
+
+    //로그인
 
     public TokenResponseDTO login(LoginRequestDto dto) {
         String email = dto.getEmail();
@@ -84,8 +89,10 @@ public class MemberService {
         return tokenResponseDTO;
     }
 
-    @Transactional
+    //회원가입
+
     public String signup(Members member) {
+        member.setRole(Role.ROLE_USER); // 기본 권한 설정
         Optional<Members> validMember = memberRepository.findMemberByEmail(member.getEmail());
 
         if (validMember.isPresent()) {
@@ -98,7 +105,7 @@ public class MemberService {
         return member.getEmail();
     }
 
-    @Transactional
+    //직접 유저정보 가져오기
     public Members getMemberById(UUID id) {
         Optional<Members> member = memberRepository.findById(id);
         if (member.isPresent()) {
@@ -108,6 +115,7 @@ public class MemberService {
         }
     }
 
+    // AccessToken에서 userId 추출
     public UUID getUserIdFromAccessToken(String accessToken) {
         UUID id = jwtUtil.getUserIdFromAccessToken(accessToken);
         Optional<Members> member = memberRepository.findById(id);
@@ -126,6 +134,7 @@ public class MemberService {
         return refreshTokenRedisRepository.save(refreshTokenEntity);
     }
 
+    // 유저 정보 가져오기
     public ResponseEntity<?> getRedisMemberById(UUID id, String accessToken, String refreshToken) {
         Optional<RedisRefreshToken> redisRefreshToken = refreshTokenRedisRepository.findById(id);
         RedisRefreshToken redisRefreshTokenEntity = redisRefreshToken.get();
@@ -176,6 +185,8 @@ public class MemberService {
                 : ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid refresh token");
     }
 
+    // 로그아웃
+
     public ResponseEntity<Map<String, String>> getLogout(UUID id, String token) {
         Map<String, String> response = new HashMap<>();
         try {
@@ -204,4 +215,27 @@ public class MemberService {
         }
     }
 
+    public void updateMember(UUID id, MemberUpdateDTO dto) {
+        Members member = memberRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("회원이 존재하지 않습니다."));
+
+        member.setName(dto.getName());
+        member.setNickname(dto.getNickname());
+        memberRepository.save(member);
+    }
+
+
+    public ResponseEntity<MemberResponseDto> userDetail(String token){
+        String cleanToken = token.replace("Bearer ", "");
+        UUID id = jwtUtil.getUserIdFromAccessToken(cleanToken);
+        if (id == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        Members member = this.getMemberById(id);
+        if (member == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        MemberResponseDto memberResponseDto = modelMapper.map(member, MemberResponseDto.class);
+        return ResponseEntity.ok(memberResponseDto);
+    }
 }

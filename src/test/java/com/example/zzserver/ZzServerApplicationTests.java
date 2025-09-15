@@ -96,6 +96,7 @@ public class ZzServerApplicationTests {
 
         Members member = memberOpt.get();
 
+
         mockMvc.perform(post("/test/member/login")
                         .contentType("application/json")
 

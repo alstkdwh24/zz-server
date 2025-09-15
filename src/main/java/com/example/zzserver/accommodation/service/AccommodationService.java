@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.UUID;
 
 import com.example.zzserver.address.domain.Address;
+import com.example.zzserver.config.exception.CustomException;
+import com.example.zzserver.config.exception.ErrorCode;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +24,10 @@ public class AccommodationService {
 
   private final AccommodationImagesService accommodationImagesService;
 
-
+  /**
+   * 숙소 목록(displayed가 true인 경우)
+   * @return List<AccommodationResponse>
+   **/
   @Transactional(readOnly = true)
   public List<AccommodationResponseDto> readDisplayedList() {
     List<Accommodations> all = accommodationRepository.findByDisplayedTrue();
@@ -32,13 +37,25 @@ public class AccommodationService {
         .toList();
   }
 
+  /**
+   * 숙소 조회
+   * @param id 특정 숙소의 uuid
+   * @exception CustomException : ACCOMMODATION_NOT_FOUND
+   * @return AccommodationResponse
+   **/
   @Transactional(readOnly = true)
   public AccommodationResponseDto findById(UUID id) {
     return accommodationRepository.findById(id)
             .map(AccommodationResponseDto::from)
-            .orElseThrow(()-> new RuntimeException(id+"를 찾을수 없습니다."));
+            .orElseThrow(()-> new CustomException(ErrorCode.ACCOMMODATION_NOT_FOUND));
   }
 
+  /**
+   * 숙소 생성
+   * @param accommodationRequest 숙소 생성에 필요한 요청 DTO
+   * @param imageFiles 숙소 생성에 필요한 이미지 MultipartFile 리스트
+   * @return uuid 생성시 나오는 uuid(saveAccommodationOnly)
+   **/
   public UUID createAccommodation(AccommodationRequest accommodationRequest, List<MultipartFile> imageFiles) {
     UUID requestAccommodationId = saveAccommodationOnly(accommodationRequest);
 
@@ -50,13 +67,22 @@ public class AccommodationService {
     return requestAccommodationId;
   }
 
+  /**
+   * 숙소 수정
+   * @param id 숙소 조회에 필요한 uuid,
+   * @param request 숙소 수정에 필요한 DTO,
+   * @param newImages 숙소 수정에 필요한 MultipartFile
+   * @param deleteImageIds 숙소 수정에 필요한 이미지 uuid
+   * @exception CustomException : ACCOMMODATION_NOT_FOUND
+   * @return uuid : 수정후 해당 숙소의 uuid
+   **/
   public UUID updateAccommodations(UUID id,
                                    AccommodationRequest request,
                                    List<MultipartFile> newImages,
                                    List<UUID> deleteImageIds) {
 
     Accommodations accommodations = accommodationRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("숙소가 존재하지 않습니다: " + id));
+            .orElseThrow(() -> new CustomException(ErrorCode.ACCOMMODATION_NOT_FOUND));
 
     Address newAddress = Address.of(request.getZipCode(), request.getAddress(), request.getDetailAddress());
     accommodations.update(request.getName(), request.getPhoneNumber(), newAddress,
@@ -74,6 +100,11 @@ public class AccommodationService {
     return id;
   }
 
+  /**
+   * 숙소 저장 메서드
+   * @param request 숙소 저장에 필요한 요청 DTO
+   * @return uuid 숙소 생성시 나오는 uuid
+   **/
   private UUID saveAccommodationOnly(AccommodationRequest request) {
     Address address = Address.of(
             request.getZipCode(),
@@ -96,9 +127,14 @@ public class AccommodationService {
     return accommodationRepository.save(accommodations).getId();
   }
 
+  /**
+   * 숙소 삭제
+   * @param id 숙소의 uuid
+   * @exception CustomException : ACCOMMODATION_NOT_FOUND
+   **/
   public void deleteById(UUID id) {
     if (!accommodationRepository.existsById(id)) {
-      throw new RuntimeException("숙소가 존재하지 않습니다: " + id);
+      throw new CustomException(ErrorCode.ACCOMMODATION_NOT_FOUND);
     }
 
     // 이미지 먼저 삭제

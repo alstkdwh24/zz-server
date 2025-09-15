@@ -65,9 +65,10 @@ public class KakaoService {
 
             System.out.println("RefreshTokenService: Inserting new refresh token: " + newToken.getRefresh_token());
             RefreshToken save = refreshRepository.save(newToken);
+            String id = String.valueOf(save.getId());
 
             RedisRefreshToken redisRefreshToken = new RedisRefreshToken();
-            redisRefreshToken.setId(save.getId());
+            redisRefreshToken.setId(id);
             redisRefreshToken.setAccessToken(refresh_token);
             redisRefreshToken.setRefreshToken(access_token);
             System.out.println("RefreshTokenService: Saving to Redis: " + redisRefreshToken.getRefreshToken());
@@ -207,10 +208,10 @@ public class KakaoService {
         ResponseEntity<KakaoTokenDto> response;
         try {
             response = restTemplate.postForEntity(url, requestEntity, KakaoTokenDto.class);
-            return ResponseEntity.ok(new TokenResponseDTO(null, response.getBody().getAccess_token(),
+            return ResponseEntity.ok(new TokenResponseDTO(null,null, response.getBody().getAccess_token(),
                     response.getBody().getRefresh_token()));
         } catch (HttpClientErrorException e) {
-            return ResponseEntity.status(e.getStatusCode()).body(new TokenResponseDTO(null, null, null));
+            return ResponseEntity.status(e.getStatusCode()).body(new TokenResponseDTO(null,null, null, null));
         }
         // 이 메서드는 단순히 리프레시 토큰을 받아서 로그를 출력하는 역할만 합니다.
         // 실제로 토큰을 재발급하는 로직은 이 메서드 외부에서 처리됩니다.

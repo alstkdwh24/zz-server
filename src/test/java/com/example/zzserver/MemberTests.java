@@ -17,6 +17,8 @@ import org.springframework.restdocs.payload.PayloadDocumentation;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.UUID;
+
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -60,7 +62,7 @@ class MemberTests {
                 Thread.sleep(100);
 
                 // 로그인
-                LoginRequestDto loginRequest = new LoginRequestDto(request.getEmail(), request.getUserPw());
+                LoginRequestDto loginRequest = new LoginRequestDto(UUID.randomUUID(),request.getEmail(), request.getUserPw());
                 String loginResponse = mockMvc
                                 .perform(post("/member/login").contentType("application/json")
                                                 .content(objectMapper.writeValueAsString(loginRequest)))

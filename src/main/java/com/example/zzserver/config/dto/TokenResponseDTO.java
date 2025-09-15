@@ -1,10 +1,11 @@
 package com.example.zzserver.config.dto;
 
-import java.util.UUID;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.UUID;
+
 public class TokenResponseDTO {
+    private UUID memberId;
     private UUID id;
     @JsonProperty("access_token")
     private String access_token;
@@ -14,12 +15,19 @@ public class TokenResponseDTO {
     public TokenResponseDTO() {
     }
 
-    public TokenResponseDTO(UUID id, String access_token, String refresh_token) {
+    public TokenResponseDTO(UUID memberId,UUID id, String access_token, String refresh_token) {
         this.id = id;
         this.access_token = access_token;
         this.refresh_token = refresh_token;
+        this.memberId = memberId;
     }
 
+    public UUID getMemberId() {
+        return memberId;
+    }
+    public void setMemberId(UUID memberId) {
+        this.memberId = memberId;
+    }
     public String getAccess_token() {
         return access_token;
     }

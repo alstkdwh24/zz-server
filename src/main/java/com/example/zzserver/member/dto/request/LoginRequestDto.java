@@ -2,7 +2,10 @@ package com.example.zzserver.member.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 
+import java.util.UUID;
+
 public class LoginRequestDto {
+    private UUID id;
 
 
 
@@ -15,7 +18,8 @@ public class LoginRequestDto {
     public LoginRequestDto() {}
 
 
-    public LoginRequestDto(String email, String userPw) {
+    public LoginRequestDto(UUID id,String email, String userPw) {
+        this.id = id;
         this.email = email;
 //        this.userId = userId;
         this.userPw = userPw;
@@ -29,6 +33,12 @@ public class LoginRequestDto {
 //        this.userId = userId;
 //    }
 
+    public UUID getId() {
+        return id;
+    }
+    public void setId(UUID id) {
+        this.id = id;
+    }
     public String getUserPw() {
         return userPw;
     }

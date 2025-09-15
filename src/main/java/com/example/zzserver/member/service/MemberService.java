@@ -14,6 +14,7 @@ import com.example.zzserver.member.repository.jpa.MemberRepository;
 import com.example.zzserver.member.repository.jpa.RefreshRepository;
 import com.example.zzserver.member.repository.redis.RefreshTokenRedisRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,19 +41,23 @@ public class MemberService {
 
     private final RefreshTokenRedisRepository refreshTokenRedisRepository;
     private final BCryptPasswordEncoder encoder;
-    private RedisTemplate<String, String> redisTemplate;
+    @Qualifier("redisTemplate")
+
+    private final RedisTemplate<String, Object> redisTemplate;
+    private final RedisTemplate<Object, Object> redisTemplate2;
     private final ModelMapper modelMapper;
 
     public MemberService(JwtUtil jwtUtil, MemberRepository memberRepository, RefreshRepository refreshRepository,
-                         RefreshTokenRedisRepository refreshTokenRedisRepository, BCryptPasswordEncoder encoder,
-                         ModelMapper modelMapper, RedisTemplate<String, String> redisTemplate) {
+                         RefreshTokenRedisRepository refreshTokenRedisRepository, BCryptPasswordEncoder encoder, RedisTemplate<String, Object> redisTemplate, RedisTemplate<Object, Object> redisTemplate2,
+                         ModelMapper modelMapper) {
         this.jwtUtil = jwtUtil;
         this.memberRepository = memberRepository;
         this.refreshRepository = refreshRepository;
         this.refreshTokenRedisRepository = refreshTokenRedisRepository;
         this.encoder = encoder;
-        this.modelMapper = modelMapper;
         this.redisTemplate = redisTemplate;
+        this.redisTemplate2 = redisTemplate2;
+        this.modelMapper = modelMapper;
     }
 
     //로그인
@@ -63,15 +68,20 @@ public class MemberService {
         // jpa
         Optional<Members> member = memberRepository.findMemberByEmail(email);
         // //redis
-
+        System.out.println("member.id="+ member.get().getId() );
         if (member.isEmpty()) {
             throw new UsernameNotFoundException("사용자를 찾을 수 없습니다.");
         }
         if (!encoder.matches(userPw, member.get().getUserPw())) {
             throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
         }
+         dto.setId( member.get().getId());
+        System.out.println(dto.getId());
+
 
         CustomUserInfoDto info = modelMapper.map(member.get(), CustomUserInfoDto.class);
+
+        System.out.println("info.getId() = " + info.getId());
         TokenResponseDTO tokenResponse = jwtUtil.createAccessToken(info);
         System.out.println("  1234  " + tokenResponse.getRefresh_token() + "  1234  ");
         RefreshToken refreshToken = new RefreshToken(UUID.randomUUID(), member.get().getEmail(),
@@ -81,11 +91,13 @@ public class MemberService {
         String RedisAcess_token = tokenResponse.getAccess_token();
         String RedisRefresh_token = tokenResponse.getRefresh_token();
         RedisRefreshToken RedisUuid = this.RedisLoginSave(RedisAcess_token, RedisRefresh_token);
-        UUID id = RedisUuid.getId();
+        String id = RedisUuid.getId();
+        UUID uuid = UUID.fromString(id);
         TokenResponseDTO tokenResponseDTO = new TokenResponseDTO();
-        tokenResponseDTO.setId(id);
+        tokenResponseDTO.setId(uuid);
         tokenResponseDTO.setAccess_token(RedisUuid.getAccessToken());
         tokenResponseDTO.setRefresh_token(RedisUuid.getRefreshToken());
+        System.out.println("tokenResponseDTO = " + tokenResponseDTO.getId());
         return tokenResponseDTO;
     }
 
@@ -192,11 +204,11 @@ public class MemberService {
         try {
             String jwtToken = token.replace("Bearer ", "");
 
-            redisTemplate.delete("refreshToken:" + id);
+            redisTemplate2.delete("refreshToken:" + id);
 
             try {
                 UUID userId = jwtUtil.getUserIdFromAccessToken(jwtToken);
-                redisTemplate.delete("refresh_token:" + userId);
+                redisTemplate2.delete("refresh_token:" + userId);
             } catch (Exception e) {
             }
             long expiration = jwtUtil.getExpirationFromToken(jwtToken);
@@ -204,7 +216,7 @@ public class MemberService {
             long timeToLive = Math.max(expiration - currentTime, 60000); // 최소 1분은 블랙리스트에 유지
 
             if (timeToLive > 0) {
-                redisTemplate.opsForValue().set("blacklist:" + jwtToken, "logout", Duration.ofMillis(timeToLive));
+                redisTemplate2.opsForValue().set("blacklist:" + jwtToken, "logout", Duration.ofMillis(timeToLive));
             }
             refreshTokenRedisRepository.deleteById(id);
             response.put("message", "로그아웃 완료");
@@ -225,7 +237,7 @@ public class MemberService {
     }
 
 
-    public ResponseEntity<MemberResponseDto> userDetail(String token){
+    public ResponseEntity<MemberResponseDto> userDetail(String token) {
         String cleanToken = token.replace("Bearer ", "");
         UUID id = jwtUtil.getUserIdFromAccessToken(cleanToken);
         if (id == null) {
@@ -238,4 +250,20 @@ public class MemberService {
         MemberResponseDto memberResponseDto = modelMapper.map(member, MemberResponseDto.class);
         return ResponseEntity.ok(memberResponseDto);
     }
+
+//유저 삭제
+public void deleteMember(String token) {
+    UUID id = jwtUtil.getUserIdFromAccessToken(token);
+    redisTemplate2.delete("refresh_token:" + id);
+    System.out.println("Redis 토큰 삭제 완료, email = " + id);
+
+
+    Members member = memberRepository.findById(id)
+            .orElseThrow(() -> new UsernameNotFoundException("회원이 존재하지 않습니다."));
+
+
+
+    memberRepository.delete(member);
+    System.out.println("회원 삭제 완료, id = " + id);
+}
 }

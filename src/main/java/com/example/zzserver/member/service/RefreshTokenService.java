@@ -41,9 +41,10 @@ public class RefreshTokenService {
 
         System.out.println("RefreshTokenService: Inserting new refresh token: " + newToken.getRefresh_token());
         RefreshToken save=refreshRepository.save(newToken);
+        String id= String.valueOf(save.getId());
 
         RedisRefreshToken redisRefreshToken = new RedisRefreshToken();
-        redisRefreshToken.setId(save.getId());
+        redisRefreshToken.setId(id);
         redisRefreshToken.setAccessToken(accessToken);
         redisRefreshToken.setRefreshToken(refreshToken);
         System.out.println("RefreshTokenService: Saving to Redis: " + redisRefreshToken.getRefreshToken());

@@ -47,7 +47,7 @@ public class JwtUtil {
         String accessToken = createToken(member, accessTokenExpTime);
         String refreshToken = createRefreshToken(member, refreshTokenExpTime);
 
-        return new TokenResponseDTO(null, accessToken, refreshToken);
+        return new TokenResponseDTO(member.getId(), UUID.randomUUID(), accessToken, refreshToken);
     }
 
 
@@ -164,7 +164,7 @@ public class JwtUtil {
 
             String newAccessToken = createToken(member, accessTokenExpTime);
 
-            return new TokenResponseDTO(null, newAccessToken, refreshToken);
+            return new TokenResponseDTO(member.getId(),UUID.randomUUID(), newAccessToken, refreshToken);
         } catch (ExpiredJwtException e) {
             logger.error("Refresh token has expired", e);
             throw e; // 만료된 토큰은 예외를 던져 처리

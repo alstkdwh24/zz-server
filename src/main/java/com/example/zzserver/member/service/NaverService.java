@@ -192,7 +192,7 @@ public class NaverService {
             String email = userInfoResponse.getBody().getResponse().getEmail();
 
             RedisRefreshToken redisRefreshToken = new RedisRefreshToken();
-            redisRefreshToken.setId(UUID.randomUUID());
+            redisRefreshToken.setId(String.valueOf(UUID.randomUUID()));
             redisRefreshToken.setRefreshToken(refreshToken);
             redisRefreshToken.setEmail(email);
             refreshTokenRedisRepository.save(redisRefreshToken);

@@ -8,8 +8,7 @@ import java.util.UUID;
 @Table(name = "MEMBER")
 public class Members {
 
-    @jakarta.persistence.Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @Id
     @Column(name = "id")
     private UUID id;
 
@@ -89,5 +88,10 @@ public class Members {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
-
+    @PrePersist
+    public void prePersist() {
+        if (id == null) {
+            id = UUID.randomUUID(); // 가입 시에만 UUID 생성
+        }
+    }
 }

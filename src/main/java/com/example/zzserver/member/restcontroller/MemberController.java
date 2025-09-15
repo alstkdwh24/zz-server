@@ -52,10 +52,11 @@ public class MemberController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(@Valid @RequestBody MemberRequestDto memberDto) {
+    public ResponseEntity<UUID> signup(@Valid @RequestBody MemberRequestDto memberDto) {
         Members member = modelMapper.map(memberDto, Members.class);
         String id = memberService.signup(member); // 서비스
-        return ResponseEntity.status(HttpStatus.OK).body(id);
+        System.out.println("Created member ID: " + id);
+        return ResponseEntity.status(HttpStatus.OK).body(member.getId());
     }
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/MemberUserInfo")
@@ -82,6 +83,7 @@ public class MemberController {
     @PostMapping("/update")
     public ResponseEntity<String> updateMember(@RequestHeader("Authorization") String token, @Valid @RequestBody MemberUpdateDTO dto) {
         String cleanToken = token.replace("Bearer ", "");
+        System.out.println("cleanToken = " + cleanToken);
 
         UUID id = jwtUtil.getUserIdFromAccessToken(cleanToken);
         if (id == null) {
@@ -95,6 +97,13 @@ public class MemberController {
         ResponseEntity<MemberResponseDto> memberDetail=memberService.userDetail(token);
         return ResponseEntity.ok(memberDetail.getBody());
 
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteMember(@RequestHeader("Authorization") String token){
+
+        memberService.deleteMember(token);
+        return ResponseEntity.status(HttpStatus.OK).body("Member deleted successfully");
     }
 
 }

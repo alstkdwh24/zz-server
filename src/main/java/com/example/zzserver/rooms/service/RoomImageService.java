@@ -1,9 +1,9 @@
-package com.example.zzserver.accommodation.service;
+package com.example.zzserver.rooms.service;
 
 import com.example.zzserver.accommodation.dto.request.FileMetadata;
-import com.example.zzserver.accommodation.dto.response.RoomsImageResponse;
-import com.example.zzserver.accommodation.entity.RoomImages;
-import com.example.zzserver.accommodation.repository.RoomsImagesRepository;
+import com.example.zzserver.rooms.dto.response.RoomsImageResponse;
+import com.example.zzserver.rooms.entity.RoomImages;
+import com.example.zzserver.rooms.repository.RoomsImagesRepository;
 import com.example.zzserver.config.FileHandler;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,11 @@ public class RoomImageService {
 
     private final FileHandler fileHandler;
 
-    //방 번호를 대상으로 방이미지를 조회
+    /**
+     * 방 번호를 대상으로 방이미지를 조회
+     * @param roomId 방조회에 필요한 uuid
+     * @return List<RoomsImageResponse>
+     **/
     @Transactional(readOnly = true)
     public List<RoomsImageResponse> findAll(UUID roomId) {
          return roomsImagesRepository

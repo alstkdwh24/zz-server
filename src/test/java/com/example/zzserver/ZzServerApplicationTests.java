@@ -5,6 +5,7 @@ import com.example.zzserver.member.dto.request.LoginRequestDto;
 import com.example.zzserver.member.dto.request.MemberRequestDto;
 import com.example.zzserver.member.entity.Members;
 import com.example.zzserver.member.repository.jpa.MemberRepository;
+import com.example.zzserver.member.service.AuthService;
 import com.example.zzserver.member.service.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,6 +55,9 @@ public class ZzServerApplicationTests {
     private MemberService memberService;
 
     @Autowired
+    private AuthService authService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -70,13 +74,12 @@ public class ZzServerApplicationTests {
         LoginRequestDto dto = new LoginRequestDto();
         try {
             dto.setEmail(username);
-            memberService.login(dto);
+            authService.login(dto);
         } catch (Exception e) {
             Members member = new Members();
-            member.setEmail(username);
-            member.setUserPw(passwordEncoder.encode("testpassword"));
-            member.setEmail("testuser@example.com");
-            member.setName("TestUser");
+            member.ChangeEmail(username);
+            member.ChangeUserPw(passwordEncoder.encode("testpassword"));
+            member.ChangeName("TestUser");
             memberRepository.save(member);
         }
     }
@@ -88,7 +91,7 @@ public class ZzServerApplicationTests {
         dto.setUserPw("testpassword");
         UserDetails userDetails = User.withUsername(dto.getEmail()).password(dto.getUserPw()).roles("USER").build();
 
-        TokenResponseDTO jwtToken = memberService.login(dto); // JWT 토큰 반환
+        TokenResponseDTO jwtToken = authService.login(dto); // JWT 토큰 반환
         Optional<Members> memberOpt = memberRepository.findMemberByEmail(dto.getEmail());
         if (memberOpt.isEmpty()) {
             throw new UsernameNotFoundException("User not found");
@@ -123,9 +126,9 @@ public class ZzServerApplicationTests {
         memberdto.setName("New User");
         Members member = new Members();
         member.getId();
-        member.setUserPw(memberdto.getUserPw());
-        member.setEmail(memberdto.getEmail());
-        member.setName(memberdto.getName());
+        member.ChangeUserPw(memberdto.getUserPw());
+        member.ChangeEmail(memberdto.getEmail());
+        member.ChangeName(memberdto.getName());
 
 
         memberRepository.findMemberByEmail(member.getEmail())
@@ -147,7 +150,6 @@ public class ZzServerApplicationTests {
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
-        System.out.println(response); // 응답 결과 출력
 
 
     }

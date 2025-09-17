@@ -2,7 +2,7 @@ package com.example.zzserver.config;
 
 import com.example.zzserver.accommodation.dto.request.FileMetadata;
 import com.example.zzserver.accommodation.entity.AccommodationImages;
-import com.example.zzserver.accommodation.entity.RoomImages;
+import com.example.zzserver.rooms.entity.RoomImages;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

@@ -1,7 +1,15 @@
 package com.example.zzserver.member.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class KakaoRefreshTokenResDto {
     @JsonProperty("access_token")
     private String accessToken;
@@ -18,51 +26,5 @@ public class KakaoRefreshTokenResDto {
     @JsonProperty("id_token")
     private String idToken;
 
-    public KakaoRefreshTokenResDto() {
-    }
-
-    public KakaoRefreshTokenResDto(String accessToken, String refreshToken, String tokenType, int expiresIn, String idToken) {
-        this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
-        this.tokenType = tokenType;
-        this.expiresIn = expiresIn;
-        this.idToken = idToken;
-    }
-
-    // getter & setter
-    public String getAccessToken() {
-        return accessToken;
-    }
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
-
-    public String getRefreshToken() {
-        return refreshToken;
-    }
-    public void setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-    }
-
-    public String getTokenType() {
-        return tokenType;
-    }
-    public void setTokenType(String tokenType) {
-        this.tokenType = tokenType;
-    }
-
-    public int getExpiresIn() {
-        return expiresIn;
-    }
-    public void setExpiresIn(int expiresIn) {
-        this.expiresIn = expiresIn;
-    }
-
-    public String getIdToken() {
-        return idToken;
-    }
-    public void setIdToken(String idToken) {
-        this.idToken = idToken;
-    }
 
 }

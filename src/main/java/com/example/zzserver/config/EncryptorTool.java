@@ -12,7 +12,6 @@ public class EncryptorTool {
         }
         textEncryptor.setPassword(encryptorPassword);
         String encrypted = textEncryptor.encrypt(encryptorPassword);
-        System.out.println("Encrypted value: ENC(" + encrypted + ")");
 
 
     }

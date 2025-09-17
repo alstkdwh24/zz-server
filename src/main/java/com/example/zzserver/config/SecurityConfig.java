@@ -29,6 +29,9 @@ public class SecurityConfig {
             "/swagger-ui/**", "/api-docs", "swagger-ui-custom.html", "**/h2-console/**", "/api/**"
 ,"/api/kakao/**"  ,"/member/logout"  };
 
+    private static final String[] AUTH_USERLIST = {"/member/MemberUserInfo", "/member/update",
+            "/member/deleteMember", "/member/logout","/member/userDetail"};
+
     public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtUtil jwtUtil, CustomAccessDeniedHandler customAccessDeniedHandler, CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {
         this.customUserDetailsService = customUserDetailsService;
         this.jwtUtil = jwtUtil;

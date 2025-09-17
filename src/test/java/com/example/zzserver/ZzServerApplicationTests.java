@@ -3,8 +3,9 @@ package com.example.zzserver;
 import com.example.zzserver.config.dto.TokenResponseDTO;
 import com.example.zzserver.member.dto.request.LoginRequestDto;
 import com.example.zzserver.member.dto.request.MemberRequestDto;
-import com.example.zzserver.member.entity.Member;
+import com.example.zzserver.member.entity.Members;
 import com.example.zzserver.member.repository.jpa.MemberRepository;
+import com.example.zzserver.member.service.AuthService;
 import com.example.zzserver.member.service.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,10 +31,10 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
 
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -43,8 +44,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import(MockConfig.class)
 @AutoConfigureMockMvc
 @Transactional
-class ZzServerApplicationTests {
-
+public class ZzServerApplicationTests {
     @Autowired
     private MockMvc mockMvc;
 
@@ -53,6 +53,9 @@ class ZzServerApplicationTests {
 
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private AuthService authService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -71,13 +74,12 @@ class ZzServerApplicationTests {
         LoginRequestDto dto = new LoginRequestDto();
         try {
             dto.setEmail(username);
-            memberService.login(dto);
+            authService.login(dto);
         } catch (Exception e) {
-            Member member = new Member();
-            member.setEmail(username);
-            member.setUserPw(passwordEncoder.encode("testpassword"));
-            member.setEmail("testuser@example.com");
-            member.setName("TestUser");
+            Members member = new Members();
+            member.ChangeEmail(username);
+            member.ChangeUserPw(passwordEncoder.encode("testpassword"));
+            member.ChangeName("TestUser");
             memberRepository.save(member);
         }
     }
@@ -89,13 +91,14 @@ class ZzServerApplicationTests {
         dto.setUserPw("testpassword");
         UserDetails userDetails = User.withUsername(dto.getEmail()).password(dto.getUserPw()).roles("USER").build();
 
-        TokenResponseDTO jwtToken = memberService.login(dto); // JWT 토큰 반환
-        Optional<Member> memberOpt = memberRepository.findMemberByEmail(dto.getEmail());
+        TokenResponseDTO jwtToken = authService.login(dto); // JWT 토큰 반환
+        Optional<Members> memberOpt = memberRepository.findMemberByEmail(dto.getEmail());
         if (memberOpt.isEmpty()) {
             throw new UsernameNotFoundException("User not found");
         }
 
-        Member member = memberOpt.get();
+        Members member = memberOpt.get();
+
 
         mockMvc.perform(post("/test/member/login")
                         .contentType("application/json")
@@ -122,11 +125,11 @@ class ZzServerApplicationTests {
         memberdto.setUserPw("newpassword");
         memberdto.setEmail("alkfqj2@naver.com");
         memberdto.setName("New User");
-        Member member = new Member();
+        Members member = new Members();
         member.getId();
-        member.setUserPw(memberdto.getUserPw());
-        member.setEmail(memberdto.getEmail());
-        member.setName(memberdto.getName());
+        member.ChangeUserPw(memberdto.getUserPw());
+        member.ChangeEmail(memberdto.getEmail());
+        member.ChangeName(memberdto.getName());
 
 
         memberRepository.findMemberByEmail(member.getEmail())
@@ -148,7 +151,6 @@ class ZzServerApplicationTests {
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
-        System.out.println(response); // 응답 결과 출력
 
 
     }
@@ -157,5 +159,4 @@ class ZzServerApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }

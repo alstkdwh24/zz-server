@@ -1,6 +1,6 @@
 package com.example.zzserver.config;
 
-import com.example.zzserver.member.entity.Member;
+import com.example.zzserver.member.entity.Members;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,9 +11,9 @@ import java.util.List;
 
 public class CustomUserDetails implements UserDetails {
 
-    private final Member member;
+    private final Members member;
 
-    public CustomUserDetails(Member member) {
+    public CustomUserDetails(Members member) {
         this.member = member;
     }
 

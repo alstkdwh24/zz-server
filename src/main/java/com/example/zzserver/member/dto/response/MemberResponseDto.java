@@ -1,5 +1,7 @@
 package com.example.zzserver.member.dto.response;
 
+import com.example.zzserver.member.entity.Role;
+
 import java.util.UUID;
 
 public class MemberResponseDto {
@@ -8,11 +10,11 @@ public class MemberResponseDto {
     private String userPw;
     private String email;
     private String name;
-    private String role;
+    private Role role;
 
     public MemberResponseDto() {}
 
-    public MemberResponseDto(UUID id, String userPw, String email, String name, String role) {
+    public MemberResponseDto(UUID id, String userPw, String email, String name, Role role) {
         this.id = id;
 //        this.userId = userId;
         this.userPw = userPw;
@@ -60,11 +62,11 @@ public class MemberResponseDto {
         this.name = name;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

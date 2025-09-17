@@ -1,7 +1,7 @@
 package com.example.zzserver.member.service;
 
 import com.example.zzserver.config.CustomUserDetails;
-import com.example.zzserver.member.entity.Member;
+import com.example.zzserver.member.entity.Members;
 import com.example.zzserver.member.repository.jpa.MemberRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,8 +18,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Member member = memberRepository.findMemberByEmail(username)
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Members member = memberRepository.findMemberByEmail(email)
                 .orElseThrow();
 
         return new CustomUserDetails(member);

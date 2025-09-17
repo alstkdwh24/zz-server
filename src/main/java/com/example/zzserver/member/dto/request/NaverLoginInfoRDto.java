@@ -1,7 +1,15 @@
 package com.example.zzserver.member.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class NaverLoginInfoRDto {
     private String resultcode;
     private String message;
@@ -41,108 +49,6 @@ public class NaverLoginInfoRDto {
         private String birthday;
         private String birthyear;
         private String mobile;
-
-        public NaverUser(){}
-
-        public NaverUser(String id, String nickname, String  age, String gender, String email, String name, String birthday, String birthyear, String mobile) {
-            this.id = id;
-            this.nickname = nickname;
-            this.age = age;
-            this.gender = gender;
-            this.email = email;
-            this.name = name;
-            this.birthday = birthday;
-            this.birthyear = birthyear;
-            this.mobile = mobile;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getNickname() {
-            return nickname;
-        }
-
-        public void setNickname(String nickname) {
-            this.nickname = nickname;
-        }
-
-        public String getProfileImage() {
-            return profileImage;
-        }
-
-        public void setProfileImage(String profileImage) {
-            this.profileImage = profileImage;
-        }
-
-        public String getAge() {
-            return age;
-        }
-
-        public void setAge(String age) {
-            this.age = age;
-        }
-
-        public String getGender() {
-            return gender;
-        }
-
-        public void setGender(String gender) {
-            this.gender = gender;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-
-        public String getBirthday() {
-            return birthday;
-        }
-
-        public void setBirthday(String birthday) {
-            this.birthday = birthday;
-        }
-
-        public String getBirthyear() {
-            return birthyear;
-        }
-
-        public void setBirthyear(String birthyear) {
-            this.birthyear = birthyear;
-        }
-
-        public String getMobile() {
-            return mobile;
-        }
-
-        public void setMobile(String mobile) {
-            this.mobile = mobile;
-        }
-
-
-
-
-
-
-
 
 
     }

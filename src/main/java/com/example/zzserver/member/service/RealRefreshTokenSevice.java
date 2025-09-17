@@ -32,14 +32,21 @@ public class RealRefreshTokenSevice {
         String id = jwtUtil.getEmail(refreshToken);
         String savedToken = RedisTemplate.opsForValue().get(id);
         if(savedToken == null || !savedToken.equals(refreshToken)) {
-            throw new IllegalArgumentException("저장된 토큰과 일치하지 않습니다.");
+            throw new IllegalArgumentException("저장된 토큰과 일치하지 않습니다.");             
         }
         // CustomUserInfoDto는 실제로 DB 등에서 조회 필요
 
 
         Optional<Members> memberOpt = memberRepository.findMemberByEmail(id);
         Members member = memberOpt.orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
-        CustomUserInfoDto customUserInfoDto = new CustomUserInfoDto(member);
+        CustomUserInfoDto customUserInfoDto = CustomUserInfoDto.builder()
+                .id(member.getId())
+                .email(member.getEmail())
+                .role(member.getRole())
+                .nickname(member.getNickname())
+                .userPw(member.getUserPw())
+                .name(member.getName())
+                .build();
         TokenResponseDTO tokenResponseDTO = jwtUtil.createAccessToken(customUserInfoDto);
         RedisTemplate.opsForValue().set(id, tokenResponseDTO.getRefresh_token());
         return tokenResponseDTO;

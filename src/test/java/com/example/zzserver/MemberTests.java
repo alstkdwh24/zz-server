@@ -43,8 +43,8 @@ class MemberTests {
         @Test
         @Order(1)
         public void createUser() throws Exception {
-                MemberRequestDto request = new MemberRequestDto(null, "alsalsals@naver.com", "password123", "만만만",
-                                Role.ROLE_USER, "닉네임");
+                MemberRequestDto request = new MemberRequestDto(null, "alsalsals@naver.com", "password123", "만만만", "김만만"
+                                ,Role.ROLE_USER);
 
                 // 회원가입
                 mockMvc.perform(post("/member/signup").contentType("application/json")
@@ -96,7 +96,6 @@ class MemberTests {
                                 .andDo(print()).andDo(result -> {
                                         // 실제 응답 구조 출력
                                         String responseContent = result.getResponse().getContentAsString();
-                                        System.out.println("실제 로그아웃 응답: " + responseContent);
                                 }).andDo(document("logout-user", PayloadDocumentation
                                                 .responseFields(fieldWithPath("message").description("로그아웃 메시지"))));
         }

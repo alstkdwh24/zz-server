@@ -68,17 +68,12 @@ public class NaverService {
 
     //
     public ResponseEntity<NaverLoginDto> getNaverToken(@ModelAttribute NaverLoginRDto dto, HttpSession session) {
-        System.out.println("Received DTO: " + dto.getCode() + ", " + dto.getState() + ", " + dto.getGrant_type());
 
         MultiValueMap<String, String> params = createTokenRequestParams(dto.getGrant_type(), dto.getCode(), dto.getState(), null);
 
         ResponseEntity<NaverLoginDto> responseEntity = requestNaverToken(params);
         NaverLoginDto responseBody = responseEntity.getBody();
         assert responseBody != null;
-        System.out.println("Response: " + responseBody.getAccess_token());
-        System.out.println("Response: " + responseBody.getRefresh_token());
-        System.out.println("Response: " + responseBody.getExpires_in());
-        System.out.println("Response: " + responseBody.getToken_type());
 
         NaverLoginDto response = responseEntity.getBody();
         if (response != null) {
@@ -128,7 +123,6 @@ public class NaverService {
 
         RefreshToken refreshTokenEntity = new RefreshToken(UUID.randomUUID(), email, refreshToken);
 
-        System.out.println("insertRefreshToken: " + refreshTokenEntity.getRefresh_token());
 
         naverRepository.save(refreshTokenEntity);
 
@@ -156,7 +150,6 @@ public class NaverService {
         HttpEntity<Void> request = new HttpEntity<>(headers);
         try {
             ResponseEntity<NaverLoginInfoDto> response = restTemplate.exchange(naverUserInfoUrl, HttpMethod.GET, request, NaverLoginInfoDto.class);
-            System.out.println("Response: " + response.getBody());
             return ResponseEntity.ok(response.getBody());
 
         } catch (HttpClientErrorException e) {

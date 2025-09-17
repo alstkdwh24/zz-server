@@ -19,12 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     @Qualifier("realRefreshTokenSevice")
-    private RealRefreshTokenSevice refreshToken;
+    private RealRefreshTokenSevice refreshTokens;
     private final JwtUtil jwtUtil;
     private final AuthService authService;
 
-    public AuthController(RealRefreshTokenSevice refreshToken, JwtUtil jwtUtil, AuthService authService) {
-        this.refreshToken = refreshToken;
+    public AuthController( JwtUtil jwtUtil, AuthService authService) {
         this.jwtUtil = jwtUtil;
         this.authService = authService;
     }

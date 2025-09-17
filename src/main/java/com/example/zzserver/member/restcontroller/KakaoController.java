@@ -1,14 +1,13 @@
 package com.example.zzserver.member.restcontroller;
 
+import com.example.zzserver.config.dto.TokenResponseDTO;
+import com.example.zzserver.member.entity.redis.RedisRefreshToken;
+import com.example.zzserver.member.service.KakaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import com.example.zzserver.config.dto.TokenResponseDTO;
-import com.example.zzserver.member.entity.redis.RedisRefreshToken;
-import com.example.zzserver.member.service.KakaoService;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -16,7 +15,7 @@ import com.example.zzserver.member.service.KakaoService;
 public class KakaoController {
 
     @Value("${kakao.kakaoLoginRestApi}")
-    private String kakaoLoginRestApi;
+    private String kakaoLoginRestApis;
 
     @Autowired
     @Qualifier("KakaoService")

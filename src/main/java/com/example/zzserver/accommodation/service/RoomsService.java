@@ -90,4 +90,8 @@ public class RoomsService {
 
         return roomsRepository.save(rooms).getId();
     }
+
+    public Object create(Object any, Object any1) {
+        return null;
+    }
 }

@@ -15,4 +15,7 @@ public class RoomsRequest {
     private long maxOccupacy;
     private boolean available;
     private Integer peopleCount;
+
+    public class Update {
+    }
 }

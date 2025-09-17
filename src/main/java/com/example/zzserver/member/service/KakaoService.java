@@ -57,13 +57,11 @@ public class KakaoService {
         try {
             ResponseEntity<KakaoTokenDto> response = restTemplate.postForEntity(url, requestEntity,
                     KakaoTokenDto.class);
-            System.out.println("Request Body: " + response.getBody());
             String access_token = response.getBody().getAccess_token();
             String refresh_token = response.getBody().getRefresh_token();
             RefreshToken newToken = new RefreshToken();
             newToken.setRefresh_token(refresh_token);
 
-            System.out.println("RefreshTokenService: Inserting new refresh token: " + newToken.getRefresh_token());
             RefreshToken save = refreshRepository.save(newToken);
             String id = String.valueOf(save.getId());
 
@@ -71,7 +69,6 @@ public class KakaoService {
             redisRefreshToken.setId(id);
             redisRefreshToken.setAccessToken(refresh_token);
             redisRefreshToken.setRefreshToken(access_token);
-            System.out.println("RefreshTokenService: Saving to Redis: " + redisRefreshToken.getRefreshToken());
 
             refreshTokenRedisRepository.save(redisRefreshToken);
 
@@ -89,8 +86,7 @@ public class KakaoService {
         UUID id = dto.getId();
         String accessToken = dto.getAccess_token();
         String refreshToken = dto.getRefresh_token();
-        System.out.println("메서드 진입: " + accessToken);
-        System.out.println("리프레시 토큰: " + refreshToken);
+
 
         RedisRefreshToken redisRefreshToken = this.RedisInsertSearch(id);
         if (refreshToken.equals(redisRefreshToken.getRefreshToken())) {
@@ -98,7 +94,6 @@ public class KakaoService {
                 RestTemplate restTemplate = new RestTemplate();
                 TokenResponseDTO tokenResponseDTO = new TokenResponseDTO();
                 tokenResponseDTO.setRefresh_token(refreshToken);
-                System.out.println("리프레시 토큰: " + refreshToken);
                 ResponseEntity<TokenResponseDTO> responseEntity = restTemplate.postForEntity(
                         "http://localhost:9090/api/kakao/reGetToken?refresh_token=" + refreshToken, tokenResponseDTO,
                         TokenResponseDTO.class);
@@ -117,7 +112,6 @@ public class KakaoService {
 
             try {
                 ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
-                System.out.println("Response Body: " + response.getBody());
                 return ResponseEntity.ok(response.getBody());
             } catch (HttpClientErrorException e) {
                 if (e.getStatusCode().value() == 401) {
@@ -187,9 +181,7 @@ public class KakaoService {
         RedisRefreshToken redisRefreshToken = refreshTokenRedisRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("리프레시 토큰을 찾을 수 없습니다."));
 
-        System.out.println(
-                "RedisRefreshTokenService: Found refresh token in Redis: " + redisRefreshToken.getRefreshToken());
-        return redisRefreshToken;
+       return redisRefreshToken;
 
     }
 
@@ -208,10 +200,10 @@ public class KakaoService {
         ResponseEntity<KakaoTokenDto> response;
         try {
             response = restTemplate.postForEntity(url, requestEntity, KakaoTokenDto.class);
-            return ResponseEntity.ok(new TokenResponseDTO(null,null, response.getBody().getAccess_token(),
+            return ResponseEntity.ok(new TokenResponseDTO(null, response.getBody().getAccess_token(),
                     response.getBody().getRefresh_token()));
         } catch (HttpClientErrorException e) {
-            return ResponseEntity.status(e.getStatusCode()).body(new TokenResponseDTO(null,null, null, null));
+            return ResponseEntity.status(e.getStatusCode()).body(new TokenResponseDTO(null, null, null));
         }
         // 이 메서드는 단순히 리프레시 토큰을 받아서 로그를 출력하는 역할만 합니다.
         // 실제로 토큰을 재발급하는 로직은 이 메서드 외부에서 처리됩니다.

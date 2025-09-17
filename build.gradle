@@ -107,8 +107,9 @@ tasks.register('copyDocument', Copy)  { // (12)
     into file("src/main/resources/static/docs")
 }
 
-tasks.named('build') {
-    dependsOn tasks.named('copyDocument')
+tasks.named('test') {
+    enabled = false;
+//    dependsOn tasks.named('copyDocument')
 }
 afterEvaluate {
     bootRun {

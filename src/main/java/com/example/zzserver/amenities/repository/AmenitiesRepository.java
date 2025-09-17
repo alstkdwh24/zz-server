@@ -1,6 +1,6 @@
-package com.example.zzserver.accommodation.repository;
+package com.example.zzserver.amenities.repository;
 
-import com.example.zzserver.accommodation.entity.Amenities;
+import com.example.zzserver.amenities.entity.Amenities;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

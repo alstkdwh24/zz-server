@@ -5,7 +5,8 @@ import com.example.zzserver.accommodation.dto.response.AccommodationImageRespons
 import com.example.zzserver.accommodation.entity.AccommodationImages;
 import com.example.zzserver.accommodation.repository.AccommodationImagesRepository;
 import com.example.zzserver.config.FileHandler;
-import jakarta.persistence.EntityNotFoundException;
+import com.example.zzserver.config.exception.CustomException;
+import com.example.zzserver.config.exception.ErrorCode;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +29,7 @@ public class AccommodationImagesService {
      * @param accommodationId - 이미지가 속한 숙박 UUID
      * @param files - 업로드할 Multipart 이미지 파일 리스트
      * @return 저장된 AccommodationImages의 UUID 목록
-     */
+     **/
     public List<UUID> uploadImages(UUID accommodationId, List<MultipartFile> files) {
         // "accommodations" 폴더 하위에 저장
         List<FileMetadata> uploaded = fileHandler.uploadFiles(files, "accommodations");
@@ -51,7 +52,9 @@ public class AccommodationImagesService {
 
     /**
      * 특정 숙소(accommodationId)에 연결된 이미지 목록 조회
-     */
+     * @param accommodationId 숙소의 uuid
+     * @return List<AccommodationImageResponse>
+     **/
     @Transactional(readOnly = true)
     public List<AccommodationImageResponse> getImagesByAccommodation(UUID accommodationId) {
         return accommodationImagesRepository.findByAccommodationId(accommodationId).stream()
@@ -61,17 +64,20 @@ public class AccommodationImagesService {
 
     /**
      * 단일 이미지 삭제
-     */
+     * @param imageId 방이미지를 조회하는 uuid
+     * @exception CustomException : ACCOMMODATION_IMAGE_NOT_FOUND
+     **/
     public void deleteImage(UUID imageId) {
         AccommodationImages image = accommodationImagesRepository.findById(imageId)
-                .orElseThrow(() -> new EntityNotFoundException("해당 이미지가 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.ACCOMMODATION_IMAGE_NOT_FOUND));
         accommodationImagesRepository.delete(image);
         // TODO: fileHandler.delete(image.getImageUrl()) 호출 가능 (옵션)
     }
 
     /**
      * 다중 이미지 삭제
-     */
+     * @param imageIds 이미지 삭제에 필요한 조회의 uuid
+     **/
     public void deleteImages(List<UUID> imageIds) {
         List<AccommodationImages> targets = accommodationImagesRepository.findAllById(imageIds);
         if (!targets.isEmpty()) {
@@ -82,9 +88,11 @@ public class AccommodationImagesService {
 
     /**
      * 특정 숙소의 모든 이미지 삭제
-     */
+     * @param accommodationId 숙소엔티티의 uuid
+     **/
     public void deleteImagesByAccommodationId(UUID accommodationId) {
-        List<AccommodationImages> targets = accommodationImagesRepository.findByAccommodationId(accommodationId);
+        List<AccommodationImages> targets = accommodationImagesRepository
+                .findByAccommodationId(accommodationId);
         if (!targets.isEmpty()) {
             accommodationImagesRepository.deleteAll(targets);
             fileHandler.deleteAccommodationFiles(targets);

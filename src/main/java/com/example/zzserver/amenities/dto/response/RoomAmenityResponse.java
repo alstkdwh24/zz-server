@@ -1,6 +1,6 @@
-package com.example.zzserver.accommodation.dto.response;
+package com.example.zzserver.amenities.dto.response;
 
-import com.example.zzserver.accommodation.entity.RoomAmenities;
+import com.example.zzserver.amenities.entity.RoomAmenities;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

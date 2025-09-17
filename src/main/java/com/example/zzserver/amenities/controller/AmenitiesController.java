@@ -1,8 +1,8 @@
-package com.example.zzserver.accommodation.restcontroller;
+package com.example.zzserver.amenities.controller;
 
-import com.example.zzserver.accommodation.dto.request.AmenitiesRequest;
-import com.example.zzserver.accommodation.dto.response.AmenitiesResponse;
-import com.example.zzserver.accommodation.service.AmenitiesService;
+import com.example.zzserver.amenities.dto.request.AmenitiesRequest;
+import com.example.zzserver.amenities.dto.response.AmenitiesResponse;
+import com.example.zzserver.amenities.service.AmenitiesService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

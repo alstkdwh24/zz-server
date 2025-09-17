@@ -1,9 +1,10 @@
 package com.example.zzserver.accommodation.service;
 
 import com.example.zzserver.accommodation.dto.request.RoomsRequest;
-import com.example.zzserver.accommodation.dto.response.RoomsResponse;
-import com.example.zzserver.accommodation.entity.Rooms;
-import com.example.zzserver.accommodation.repository.RoomsRepository;
+import com.example.zzserver.rooms.dto.response.RoomsResponse;
+import com.example.zzserver.rooms.entity.Rooms;
+import com.example.zzserver.rooms.repository.RoomsRepository;
+import com.example.zzserver.rooms.service.RoomImageService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,14 +23,14 @@ public class RoomsService {
     /*여기는 컨트롤러가 에러가 떠서 주석으로 처리했습니다.*/
     // 방생성
 // 방생성
-//    public UUID create(RoomsRequest request, List<MultipartFile> imageFiles) {
-//        UUID roomImageId = saveRooms(request);
-//
-//        if(imageFiles != null && !imageFiles.isEmpty()) {
-//            roomImageService.uploadRoomsImages(roomImageId, imageFiles);
-//        }
-//        return roomImageId;
-//    }
+    public UUID create(RoomsRequest request, List<MultipartFile> imageFiles) {
+        UUID roomImageId = saveRooms(request);
+
+        if(imageFiles != null && !imageFiles.isEmpty()) {
+            roomImageService.uploadRoomsImages(roomImageId, imageFiles);
+        }
+        return roomImageId;
+    }
 
     // 방 조회
     public RoomsResponse findById(UUID roomsId) {
@@ -89,9 +90,5 @@ public class RoomsService {
                 .build();
 
         return roomsRepository.save(rooms).getId();
-    }
-
-    public Object create(Object any, Object any1) {
-        return null;
     }
 }

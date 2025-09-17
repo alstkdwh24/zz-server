@@ -1,9 +1,9 @@
 package com.example.zzserver;
 
 import com.example.zzserver.accommodation.service.AccommodationService;
-import com.example.zzserver.accommodation.service.AmenitiesService;
-import com.example.zzserver.accommodation.service.RoomsAmenitiesService;
-import com.example.zzserver.accommodation.service.RoomsService;
+import com.example.zzserver.amenities.service.AmenitiesService;
+import com.example.zzserver.amenities.service.RoomsAmenitiesService;
+import com.example.zzserver.rooms.service.RoomsService;
 import com.example.zzserver.member.repository.redis.RefreshTokenRedisRepository;
 import com.example.zzserver.member.service.NaverService;
 import org.mockito.Mockito;

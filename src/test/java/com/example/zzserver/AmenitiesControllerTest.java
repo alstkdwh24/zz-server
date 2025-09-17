@@ -1,9 +1,9 @@
 package com.example.zzserver;
 
 
-import com.example.zzserver.accommodation.dto.request.AmenitiesRequest;
-import com.example.zzserver.accommodation.dto.response.AmenitiesResponse;
-import com.example.zzserver.accommodation.service.AmenitiesService;
+import com.example.zzserver.amenities.dto.request.AmenitiesRequest;
+import com.example.zzserver.amenities.dto.response.AmenitiesResponse;
+import com.example.zzserver.amenities.service.AmenitiesService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,6 +31,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 @SpringBootTest
 @ActiveProfiles("test")

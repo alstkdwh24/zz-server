@@ -2,8 +2,8 @@ package com.example.zzserver;
 
 
 import com.example.zzserver.accommodation.dto.request.RoomsRequest;
-import com.example.zzserver.accommodation.dto.response.RoomsResponse;
 import com.example.zzserver.accommodation.service.RoomsService;
+import com.example.zzserver.rooms.dto.response.RoomsResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -128,6 +128,7 @@ public class RoomsControllerTest {
                         post("/").contentType("application/json")
                                 .content(objectMapper.writeValueAsString(roomsResponse5))
                 )                        .andExpect(status().isOk()).
+
                 andDo(MockMvcResultHandlers.print())
                 .andDo(MockMvcRestDocumentation.document("{class-name}/{method-name}",
                         preprocessRequest(modifyHeaders().remove("Content-Length").remove("Host"), prettyPrint()),
@@ -137,6 +138,7 @@ public class RoomsControllerTest {
                         responseFields(
                                 fieldWithPath("id").description("방 ID")
                                 , fieldWithPath("name").description("방 이름"),
+
                                 fieldWithPath("maxOccupacy").description("최대 수용 인원"),
                                 fieldWithPath("available").description("방 사용 가능 여부"),
                                 fieldWithPath("peopleCount").description("현재 인원 수"))));
@@ -256,6 +258,7 @@ public class RoomsControllerTest {
                         patch("/" + id).contentType("application/json")
                                 .content(objectMapper.writeValueAsString(roomsResponse5))
                 )
+
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andDo(MockMvcRestDocumentation.document("{class-name}/{method-name}",

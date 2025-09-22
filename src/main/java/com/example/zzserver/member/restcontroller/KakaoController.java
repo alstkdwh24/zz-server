@@ -6,8 +6,14 @@ import com.example.zzserver.member.service.KakaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -54,5 +60,25 @@ public class KakaoController {
         kakaoService.kakaoLogout(dto);
         return ResponseEntity.ok("로그아웃 되었습니다.");
 
+    }
+    @GetMapping("/users")
+    public ResponseEntity<Map<String, Object>> getUserInfo(@AuthenticationPrincipal OAuth2User principal) {
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "로그인 필요"));
+        }
+
+        Map<String, Object> info = new HashMap<>();
+        info.put("id", principal.getAttribute("id"));
+        info.put("name", principal.getAttribute("nickname"));
+        info.put("email", principal.getAttribute("email"));
+
+        return ResponseEntity.ok(info);
+    }
+    //OAuth2 인증 코드 받는 코드
+    @GetMapping("/user")
+    public String kakaoLogin(@RequestParam String code) {
+        // code → 카카오 토큰 → JWT 발급
+        return kakaoService.callKakaoApi(code);
     }
 }

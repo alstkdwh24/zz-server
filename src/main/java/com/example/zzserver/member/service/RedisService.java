@@ -1,7 +1,6 @@
 package com.example.zzserver.member.service;
 
 import com.example.zzserver.config.JwtUtil;
-import com.example.zzserver.member.entity.Members;
 import com.example.zzserver.member.entity.redis.RedisRefreshToken;
 import com.example.zzserver.member.repository.jpa.MemberRepository;
 import com.example.zzserver.member.repository.redis.RefreshTokenRedisRepository;
@@ -10,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -47,18 +45,14 @@ public class RedisService {
         redisTemplate2.delete("refresh_token:" + id);
 
     logger.debug("ssssss" +String.valueOf(id));
-        Members member = memberRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("회원이 존재하지 않습니다."));
+    //MemberService 부분으로 옳기기
 
-
-        memberRepository.delete(member);
-        System.out.println("Member with ID " + id + " has been deleted.");
     }
-
-
+//
+ //수정ResponseEntity수정
     public ResponseEntity<Map<String, String>> getLogout(UUID id, String token) {
         Map<String, String> response = new HashMap<>();
-        try {
+        try {//try 수정
             String jwtToken = token.replace("Bearer ", "");
 
             redisTemplate2.delete("refreshToken:" + id);
@@ -75,6 +69,7 @@ public class RedisService {
             if (timeToLive > 0) {
                 redisTemplate2.opsForValue().set("blacklist:" + jwtToken, "logout", Duration.ofMillis(timeToLive));
             }
+            //레디스 헤시로
             refreshTokenRedisRepository.deleteById(id);
             response.put("message", "로그아웃 완료");
             return ResponseEntity.ok(response);

@@ -5,6 +5,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,7 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-
+@Slf4j
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final CustomUserDetailsService customUserDetailsService;
@@ -35,20 +36,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(final HttpServletRequest request,
                                     final HttpServletResponse response,
                                     final FilterChain filterChain) throws ServletException, IOException {
+
+       log.debug("request: {}",String.valueOf(request.getUserPrincipal()));
         String authorizationHeader = request.getHeader("Authorization");
         String path = request.getRequestURI();
-        if (path.startsWith("/api/kakao/")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-        if (path.startsWith("/api/naver/")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-        if(path.startsWith("/member/")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+
+        log.debug("token: {}", authorizationHeader);
 
         //JWT 헤더가 있는 경우
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
@@ -56,13 +49,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
             if (jwtUtil.isValidToken(token)) {
                 String emailString = jwtUtil.getEmail(token);
+                System.out.println("emailString = " + emailString);
 
                 if (emailString != null && !emailString.isEmpty()) {
                     try {
-
                         // 토큰에서 유저와 토큰이 일치시에 userDetails 생성
                         UserDetails userDetails = customUserDetailsService.loadUserByUsername(emailString);
-
                         if (userDetails != null) {
                             // UserDetails, Password, Role -> 접근 권한 인증 토큰을 생성
                             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =

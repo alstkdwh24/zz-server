@@ -53,40 +53,34 @@ public class MemberService {
 
     public String signup(MemberRequestDto memberDto) {
         signUpPrivate(memberDto);
-
+        Members newMember = Members.builder()
+                .email(memberDto.getEmail())
+                .userPw(encoder.encode(memberDto.getUserPw()))
+                .name(memberDto.getName())
+                .nickname(memberDto.getNickname())
+                .role(Role.ROLE_USER)
+                .build();
+        memberRepository.save(newMember);
         return memberDto.getEmail();
     }
 
     private void signUpPrivate(MemberRequestDto member) {
 
-        Optional<Members> validMember = memberRepository.findMemberByEmail(member.getEmail());
+        boolean validMember = memberRepository.existsByEmail(member.getEmail());
 
-        if (validMember.isPresent()) {
+        if (validMember) {
             throw new IllegalArgumentException("This member UserId is already exist: " + member.getEmail());
         }
-        Members newMember = Members.builder()
-                .email(member.getEmail())
-                .userPw(encoder.encode(member.getUserPw()))
-                .name(member.getName())
-                .nickname(member.getNickname())
-                .role(Role.ROLE_USER)
-                .build();
-        memberRepository.save(newMember);
+
     }
 
     //직접 유저정보 가져오기
-    public Members getMemberById(UUID id) {
-        Optional<Members> member = memberRepository.findById(id);
-        if (member.isPresent()) {
-            return member.get();
-        } else {
-            throw new UsernameNotFoundException("사용자를 찾을 수 없습니다.");
-        }
+    public MemberResponseDto getMemberById(UUID id) {
+        Members member = memberRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("Member Id: " + id));
+        return toDto(member);
     }
 
-
-
-
+//수정
     // 유저 정보 가져오기
     public ResponseEntity<?> getRedisMemberById(UUID id, String accessToken, String refreshToken) {
         Optional<RedisRefreshToken> redisRefreshToken = refreshTokenRedisRepository.findById(id);
@@ -104,7 +98,7 @@ public class MemberService {
                 TokenResponseDTO response = restTemplate.getForObject(
                         "http://localhost:9090/auth/refresh?refresh_token=" + refreshToken, TokenResponseDTO.class);
                 UUID ids = authService.getUserIdFromAccessToken(response.getAccess_token());
-                Members member = this.getMemberById(ids);
+                MemberResponseDto member = this.getMemberById(ids);
 
                 if (member == null) {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -120,7 +114,7 @@ public class MemberService {
 
                 ResponseEntity.status(HttpStatus.OK).body(tokenResponseDTO);
                 UUID ids = authService.getUserIdFromAccessToken(accessToken);
-                Members member = this.getMemberById(ids);
+                MemberResponseDto member = this.getMemberById(ids);
                 if (member == null) {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
                 }
@@ -140,7 +134,6 @@ public class MemberService {
 
 
     public void updateMember(UUID id, MemberUpdateDTO dto) {
-        System.out.println("Updating member with ID: " + id);
         Members member = memberRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("회원이 존재하지 않습니다."));
 
@@ -150,17 +143,21 @@ public class MemberService {
     }
 
 
-    public ResponseEntity<MemberResponseDto> userDetail(String token) {
-        String cleanToken = token.replace("Bearer ", "");
-        UUID id = jwtUtil.getUserIdFromAccessToken(cleanToken);
 
-        Members member = this.getMemberById(id);
-        if (member == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        MemberResponseDto memberResponseDto = modelMapper.map(member, MemberResponseDto.class);
-        return ResponseEntity.ok(memberResponseDto);
+
+    public void deleteMember(UUID id) {
+        Members member = memberRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("회원이 존재하지 않습니다."));
+        memberRepository.deleteById(member.getId());
     }
 
-
+    private MemberResponseDto toDto(Members member) {
+        return MemberResponseDto.builder()
+                .id(member.getId())
+                .email(member.getEmail())
+                .name(member.getName())
+                .role(member.getRole())
+                .userPw(member.getUserPw())
+                .build();
+    }
 }

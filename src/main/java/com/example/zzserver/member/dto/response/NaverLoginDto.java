@@ -3,14 +3,15 @@ package com.example.zzserver.member.dto.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class NaverLoginDto {
+
     @JsonProperty("access_token")
     private String access_token;
     @JsonProperty("refresh_token")

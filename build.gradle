@@ -78,6 +78,11 @@ dependencies {
     implementation 'me.paulschwarz:spring-dotenv:3.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-logging'
 
+   //OAuth2 클라이언트 의존성
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    // Optional: JDBC 저장을 원하면
+    implementation 'org.springframework.security:spring-security-oauth2-client'
 
 
 }

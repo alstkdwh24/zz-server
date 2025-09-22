@@ -1,9 +1,9 @@
 package com.example.zzserver;
 
 
-import com.example.zzserver.accommodation.dto.request.RoomsRequest;
-import com.example.zzserver.accommodation.service.RoomsService;
+import com.example.zzserver.rooms.dto.request.RoomsRequest;
 import com.example.zzserver.rooms.dto.response.RoomsResponse;
+import com.example.zzserver.rooms.service.RoomsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -252,7 +252,7 @@ public class RoomsControllerTest {
                 .peopleCount(1)
                 .build();
 
-        when(roomsService.update(Mockito.any(), (RoomsRequest) List.of(Mockito.any()), Mockito.any(),List.of(Mockito.any()))).thenReturn(id);
+        when(roomsService.update(Mockito.any(), (RoomsRequest.Update) List.of(Mockito.any()), Mockito.any(),List.of(Mockito.any()))).thenReturn(id);
 
         mockMvc.perform(
                         patch("/" + id).contentType("application/json")

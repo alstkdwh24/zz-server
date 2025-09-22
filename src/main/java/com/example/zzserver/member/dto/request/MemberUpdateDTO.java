@@ -1,13 +1,11 @@
 package com.example.zzserver.member.dto.request;
 
 import com.example.zzserver.member.entity.Role;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -15,7 +13,6 @@ public class MemberUpdateDTO {
 
     private UUID id;
 
-    // private String userId;
     private String userPw;
 
     private String email;

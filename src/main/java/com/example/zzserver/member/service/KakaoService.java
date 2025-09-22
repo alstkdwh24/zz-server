@@ -9,8 +9,11 @@ import com.example.zzserver.member.entity.redis.RedisRefreshToken;
 import com.example.zzserver.member.repository.jpa.RefreshRepository;
 import com.example.zzserver.member.repository.redis.RefreshTokenRedisRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -23,20 +26,31 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service("KakaoService")
+
 public class KakaoService {
     private final RefreshRepository refreshRepository;
     private final ModelMapper modelMapper;
-
+    @Autowired
+    private OAuth2AuthorizedClientService authorizedClientService;
     @Value("${kakao.kakaoLoginRestApi}")
     private String kakaoLoginRestApi;
     private final RefreshTokenRedisRepository refreshTokenRedisRepository;
 
     public KakaoService(RefreshRepository refreshRepository, ModelMapper modelMapper, RestTemplate restTemplate,
-            RefreshTokenRedisRepository refreshTokenRedisRepository) {
+            RefreshTokenRedisRepository refreshTokenRedisRepository, OAuth2AuthorizedClientService authorizedClientService) {
+        this.authorizedClientService = authorizedClientService;
         this.refreshRepository = refreshRepository;
         ;
         this.refreshTokenRedisRepository = refreshTokenRedisRepository;
         this.modelMapper = new ModelMapper();
+    }
+
+    public String callKakaoApi(String principalName) {
+        OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient("kakao", principalName);
+        String accessToken = client.getAccessToken().getTokenValue();
+
+        // WebClient/RestTemplate로 API 호출
+        return accessToken;
     }
 
     public ResponseEntity<RedisRefreshToken> KakaoLogin_two(String code) {

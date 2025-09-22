@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+// 네이버 로그인 정보 응답 DTO
 public class NaverLoginInfoDto {
 
     private String resultcode;

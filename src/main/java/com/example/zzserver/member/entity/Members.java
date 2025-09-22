@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Members{
+public class Members {
 
     @Id
     @Column(name = "id")
@@ -39,14 +39,14 @@ public class Members{
     private Role role;
 
 
-    public Members(UUID id, String userPw, String email, String name, Role role, String nickname) throws InterruptedException {
-        if(id == null) throw new IllegalArgumentException("id is null or empty");
+    public Members(UUID id, String userPw, String email, String name, Role role, String nickname) {
+        if (id == null) throw new IllegalArgumentException("id is null or empty");
 
-        if(nickname == null ) throw new IllegalArgumentException("nickname cannot be null or empty");
-        if(userPw == null || userPw.isEmpty()) throw new IllegalArgumentException("userPw cannot be null or empty");
-        if(email == null || email.isEmpty()) throw new IllegalArgumentException("email cannot be null or empty");
-        if(name == null || name.isEmpty()) throw new IllegalArgumentException("name cannot be null or empty");
-        if(role == null) throw new IllegalArgumentException("role cannot be null or empty");
+        if (nickname == null) throw new IllegalArgumentException("nickname cannot be null or empty");
+        if (userPw == null || userPw.isEmpty()) throw new IllegalArgumentException("userPw cannot be null or empty");
+        if (email == null || email.isEmpty()) throw new IllegalArgumentException("email cannot be null or empty");
+        if (name == null || name.isEmpty()) throw new IllegalArgumentException("name cannot be null or empty");
+        if (role == null) throw new IllegalArgumentException("role cannot be null or empty");
 
 
         this.nickname = nickname;
@@ -58,38 +58,33 @@ public class Members{
     }
 
 
-
-
-
-
-
-
     public void ChangeUserPw(String userPw) {
-        if(userPw == null || userPw.isEmpty()) throw new IllegalArgumentException("userPw cannot be null or empty");
-        this.userPw = userPw;
+        if (userPw != null && !userPw.isEmpty())
+            this.userPw = userPw;
     }
-
 
 
     public void ChangeEmail(String email) {
-        if(email == null || email.isEmpty()) throw new IllegalArgumentException("email cannot be null or empty");
-        this.email = email;
+        if (email != null && !email.isEmpty()) {
+            this.email = email;
+        }
     }
 
     public void ChangeName(String name) {
-        if(name == null || name.isEmpty()) throw new IllegalArgumentException("name cannot be null or empty");
-        this.name = name;
+        if (name != null && !name.isEmpty()) {
+            this.name = name;
+        }
     }
-
 
 
     public void ChangeRole(Role role) {
-        if(role == null) throw new IllegalArgumentException("role cannot be null or empty");
+        if (role == null) throw new IllegalArgumentException("role cannot be null or empty");
         this.role = role;
     }
 
-public void ChangeNickname(String nickname) {
-        if(nickname == null || nickname.isEmpty()) throw new IllegalArgumentException("nickname cannot be null or empty");
+    public void ChangeNickname(String nickname) {
+        if (nickname == null || nickname.isEmpty())
+            throw new IllegalArgumentException("nickname cannot be null or empty");
         this.nickname = nickname;
     }
 

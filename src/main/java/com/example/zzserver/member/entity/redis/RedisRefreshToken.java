@@ -1,11 +1,8 @@
 package com.example.zzserver.member.entity.redis;
 
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.index.Indexed;
-
-import java.util.UUID;
 
 
 @RedisHash(value = "refreshToken", timeToLive = 2592000) // 30일(초 단위)
@@ -13,8 +10,7 @@ public class RedisRefreshToken {
 
 
     @Id
-    @GeneratedValue
-    private UUID id;
+    private String id;
 
     private String refresh_token;
 
@@ -26,18 +22,18 @@ public class RedisRefreshToken {
     public RedisRefreshToken() {
     }
 
-    public RedisRefreshToken(UUID id, String refresh_token, String email, String access_token) {
+    public RedisRefreshToken(String id, String refresh_token, String email, String access_token) {
         this.access_token = access_token;
         this.id = id;
         this.refresh_token = refresh_token;
         this.email = email;
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 

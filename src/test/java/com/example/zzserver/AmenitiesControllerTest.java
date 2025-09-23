@@ -1,21 +1,10 @@
 package com.example.zzserver;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.List;
-import java.util.UUID;
-
+import com.example.zzserver.amenities.dto.request.AmenitiesRequest;
+import com.example.zzserver.amenities.dto.response.AmenitiesResponse;
+import com.example.zzserver.amenities.service.AmenitiesService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +20,18 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import com.example.zzserver.amenities.dto.request.AmenitiesRequest;
-import com.example.zzserver.amenities.dto.response.AmenitiesResponse;
-import com.example.zzserver.amenities.service.AmenitiesService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
+import java.util.UUID;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -109,11 +106,11 @@ public class AmenitiesControllerTest {
                 .andDo(MockMvcRestDocumentation.document("{class-name}/{method-name}",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint())
-                                ,responseFields(
-                                        fieldWithPath("[].id").description("The unique identifier of the amenity"),
-                                        fieldWithPath("[].name").description("The name of the amenity"),
-                                        fieldWithPath("[].iconUrl").description("The date and time when the amenity was created")
-                                )));
+                        ,responseFields(
+                                fieldWithPath("[].id").description("The unique identifier of the amenity"),
+                                fieldWithPath("[].name").description("The name of the amenity"),
+                                fieldWithPath("[].iconUrl").description("The date and time when the amenity was created")
+                        )));
     }
 
     @Test
@@ -127,11 +124,11 @@ public class AmenitiesControllerTest {
                 .thenReturn(newId);
 
         mockMvc.perform(
-            post("/api/amenities")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(response)
-                )
-        )                    .andExpect(status().isOk())
+                        post("/api/amenities")
+                                .contentType("application/json")
+                                .content(objectMapper.writeValueAsString(response)
+                                )
+                )                    .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andDo(MockMvcRestDocumentation.document("{class-name}/{method-name}",
                         preprocessRequest(prettyPrint()),
@@ -154,7 +151,7 @@ public class AmenitiesControllerTest {
 
         mockMvc.perform(
                         delete("/api/amenities/{id}", newId)
-        )
+                )
                 .andExpect(status().isNoContent())
                 .andDo(MockMvcResultHandlers.print())
                 .andDo(MockMvcRestDocumentation.document("{class-name}/{method-name}",

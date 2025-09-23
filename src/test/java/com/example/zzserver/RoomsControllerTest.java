@@ -1,5 +1,6 @@
 package com.example.zzserver;
 
+
 import com.example.zzserver.rooms.dto.request.RoomsRequest;
 import com.example.zzserver.rooms.dto.response.RoomsResponse;
 import com.example.zzserver.rooms.service.RoomsService;
@@ -124,9 +125,10 @@ public class RoomsControllerTest {
         when(roomsService.create(Mockito.any(),List.of(Mockito.any()))).thenReturn(id);
 
         mockMvc.perform(
-                post("/").contentType("application/json")
-                        .content(objectMapper.writeValueAsString(roomsResponse5))
-        )                        .andExpect(status().isOk()).
+                        post("/").contentType("application/json")
+                                .content(objectMapper.writeValueAsString(roomsResponse5))
+                )                        .andExpect(status().isOk()).
+
                 andDo(MockMvcResultHandlers.print())
                 .andDo(MockMvcRestDocumentation.document("{class-name}/{method-name}",
                         preprocessRequest(modifyHeaders().remove("Content-Length").remove("Host"), prettyPrint()),
@@ -135,7 +137,8 @@ public class RoomsControllerTest {
                                 .remove("Expires").remove("X-Frame-Options"), prettyPrint()),
                         responseFields(
                                 fieldWithPath("id").description("방 ID")
-                        , fieldWithPath("name").description("방 이름"),
+                                , fieldWithPath("name").description("방 이름"),
+
                                 fieldWithPath("maxOccupacy").description("최대 수용 인원"),
                                 fieldWithPath("available").description("방 사용 가능 여부"),
                                 fieldWithPath("peopleCount").description("현재 인원 수"))));
@@ -252,9 +255,10 @@ public class RoomsControllerTest {
         when(roomsService.update(Mockito.any(), (RoomsRequest.Update) List.of(Mockito.any()), Mockito.any(),List.of(Mockito.any()))).thenReturn(id);
 
         mockMvc.perform(
-                patch("/" + id).contentType("application/json")
-                        .content(objectMapper.writeValueAsString(roomsResponse5))
-        )
+                        patch("/" + id).contentType("application/json")
+                                .content(objectMapper.writeValueAsString(roomsResponse5))
+                )
+
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print())
                 .andDo(MockMvcRestDocumentation.document("{class-name}/{method-name}",

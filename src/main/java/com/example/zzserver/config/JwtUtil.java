@@ -2,8 +2,10 @@ package com.example.zzserver.config;
 
 import com.example.zzserver.config.dto.CustomUserInfoDto;
 import com.example.zzserver.config.dto.TokenResponseDTO;
+import com.example.zzserver.config.exception.UnauthorizedException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +17,7 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.UUID;
 
+@Slf4j
 @Component
 public class JwtUtil {
     private static final Logger logger = LogManager.getLogger(JwtUtil.class);
@@ -30,7 +33,6 @@ public class JwtUtil {
     public JwtUtil(@Value("${jwt.secret}") final String secretKey, @Value("${jwt.expiration}") final long accessTokenExpTime, @Value("${jwt.refreshTokenExpiration}") final long refreshTokenExpTime) {
         this.refreshTokenExpTime = refreshTokenExpTime;
         Key secretKeys = Keys.hmacShaKeyFor(secretKey.getBytes());
-        System.out.println("JwtUtil initialized with secretKey: " + secretKey + " and accessTokenExpTime: " + accessTokenExpTime);
         key = secretKeys;
         this.accessTokenExpTime = accessTokenExpTime;
     }
@@ -46,19 +48,27 @@ public class JwtUtil {
     public TokenResponseDTO createAccessToken(CustomUserInfoDto member) {
         String accessToken = createToken(member, accessTokenExpTime);
         String refreshToken = createRefreshToken(member, refreshTokenExpTime);
+        logger.debug("accessToken" + accessToken);
 
-        return new TokenResponseDTO(null, accessToken, refreshToken);
+        return new TokenResponseDTO( UUID.randomUUID(), accessToken, refreshToken);
     }
 
 
     private String createToken(CustomUserInfoDto member, long expTime) {
         Claims claims = Jwts.claims();
         claims.put("id", member.getId());
+        claims.put("email", member.getEmail());
+        claims.put("name", member.getName());
+        claims.put("role", member.getRole());
+        logger.debug("Creating token for user ID: {}", member.getId());
+        logger.debug("Token claims: {}", claims);
+        logger.debug("member.getEmail: {}", member.getEmail());
+        logger.debug("member.getRole: {}", member.getRole());
+
 
 
         ZonedDateTime now = ZonedDateTime.now();
         ZonedDateTime tokenValidity = now.plusSeconds(accessTokenExpTime);
-        System.out.println("claims" + claims.getId() + claims.get("id") + " " + claims.get("userId") + " " + claims.get("userPw") + " " + claims.get("email") + " " + claims.get("name") + " " + claims.get("role"));
 
 
         return Jwts.builder()
@@ -91,8 +101,17 @@ public class JwtUtil {
      * @return Claims
      */
 
-    public String getUserId(String token) {
-        return parseClaims(token).get("id", String.class);
+    public String getEmail(String token) {
+        logger.debug("Getting email for token: {}", token);
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        log.debug("토큰에서 이메일 추출 시도: {}", claims.get("email"));
+
+        return claims.get("email", String.class);
+
     }
 
     /**
@@ -136,39 +155,18 @@ public class JwtUtil {
                     .setSigningKey(key)
                     .build()
                     .parseClaimsJws(accessToken).getBody();
+
             return UUID.fromString(claims.get("id", String.class));
         } catch (ExpiredJwtException e) {
             logger.error("Access token has expired", e);
-            return null; // 토큰이 만료된 경우 null 반환
+            throw new UnauthorizedException("Access token has expired"); // 예외 던지기
         } catch (Exception e) {
             logger.error("Failed to parse access token", e);
             return null; // 토큰 파싱 실패 시 null 반환
         }
     }
 
-    public TokenResponseDTO refreshAccessToken(String refreshToken) {
-        try {
 
-            if (!isValidToken(refreshToken)) {
-                throw new ExpiredJwtException(null, null, "Refresh token is invalid or expired");
-            }
-            Claims claims = parseClaims(refreshToken);
-            String userId = claims.get("id", String.class);
-
-            CustomUserInfoDto member = new CustomUserInfoDto();
-            member.setId(UUID.fromString(userId));
-
-            String newAccessToken = createToken(member, accessTokenExpTime);
-
-            return new TokenResponseDTO(null, newAccessToken, refreshToken);
-        } catch (ExpiredJwtException e) {
-            logger.error("Refresh token has expired", e);
-            throw e; // 만료된 토큰은 예외를 던져 처리
-        } catch (Exception e) {
-            logger.error("Failed to refresh access token", e);
-            throw new RuntimeException("Failed to refresh access token", e);
-        }
-    }
 
     //    토큰 완료시간 확인
     public Date getExpirationDate(String token) {
@@ -181,13 +179,7 @@ public class JwtUtil {
         }
     }
 
-    public boolean isTokenExpired(String token) {
-        Date expirationDate = getExpirationDate(token);
-        if (expirationDate == null) {
-            return true; // 토큰 파싱 실패 시 만료로 간주
-        }
-        return expirationDate.before(new Date()); // 현재 시간보다 만료 시간이 이전인지 확인
-    }
+
 
     public TokenResponseDTO refreshBothTokens(String refreshToken) {
         try {
@@ -200,7 +192,7 @@ public class JwtUtil {
                 throw new RuntimeException("REFRESH_TOKEN_INVALID");
             }
             Claims claims = parseClaims(refreshToken);
-            Object idClaim = claims.get("id", String.class);
+            String idClaim = claims.get("id", String.class); // 항상 String으로 꺼냄
 
             UUID userId;
             try {
@@ -262,9 +254,6 @@ public class JwtUtil {
         }
     }
 
-    public Date getExpirationDateFromToken(String token) {
-        long expiration = getExpirationFromToken(token);
-        return new Date(expiration);
-    }
+
 
 }

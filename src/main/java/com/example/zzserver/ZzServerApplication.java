@@ -9,8 +9,7 @@ public class ZzServerApplication {
     public static void main(String[] args) {
         SpringApplication.run(ZzServerApplication.class, args);
 
-        System.out.println("Hello World!");
-        System.out.println("Hello World!2");
+
     }
 
 }

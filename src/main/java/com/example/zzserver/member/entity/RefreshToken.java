@@ -6,7 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 import java.util.UUID;
-
+//제거하기
 @Entity
 @Table(name = "refresh_token")
 
@@ -25,7 +25,7 @@ public class RefreshToken {
     private String refresh_token;
 
    public RefreshToken() {}
-    public RefreshToken(UUID id, String refresh_token, String email) {
+    public RefreshToken(UUID id, String email, String refresh_token) {
 
        this.id = id;
         this.email = email;

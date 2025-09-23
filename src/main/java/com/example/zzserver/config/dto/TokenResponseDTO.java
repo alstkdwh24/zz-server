@@ -1,9 +1,17 @@
 package com.example.zzserver.config.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class TokenResponseDTO {
     private UUID id;
     @JsonProperty("access_token")
@@ -12,31 +20,8 @@ public class TokenResponseDTO {
     private String refresh_token;
 
 
-    public TokenResponseDTO() {
-    }
-    public TokenResponseDTO(UUID id,String access_token, String refresh_token ) {
-        this.id = id;
-        this.access_token = access_token;
-        this.refresh_token = refresh_token;
-    }
 
-    public String getAccess_token() {
-        return access_token;
-    }
-    public void setAccess_token(String access_token) {
-        this.access_token = access_token;
-    }
-    public String getRefresh_token() {
-        return refresh_token;
-    }
-    public void setRefresh_token(String refresh_token) {
-        this.refresh_token = refresh_token;
-    }
 
-    public UUID getId() {
-        return id;
-    }
-    public void setId(UUID id) {
-        this.id = id;
-    }
+
+
 }

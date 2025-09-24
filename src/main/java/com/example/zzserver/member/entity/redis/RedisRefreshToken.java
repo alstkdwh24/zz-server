@@ -1,11 +1,15 @@
 package com.example.zzserver.member.entity.redis;
 
 import jakarta.persistence.Id;
+import lombok.Builder;
+import lombok.Getter;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.index.Indexed;
 
 
 @RedisHash(value = "refreshToken", timeToLive = 2592000) // 30일(초 단위)
+@Getter
+@Builder
 public class RedisRefreshToken {
 
 

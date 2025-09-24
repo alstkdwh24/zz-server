@@ -1,4 +1,4 @@
-package com.example.zzserver.config;
+package com.example.zzserver.config.handler;
 
 import com.example.zzserver.accommodation.dto.request.FileMetadata;
 import com.example.zzserver.accommodation.entity.AccommodationImages;

@@ -1,8 +1,9 @@
-package com.example.zzserver.config;
+package com.example.zzserver.config.jwt;
 
 import com.example.zzserver.config.dto.CustomUserInfoDto;
 import com.example.zzserver.config.dto.TokenResponseDTO;
 import com.example.zzserver.config.exception.UnauthorizedException;
+import com.example.zzserver.config.message.Messages;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +51,7 @@ public class JwtUtil {
         String refreshToken = createRefreshToken(member, refreshTokenExpTime);
         logger.debug("accessToken" + accessToken);
 
-        return new TokenResponseDTO( UUID.randomUUID(), accessToken, refreshToken);
+        return new TokenResponseDTO( UUID.randomUUID(), accessToken, refreshToken, Messages.TOKEN_CREATED);
     }
 
 

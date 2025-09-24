@@ -1,4 +1,4 @@
-package com.example.zzserver.config;
+package com.example.zzserver.config.Encryption;
 
 import org.jasypt.util.text.BasicTextEncryptor;
 

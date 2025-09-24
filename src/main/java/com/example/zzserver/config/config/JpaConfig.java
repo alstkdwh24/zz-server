@@ -1,4 +1,4 @@
-package com.example.zzserver.config;
+package com.example.zzserver.config.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

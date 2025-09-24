@@ -30,24 +30,24 @@ public class KakaoController {
     // 토큰 받는 코드
     @PostMapping("/login_two")
     public ResponseEntity<RedisRefreshToken> login_two(@RequestParam("code") String code) {
-        ResponseEntity<RedisRefreshToken> redisRefreshToken = kakaoService.KakaoLogin_two(code);
-        return redisRefreshToken;
+        RedisRefreshToken redisRefreshToken = kakaoService.KakaoLogin_two(code);
+        return ResponseEntity.ok(redisRefreshToken);
 
     }
 
     // 사용자 정보 받는 코드
     @PostMapping("/userinfo")
     public ResponseEntity<String> userInfo(@RequestBody TokenResponseDTO dto) {
-        ResponseEntity<String> userInfo = kakaoService.userInfo(dto);
+        String userInfo = kakaoService.userInfo(dto);
 
-        return userInfo;
+        return ResponseEntity.ok(userInfo);
     }
 
     @PostMapping("/reGetToken")
     ResponseEntity<TokenResponseDTO> reGetToken(@RequestParam("refresh_token") String refreshToken) {
 
-        ResponseEntity<TokenResponseDTO> reGetTokenToken = kakaoService.reGetToken(refreshToken);
-        return reGetTokenToken;
+        TokenResponseDTO reGetTokenToken = kakaoService.reGetToken(refreshToken);
+        return ResponseEntity.ok(reGetTokenToken);
 
     }
 

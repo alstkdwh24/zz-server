@@ -1,37 +1,32 @@
 package com.example.zzserver.member.restcontroller;
 
-import com.example.zzserver.config.JwtUtil;
 import com.example.zzserver.config.dto.TokenResponseDTO;
+import com.example.zzserver.config.jwt.JwtUtil;
 import com.example.zzserver.member.dto.request.LoginRequestDto;
 import com.example.zzserver.member.service.AuthService;
-import com.example.zzserver.member.service.MemberService;
-import com.example.zzserver.member.service.RealRefreshTokenSevice;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Qualifier("realRefreshTokenSevice")
-    private RealRefreshTokenSevice refreshTokens;
+
     private final JwtUtil jwtUtil;
     private final AuthService authService;
-    private final MemberService memberService;
 
-    public AuthController( JwtUtil jwtUtil, AuthService authService, MemberService memberService) {
-        this.memberService = memberService;
+
+    public AuthController(JwtUtil jwtUtil, AuthService authService) {
         this.jwtUtil = jwtUtil;
         this.authService = authService;
     }
 
     @PostMapping(value = "/login", consumes = "application/json")
-    public ResponseEntity<TokenResponseDTO> getMemberLogin( @Valid @RequestBody LoginRequestDto dto) {
+    public ResponseEntity<TokenResponseDTO> getMemberLogin(@Valid @RequestBody LoginRequestDto dto) {
         TokenResponseDTO tokenResponseDTO = authService.login(dto); // 반환 타입 수정
 
         return ResponseEntity.ok(tokenResponseDTO);
@@ -44,16 +39,6 @@ public class AuthController {
         TokenResponseDTO tokenResponse = jwtUtil.refreshBothTokens(refreshToken);
         return tokenResponse;
     }
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/MemberUserInfo")
-    public ResponseEntity<?> getUserInfo(@RequestParam("access_token") String accessToken,
-                                         @RequestParam("refresh_token") String refreshToken, @RequestParam("id") UUID id) {
 
-        try {
-            ResponseEntity<?> response = memberService.getRedisMemberById(id, accessToken, refreshToken);
-            return response;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+
 }

@@ -1,6 +1,6 @@
 package com.example.zzserver.member.restcontroller;
 
-import com.example.zzserver.config.AppConfig;
+import com.example.zzserver.config.config.AppConfig;
 import com.example.zzserver.member.dto.request.NaverLoginRDto;
 import com.example.zzserver.member.dto.response.NaverLoginDto;
 import com.example.zzserver.member.dto.response.NaverLoginInfoDto;
@@ -33,27 +33,26 @@ public class NaverController {
 
     @PostMapping("/token")
     public ResponseEntity<NaverLoginDto> getNaverToken(@ModelAttribute NaverLoginRDto dto, HttpSession session) {
-        ResponseEntity<NaverLoginDto> naverGetNaverToken = naverService.getNaverToken(dto, session);
-        return naverGetNaverToken;
+        NaverLoginDto result = naverService.getNaverToken(dto, session);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/userInfo")
     public ResponseEntity<NaverLoginInfoDto> getUserInfo(@ModelAttribute NaverLoginRDto dto, HttpSession session) {
-        ResponseEntity<NaverLoginInfoDto> naverGetUserInfo = naverService.getUserInfo(dto, session);
-
-        return naverGetUserInfo;
+        NaverLoginInfoDto naverLoginDto = naverService.getNaverTokenInfo(dto, session);
+        return ResponseEntity.ok(naverLoginDto);
     }
 
     @PostMapping("/deleteNaverToken")
     public ResponseEntity<NaverLoginDto> deleteNaverToken(@RequestParam("access_token") String accessToken) {
-        ResponseEntity<NaverLoginDto> naverDeleteNaverToken = naverService.deleteNaverToken(accessToken);
-        return naverDeleteNaverToken;
+        NaverLoginDto result = naverService.deleteNaverToken(accessToken);
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping("/realRefreshNaverToken")
     public ResponseEntity<NaverLoginDto> realRefreshNaverToken(@RequestParam("refresh_token") String refreshToken) {
-        ResponseEntity<NaverLoginDto> naverRealRefreshNaverToken = naverService.realRefreshNaverToken(refreshToken);
-        return naverRealRefreshNaverToken;
+        NaverLoginDto result = naverService.realRefreshNaverToken(refreshToken);
+        return ResponseEntity.ok(result);
     }
 
 }

@@ -1,83 +1,86 @@
 package com.example.zzserver.member.service;
 
-import com.example.zzserver.config.JwtUtil;
 import com.example.zzserver.config.dto.CustomUserInfoDto;
 import com.example.zzserver.config.dto.TokenResponseDTO;
+import com.example.zzserver.config.jwt.JwtUtil;
 import com.example.zzserver.member.dto.request.LoginRequestDto;
 import com.example.zzserver.member.entity.Members;
-import com.example.zzserver.member.entity.RefreshToken;
 import com.example.zzserver.member.entity.redis.RedisRefreshToken;
 import com.example.zzserver.member.repository.jpa.MemberRepository;
-import com.example.zzserver.member.repository.jpa.RefreshRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class AuthService {
 
     //로그인
     private final MemberRepository memberRepository;
-    private final RefreshRepository refreshRepository;
-    private final JwtUtil jwtUtil ;
+    private final JwtUtil jwtUtil;
     private final BCryptPasswordEncoder encoder;
-    private final RedisService redisService;
     private final ModelMapper modelMapper;
+    private final RedisService redisService;
 
-    public AuthService(MemberRepository memberRepository, RefreshRepository refreshRepository, JwtUtil jwtUtil, BCryptPasswordEncoder encoder, RedisService redisService, ModelMapper modelMapper) {
+    public AuthService(MemberRepository memberRepository,  JwtUtil jwtUtil, BCryptPasswordEncoder encoder, RedisService redisService, ModelMapper modelMapper, MemberService memberService, RedisService redisService1) {
         this.memberRepository = memberRepository;
-        this.refreshRepository = refreshRepository;
         this.jwtUtil = jwtUtil;
         this.encoder = encoder;
-        this.redisService = redisService;
         this.modelMapper = modelMapper;
+        this.redisService = redisService1;
     }
 
+    //login 메서드
     public TokenResponseDTO login(LoginRequestDto dto) {
         String email = dto.getEmail();
         String userPw = dto.getUserPw();
-        // jpa
-        Optional<Members> member = memberRepository.findMemberByEmail(email);
-        // //redis
-        if (member.isEmpty()) {
-            throw new UsernameNotFoundException("사용자를 찾을 수 없습니다.");
+
+
+        Members member = memberRepository.findMemberByEmail(email);
+        if (member == null) {
+            throw new IllegalArgumentException("사용자를 찾을 수 없습니다.");
         }
-        if (!encoder.matches(userPw, member.get().getUserPw())) {
+        if (!encoder.matches(userPw, member.getUserPw())) {
             throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
         }
-        dto.setId( member.get().getId());
+        dto.setId(member.getId());
 
-
-        CustomUserInfoDto info = modelMapper.map(member.get(), CustomUserInfoDto.class);
-
-        TokenResponseDTO tokenResponse = jwtUtil.createAccessToken(info);
-        RefreshToken refreshToken = new RefreshToken(UUID.randomUUID(), member.get().getEmail(),
-                tokenResponse.getRefresh_token());
-        refreshRepository.save(refreshToken);
-
-        String RedisAcess_token = tokenResponse.getAccess_token();
-        String RedisRefresh_token = tokenResponse.getRefresh_token();
-        RedisRefreshToken RedisUuid = redisService.RedisLoginSave(RedisAcess_token, RedisRefresh_token);
-        String id = RedisUuid.getId();
-        UUID uuid = UUID.fromString(id);
-        TokenResponseDTO tokenResponseDTO = new TokenResponseDTO();
-        tokenResponseDTO.setId(uuid);
-        tokenResponseDTO.setAccess_token(RedisUuid.getAccessToken());
-        tokenResponseDTO.setRefresh_token(RedisUuid.getRefreshToken());
-        return tokenResponseDTO;
+        return this.accessTokenLogin(member);
     }
-    public UUID getUserIdFromAccessToken(String accessToken) {
-        UUID id = jwtUtil.getUserIdFromAccessToken(accessToken);
-        Optional<Members> member = memberRepository.findById(id);
-        if (member.isPresent()) {
-            return member.get().getId();
+  // accessToken발급 메시드
+    private TokenResponseDTO accessTokenLogin(Members member) {
+
+        CustomUserInfoDto info = this.UserInfoLogin(member);
+        if (info != null) {
+            TokenResponseDTO tokenResponseDTO = this.createToken( info);
+            String accessToken = tokenResponseDTO.getAccess_token();
+            String refreshToken = tokenResponseDTO.getRefresh_token();
+            log.debug("tokenResponseDTO {}" , tokenResponseDTO);
+
+            RedisRefreshToken RedisUuid = redisService.RedisLoginSave(accessToken, refreshToken);
+            String id = RedisUuid.getId();
+            UUID uuid = UUID.fromString(id);
+            TokenResponseDTO tokenResponseDTOs = new TokenResponseDTO();
+            tokenResponseDTOs.setId(uuid);
+            tokenResponseDTOs.setAccess_token(accessToken);
+            tokenResponseDTOs.setRefresh_token(RedisUuid.getRefreshToken());
+        return tokenResponseDTOs;
         } else {
-            throw new UsernameNotFoundException("사용자를 찾을 수 없습니다.");
+            throw new IllegalArgumentException("사용자 정보가 올바르지 않습니다.");
         }
     }
+    //위의 과정
+    private TokenResponseDTO createToken( CustomUserInfoDto info) {
+
+        return jwtUtil.createAccessToken(info);
+    }
+    //사용자 정보를 받는 바구니
+    public CustomUserInfoDto UserInfoLogin(Members member) {
+        return modelMapper.map(member, CustomUserInfoDto.class);
+    }
+
 }

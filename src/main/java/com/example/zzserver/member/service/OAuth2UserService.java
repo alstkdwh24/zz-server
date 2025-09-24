@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -39,9 +38,9 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
         //provider별로 attributes 구조가 다르니 파싱 / 정규화(팩토리 / 어뎁터)
         SocialUserInfo info = SocialUserInfoFactory.getSocialUserInfo(registrationId, attributes);
         //DB에 해당 소셜로 가입한 사용자가 있는지 확인
-        Optional<Members> userOptional = memberRepository.findMemberByEmail(info.getEmail());
+        Members userOptional = memberRepository.findMemberByEmail(info.getEmail());
         Members user;
-        if(userOptional.isEmpty()){
+        if(userOptional!= null){
             user =Members.builder()
                     .email(info.getEmail())
                     .role(Role.ROLE_USER)
@@ -50,10 +49,11 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
                     .build();
             memberRepository.save(user);
         }else{
-            user = userOptional.get();
+            user = null;
         }
 
 
+        assert user != null;
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(user.getRole().name())), // DB Role과 일치
                 attributes,

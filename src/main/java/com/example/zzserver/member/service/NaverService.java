@@ -43,14 +43,15 @@ public class NaverService {
     }
 
     //토큰 요청
-    private ResponseEntity<NaverLoginDto> requestNaverToken(MultiValueMap<String, String> params) {
+    private NaverLoginDto requestNaverToken(MultiValueMap<String, String> params) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
-        return restTemplate.postForEntity(NAVER_TOKEN_URL, request, NaverLoginDto.class);
+        return restTemplate.postForEntity(NAVER_TOKEN_URL, request, NaverLoginDto.class).getBody();
     }
 
+    //조건에 따라  토큰 재발급 아니면 토큰 발급
     private MultiValueMap<String, String> createTokenRequestParams(String grantType, String code, String state, String refreshToken) {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", grantType);
@@ -66,29 +67,40 @@ public class NaverService {
         return params;
     }
 
-    //
-    public ResponseEntity<NaverLoginDto> getNaverToken(@ModelAttribute NaverLoginRDto dto, HttpSession session) {
+    //유저 정보 관련
+    public NaverLoginInfoDto getNaverTokenInfo(@ModelAttribute NaverLoginRDto dto, HttpSession session) {
+        Object accessTokenObj = session.getAttribute("access_token");
+        if (accessTokenObj == null) {
+            throw new IllegalStateException("세션에 access_token이 없습니다.");
+        }
+        String accessToken = accessTokenObj.toString();
+        return getUserEmailFromNaver(accessToken);
+
+    }
+
+    //토큰 발급 메서드
+    public NaverLoginDto getNaverToken(@ModelAttribute NaverLoginRDto dto, HttpSession session) {
 
         MultiValueMap<String, String> params = createTokenRequestParams(dto.getGrant_type(), dto.getCode(), dto.getState(), null);
 
-        ResponseEntity<NaverLoginDto> responseEntity = requestNaverToken(params);
-        NaverLoginDto responseBody = responseEntity.getBody();
-        assert responseBody != null;
+        NaverLoginDto responseEntity = requestNaverToken(params);
+        assert responseEntity != null;
 
-        NaverLoginDto response = responseEntity.getBody();
+        NaverLoginDto response = responseEntity;
         if (response != null) {
             session.setAttribute("access_token", response.getAccess_token());
             session.setAttribute("refresh_token", response.getRefresh_token());
 
             // 사용자 정보 조회 후 저장
-            String userEmail =
+            NaverLoginInfoDto userEmail =
                     getUserEmailFromNaver(response.getAccess_token());
-            insertRefreshTokens(response.getRefresh_token(), userEmail);
+            insertRefreshTokens(response.getRefresh_token(), userEmail.getResponse().getEmail());
         }
 
         return responseEntity;
     }
-    private String getUserEmailFromNaver(String accessToken) {
+
+    private NaverLoginInfoDto getUserEmailFromNaver(String accessToken) {
         String naverUserInfoUrl = "https://openapi.naver.com/v1/nid/me";
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(accessToken);
@@ -104,7 +116,7 @@ public class NaverService {
                 throw new IllegalStateException("네이버 사용자 정보를 가져올 수 없습니다");
             }
 
-            return userInfo.getResponse().getEmail();
+            return userInfo;
         } catch (Exception e) {
             throw new IllegalStateException("사용자 정보 없음", e);
         }
@@ -132,8 +144,9 @@ public class NaverService {
 
         refreshTokenRedisRepository.save(redisRefreshToken);
     }
+
     //유저 정보
-    public ResponseEntity<NaverLoginInfoDto> getUserInfo(@ModelAttribute NaverLoginRDto dto, HttpSession session) {
+    public NaverLoginInfoDto getUserInfo(@ModelAttribute NaverLoginRDto dto, HttpSession session) {
         Object accessTokenObj = session.getAttribute("access_token");
         Object refreshTokenObj = session.getAttribute("refresh_token");
         if (accessTokenObj == null) {
@@ -150,7 +163,7 @@ public class NaverService {
         HttpEntity<Void> request = new HttpEntity<>(headers);
         try {
             ResponseEntity<NaverLoginInfoDto> response = restTemplate.exchange(naverUserInfoUrl, HttpMethod.GET, request, NaverLoginInfoDto.class);
-            return ResponseEntity.ok(response.getBody());
+            return response.getBody();
 
         } catch (HttpClientErrorException e) {
 
@@ -164,13 +177,12 @@ public class NaverService {
     }
     //유저 정보 요직 끝
 
-//토큰 재발급 로직
-    public String reissueAccessToken(String refreshToken) {
-        try{
+    //토큰 재발급 로직
+    public void reissueAccessToken(String refreshToken) {
+        try {
             //토큰 재발급 요청
             MultiValueMap<String, String> params = createTokenRequestParams("refresh_token", null, null, refreshToken);
-            ResponseEntity<NaverLoginDto> tokenResponse = requestNaverToken(params);
-            NaverLoginDto tokenBody = tokenResponse.getBody();
+            NaverLoginDto tokenBody = requestNaverToken(params);
 
             if (tokenBody == null || tokenBody.getAccess_token() == null) {
                 throw new IllegalStateException("토큰 재발급 실패: 응답이 비어있음");
@@ -181,24 +193,31 @@ public class NaverService {
             headers.setBearerAuth(tokenBody.getAccess_token());
 
             HttpEntity<Void> request = new HttpEntity<>(headers);
-            ResponseEntity<NaverLoginInfoDto> userInfoResponse = restTemplate.exchange(userInfoUrl, HttpMethod.GET, request,NaverLoginInfoDto.class);
+            ResponseEntity<NaverLoginInfoDto> userInfoResponse = restTemplate.exchange(userInfoUrl, HttpMethod.GET, request, NaverLoginInfoDto.class);
             String email = userInfoResponse.getBody().getResponse().getEmail();
 
-            RedisRefreshToken redisRefreshToken = new RedisRefreshToken();
-            redisRefreshToken.setId(String.valueOf(UUID.randomUUID()));
-            redisRefreshToken.setRefreshToken(refreshToken);
-            redisRefreshToken.setEmail(email);
-            refreshTokenRedisRepository.save(redisRefreshToken);
-            return email;
+
+            RedisRefreshToken redisRefreshToken = this.getRedisRefreshToken(email, refreshToken);
+
         } catch (Exception e) {
             throw new RuntimeException("네이버 토큰 재발급 또는 사용자 정보 요청 실패", e);
         }
 
     }
 
+    //레디스에 리프레쉬 토큰 저장
+    private RedisRefreshToken getRedisRefreshToken(String email, String refreshToken) {
+        RedisRefreshToken redisRefreshToken = new RedisRefreshToken();
+        redisRefreshToken.setId(String.valueOf(UUID.randomUUID()));
+        redisRefreshToken.setRefreshToken(refreshToken);
+        redisRefreshToken.setEmail(email);
+        refreshTokenRedisRepository.save(redisRefreshToken);
+        return redisRefreshToken;
+    }
+
     //토큰 재발급 로직 끝
-//토큰 지우는 로직
-    public ResponseEntity<NaverLoginDto> deleteNaverToken(String accessToken){
+    //토큰 지우는 로직
+    public NaverLoginDto deleteNaverToken(String accessToken) {
         String url = "https://nid.naver.com/oauth2.0/token";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -210,18 +229,18 @@ public class NaverService {
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
 
-        ResponseEntity<NaverLoginDto> response = restTemplate.postForEntity(url, request, NaverLoginDto.class);
+        NaverLoginDto response = restTemplate.postForEntity(url, request, NaverLoginDto.class).getBody();
         return response;
     }
 
     //리프레쉬 토큰 재발급 로직
-    public ResponseEntity<NaverLoginDto> realRefreshNaverToken(String refreshToken){
+    public NaverLoginDto realRefreshNaverToken(String refreshToken) {
         String url = "https://nid.naver.com/oauth2.0/token";
         MultiValueMap<String, String> params = createTokenRequestParams("refresh_token", naverClientId, naverClientSecret, refreshToken);
         return getNaverLoginDtoResponseEntity(url, params, restTemplate);
     }
 
-    public static ResponseEntity<NaverLoginDto> getNaverLoginDtoResponseEntity(String url, MultiValueMap<String, String> params, RestTemplate restTemplate) {
+    public static NaverLoginDto getNaverLoginDtoResponseEntity(String url, MultiValueMap<String, String> params, RestTemplate restTemplate) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
@@ -229,12 +248,12 @@ public class NaverService {
         if (response.getStatusCode() == HttpStatus.OK) {
             NaverLoginDto responseBody = response.getBody();
             if (responseBody != null) {
-                return ResponseEntity.ok(responseBody);
+                return responseBody;
             } else {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+                return null;
             }
         } else {
-            return ResponseEntity.status(response.getStatusCode()).body(null);
+            return null;
         }
     }
 

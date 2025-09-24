@@ -1,6 +1,6 @@
 package com.example.zzserver.member.service;
 
-import com.example.zzserver.config.JwtUtil;
+import com.example.zzserver.config.jwt.JwtUtil;
 import com.example.zzserver.member.entity.redis.RedisRefreshToken;
 import com.example.zzserver.member.repository.jpa.MemberRepository;
 import com.example.zzserver.member.repository.redis.RefreshTokenRedisRepository;
@@ -24,19 +24,16 @@ public class RedisService {
     private final JwtUtil jwtUtil;
     private final RedisTemplate<Object, Object> redisTemplate2;
     private final MemberRepository memberRepository;
+
     public RedisService(RefreshTokenRedisRepository refreshTokenRedisRepository, JwtUtil jwtUtil, RedisTemplate<Object, Object> redisTemplate2, MemberRepository memberRepository) {
         this.refreshTokenRedisRepository = refreshTokenRedisRepository;
         this.jwtUtil = jwtUtil;
         this.redisTemplate2 = redisTemplate2;
         this.memberRepository = memberRepository;
+
     }
 
-    public RedisRefreshToken RedisLoginSave(String accessToken, String refreshToken) {
-        RedisRefreshToken refreshTokenEntity = new RedisRefreshToken();
-        refreshTokenEntity.setRefreshToken(refreshToken);
-        refreshTokenEntity.setAccessToken(accessToken);
-        return refreshTokenRedisRepository.save(refreshTokenEntity);
-    }
+
 
 
     //유저 삭제
@@ -77,5 +74,18 @@ public class RedisService {
             response.put("error", "로그아웃 실패: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
+    }
+
+
+    public RedisRefreshToken RedisLoginSave(String accessToken, String refreshToken) {
+        UUID id = jwtUtil.getUserIdFromAccessToken(accessToken);
+        String ids= String.valueOf(id);
+        RedisRefreshToken redisRefreshToken = RedisRefreshToken.builder()
+                .id(ids)
+                .refresh_token(refreshToken)
+
+                .build();
+        return refreshTokenRedisRepository.save(redisRefreshToken);
+
     }
 }

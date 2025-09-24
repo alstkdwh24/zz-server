@@ -1,6 +1,5 @@
 package com.example.zzserver.member.restcontroller;
 
-import com.example.zzserver.member.repository.jpa.MemberRepository;
 import com.example.zzserver.member.service.RedisService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -16,7 +15,7 @@ public class RedisController {
 
     private final RedisService redisService;
 
-    public RedisController(RedisService redisService, MemberRepository memberRepository) {
+    public RedisController(RedisService redisService) {
         this.redisService = redisService;
     }
 
@@ -29,8 +28,7 @@ public class RedisController {
     @PostMapping("/logout")
     public ResponseEntity<Map<String, String>> logout(@RequestParam("access_token") String token,
                                                       @RequestParam("id") UUID id, HttpServletRequest request) {
-        ResponseEntity<Map<String, String>> response = redisService.getLogout(id, token);
-        return response;
+        return redisService.getLogout(id, token);
 
     }
 }

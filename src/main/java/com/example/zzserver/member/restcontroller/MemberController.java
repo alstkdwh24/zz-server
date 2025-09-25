@@ -1,6 +1,6 @@
 package com.example.zzserver.member.restcontroller;
 
-import com.example.zzserver.config.CustomUserDetails;
+import com.example.zzserver.config.dto.CustomUserDetails;
 import com.example.zzserver.member.dto.request.MemberRequestDto;
 import com.example.zzserver.member.dto.request.MemberUpdateDTO;
 import com.example.zzserver.member.dto.response.MemberResponseDto;
@@ -34,8 +34,8 @@ public class MemberController {
     @PostMapping("/signup")
     public ResponseEntity<UUID> signup(@Valid @RequestBody MemberRequestDto memberDto) {
 
-        String id = memberService.signup(memberDto); // 서비스
-        return ResponseEntity.status(HttpStatus.OK).body(UUID.fromString(id));
+        UUID id = memberService.signup(memberDto); // 서비스
+        return ResponseEntity.status(HttpStatus.CREATED).body(id);
     }
 
 

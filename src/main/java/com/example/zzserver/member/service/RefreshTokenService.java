@@ -6,7 +6,6 @@ import com.example.zzserver.member.entity.RefreshToken;
 import com.example.zzserver.member.entity.redis.RedisRefreshToken;
 import com.example.zzserver.member.repository.jpa.RefreshRepository;
 import com.example.zzserver.member.repository.redis.RefreshTokenRedisRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -19,17 +18,15 @@ import java.util.UUID;
 @Service("refreshTokenService")
 public class RefreshTokenService {
     private final RefreshRepository refreshRepository;
-    private final ModelMapper modelMapper;
 
     @Value("${kakao.kakaoLoginRestApi}")
     private String kakaoLoginRestApi;
     private final RefreshTokenRedisRepository refreshTokenRedisRepository;
 
-    public RefreshTokenService(RefreshRepository refreshRepository, ModelMapper modelMapper, RestTemplate restTemplate, RefreshTokenRedisRepository refreshTokenRedisRepository) {
+    public RefreshTokenService(RefreshRepository refreshRepository, RefreshTokenRedisRepository refreshTokenRedisRepository) {
         this.refreshRepository = refreshRepository;
  ;
         this.refreshTokenRedisRepository = refreshTokenRedisRepository;
-        this.modelMapper = new ModelMapper();
     }
 
     public RedisRefreshToken insertRefreshToken(String refreshToken, String accessToken) {

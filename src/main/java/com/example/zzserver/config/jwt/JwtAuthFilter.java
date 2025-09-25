@@ -1,4 +1,4 @@
-package com.example.zzserver.config;
+package com.example.zzserver.config.jwt;
 
 import com.example.zzserver.member.service.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;

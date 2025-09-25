@@ -1,8 +1,8 @@
 package com.example.zzserver.config.handler;
 
-import com.example.zzserver.config.JwtUtil;
 import com.example.zzserver.config.dto.CustomUserInfoDto;
 import com.example.zzserver.config.dto.TokenResponseDTO;
+import com.example.zzserver.config.jwt.JwtUtil;
 import com.example.zzserver.member.service.RefreshTokenService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;

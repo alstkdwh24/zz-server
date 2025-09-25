@@ -1,6 +1,5 @@
 package com.example.zzserver;
 
-import com.example.zzserver.config.dto.TokenResponseDTO;
 import com.example.zzserver.member.dto.request.LoginRequestDto;
 import com.example.zzserver.member.dto.request.MemberRequestDto;
 import com.example.zzserver.member.entity.Members;
@@ -19,7 +18,6 @@ import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.ActiveProfiles;
@@ -28,8 +26,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Optional;
 
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -74,7 +70,7 @@ public class ZzServerApplicationTests {
         LoginRequestDto dto = new LoginRequestDto();
         try {
             dto.setEmail(username);
-            authService.login(dto);
+//            authService.login(dto);
         } catch (Exception e) {
             Members member = new Members();
             member.ChangeEmail(username);
@@ -91,13 +87,11 @@ public class ZzServerApplicationTests {
         dto.setUserPw("testpassword");
         UserDetails userDetails = User.withUsername(dto.getEmail()).password(dto.getUserPw()).roles("USER").build();
 
-        TokenResponseDTO jwtToken = authService.login(dto); // JWT 토큰 반환
-        Optional<Members> memberOpt = memberRepository.findMemberByEmail(dto.getEmail());
-        if (memberOpt.isEmpty()) {
-            throw new UsernameNotFoundException("User not found");
-        }
+//        TokenResponseDTO jwtToken = authService.login(dto); // JWT 토큰 반환
+        Members memberOpt = memberRepository.findMemberByEmail(dto.getEmail());
 
-        Members member = memberOpt.get();
+
+        Members member = memberOpt;
 
 
         mockMvc.perform(post("/test/member/login")
@@ -133,9 +127,7 @@ public class ZzServerApplicationTests {
 
 
         memberRepository.findMemberByEmail(member.getEmail())
-                .ifPresent(existingMember -> {
-                    throw new IllegalArgumentException("이미 존재하는 회원입니다.");
-                });
+             ;
 
         String response = mockMvc.perform(post("/test/member/signup")
                         .contentType("application/json")

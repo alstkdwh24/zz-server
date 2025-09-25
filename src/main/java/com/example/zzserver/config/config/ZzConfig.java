@@ -1,4 +1,4 @@
-package com.example.zzserver.config;
+package com.example.zzserver.config.config;
 
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;

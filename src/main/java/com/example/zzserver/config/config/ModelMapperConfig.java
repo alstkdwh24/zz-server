@@ -1,4 +1,4 @@
-package com.example.zzserver.config;
+package com.example.zzserver.config.config;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

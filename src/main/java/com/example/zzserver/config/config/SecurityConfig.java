@@ -1,7 +1,11 @@
-package com.example.zzserver.config;
+package com.example.zzserver.config.config;
 
 
+import com.example.zzserver.config.handler.CustomAccessDeniedHandler;
+import com.example.zzserver.config.handler.CustomAuthenticationEntryPoint;
 import com.example.zzserver.config.handler.OAuth2LoginSuccessHandler;
+import com.example.zzserver.config.jwt.JwtAuthFilter;
+import com.example.zzserver.config.jwt.JwtUtil;
 import com.example.zzserver.member.service.CustomUserDetailsService;
 import com.example.zzserver.member.service.OAuth2UserService;
 import lombok.extern.slf4j.Slf4j;

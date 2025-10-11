@@ -11,7 +11,7 @@ import java.util.UUID;
 @Builder
 public class MemberResponseDto {
     private UUID id;
-//    private String userId;
+    //    private String userId;
     private String userPw;
     private String email;
     private String name;

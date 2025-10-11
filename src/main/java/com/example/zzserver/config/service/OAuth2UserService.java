@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.Map;
 
-@Service
+@Service("oAuth2UserService")
 @Slf4j
 @RequiredArgsConstructor
 

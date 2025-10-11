@@ -25,5 +25,4 @@ public class MainController {
         return Arrays.asList(new Hotel("호텔 A", "서울", "5성급", 4.5, "150,000원", null, null, null, null),
                 new Hotel("호텔 B", "부산", "4성급", 4.0, "120,000원", null, null, null, null));
     }
-
 }

@@ -9,6 +9,8 @@ import com.example.zzserver.config.jwt.JwtUtil;
 import com.example.zzserver.member.service.CustomUserDetailsService;
 import com.example.zzserver.config.service.OAuth2UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -32,6 +34,7 @@ public class SecurityConfig {
 
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    @Qualifier("oAuth2UserService")
     private final OAuth2UserService oAuth2UserService;
 
     private static final String[] AUTH_WHITELIST = {"/**", "/member/login", "/member/signup",

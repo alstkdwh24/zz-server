@@ -24,16 +24,16 @@ public class KakaoUserInfo   {
                     (String) profileMap.getOrDefault("nickname", ""),
                     (String) profileMap.getOrDefault("profile_image_url", ""),
                     (String) profileMap.getOrDefault("thumbnail_image_url", "")
-                     // thumbnail_image는 선택사항, 카카오가 안 줌
+                    // thumbnail_image는 선택사항, 카카오가 안 줌
             );
         }
 
         this.kakaoAccount = new KakaoAccount(
-                    id, accountMap.get("has_email") != null && (Boolean) accountMap.get("has_email"),
-                    (String) accountMap.get("email"),
-                    profile,
-                    accountMap.get("has_profile") != null && (Boolean) accountMap.get("has_profile"));
-        }
+                id, accountMap.get("has_email") != null && (Boolean) accountMap.get("has_email"),
+                (String) accountMap.get("email"),
+                profile,
+                accountMap.get("has_profile") != null && (Boolean) accountMap.get("has_profile"));
+    }
 
 
 

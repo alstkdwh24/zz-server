@@ -21,17 +21,14 @@ public class Members {
     @Column(name = "id")
     private UUID id;
 
-    @Column(name = "userPw")
 
     private String userPw;
     @Column(name = "email", length = 50, updatable = false, unique = true)
 
     private String email;
-    @Column(name = "name")
 
     private String name;
 
-    @Column(name = "nickname", unique = true)
     private String nickname;
 
     @Enumerated(EnumType.STRING) // Enum 타입으로 변경

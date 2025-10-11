@@ -1,46 +1,70 @@
 package com.example.zzserver.member.restcontroller;
 
-import com.example.zzserver.member.dto.request.LoginRequestDto;
+import com.example.zzserver.config.dto.CustomUserDetails;
 import com.example.zzserver.member.dto.request.MemberRequestDto;
-import com.example.zzserver.member.entity.Member;
+import com.example.zzserver.member.dto.request.MemberUpdateDTO;
+import com.example.zzserver.member.dto.response.MemberResponseDto;
 import com.example.zzserver.member.service.MemberService;
 import jakarta.validation.Valid;
-import org.modelmapper.ModelMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-import static org.springframework.web.servlet.function.ServerResponse.status;
-
+@Slf4j
 @RestController
 @RequestMapping("/member")
 public class MemberController {
 
+
+
     private final MemberService memberService;
-    private final ModelMapper modelMapper;
 
-    public MemberController(MemberService memberService, ModelMapper modelMapper) {
+
+    public MemberController(MemberService memberService)
+                            {
         this.memberService = memberService;
-        this.modelMapper = modelMapper;
+
     }
 
-    @PostMapping(value = "/login", consumes = "application/json")
-    public ResponseEntity<String> getMemberLogin(@Valid @RequestBody LoginRequestDto dto) {
-        String token = memberService.login(dto);
-        return ResponseEntity.ok(token);
-    }
 
     @PostMapping("/signup")
     public ResponseEntity<UUID> signup(@Valid @RequestBody MemberRequestDto memberDto) {
-        Member member = modelMapper.map(memberDto, Member.class);
-        UUID id = memberService.signup(member);  // 서비스
-        return ResponseEntity.status(HttpStatus.OK).body(id);
+
+        UUID id = memberService.signup(memberDto); // 서비스
+        return ResponseEntity.status(HttpStatus.CREATED).body(id);
+    }
+
+
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateMember(@PathVariable("id") UUID id, @AuthenticationPrincipal CustomUserDetails token, @Valid @RequestBody MemberUpdateDTO dto) {
+
+
+        memberService.updateMember(id, dto);
+        return ResponseEntity.status(HttpStatus.OK).body("Member updated successfully");
+    }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<MemberResponseDto> getMemberDetail(@PathVariable("id") UUID id, @AuthenticationPrincipal CustomUserDetails token) {
+        MemberResponseDto memberDetail = memberService.getMemberById(id);
+
+        return ResponseEntity.ok(memberDetail);
+
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteMember(@PathVariable("id") UUID id) {
+
+        String message ="회원이 삭제되었습니다.";
+        memberService.deleteMember(id);
+
+        return  ResponseEntity.status(HttpStatus.OK).body(message);
+
     }
 
 

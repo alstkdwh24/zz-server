@@ -1,7 +1,7 @@
 package com.example.zzserver.reservation.service;
 
-import com.example.zzserver.accommodation.entity.Rooms;
-import com.example.zzserver.accommodation.repository.RoomsRepository;
+import com.example.zzserver.rooms.entity.Rooms;
+import com.example.zzserver.rooms.repository.RoomsRepository;
 import com.example.zzserver.cart.entity.Cart;
 import com.example.zzserver.cart.repository.CartRepository;
 import com.example.zzserver.config.exception.CustomException;
@@ -116,10 +116,11 @@ public class RoomReservationService {
                 .status(ReservationStatus.PENDING)
                 .build();
 
+        UUID reservationId = roomReservationRepository.save(reservation).getId();
         // 장바구니 비우기
         cartRepository.delete(cart);
         // 예약 저장
-        return roomReservationRepository.save(reservation).getId();
+        return reservationId;
     }
 
     /**

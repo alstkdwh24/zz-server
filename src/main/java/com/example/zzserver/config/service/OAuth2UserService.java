@@ -43,8 +43,7 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
         }else{
             return null;
         }
-        String email = socialUserInfo.getProvider() + " " + socialUserInfo.getProviderId();
-
+        String email = socialUserInfo.getEmail(); // ✅ 실제 이메일
         Members existData = memberRepository.findByEmail(email);
 
         if(existData == null){
@@ -63,9 +62,6 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
             return new CustomOAuth2User(userDTO, oAuth2User.getAttributes());
         } else {
 
-            existData.ChangeEmail(socialUserInfo.getEmail());
-            existData.ChangeName(socialUserInfo.getName());
-            memberRepository.save(existData);
 
             UserDTO userDTO= new UserDTO();
             userDTO.setEmail(socialUserInfo.getEmail());

@@ -33,7 +33,7 @@ configurations {
 
 repositories {
     mavenCentral()
-
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -53,14 +53,14 @@ dependencies {
     implementation 'org.springframework.security:spring-security-crypto'
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4' //propterties 암호화를 위한 jasypt 라이브러리
     implementation 'org.modelmapper:modelmapper:3.1.1'
-
+    implementation 'com.github.iamport:iamport-rest-client-java:0.2.23'
     // JWT 의존성
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'// Jackson 사용 시 필요
 
     compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    //developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
@@ -72,7 +72,9 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc' // (4)
-
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+    testImplementation 'org.mockito:mockito-core:5.8.0'
+    testImplementation 'org.assertj:assertj-core:3.25.0'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'redis.clients:jedis'
     implementation 'me.paulschwarz:spring-dotenv:3.0.0'
@@ -113,7 +115,7 @@ tasks.register('copyDocument', Copy)  { // (12)
 }
 
 tasks.named('test') {
-    enabled = false;
+    enabled = true;
 //    dependsOn tasks.named('copyDocument')
 }
 afterEvaluate {

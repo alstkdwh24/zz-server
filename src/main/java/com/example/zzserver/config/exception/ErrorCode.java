@@ -15,7 +15,13 @@ public enum ErrorCode {
     RESERVATION_OVERLAP(HttpStatus.BAD_REQUEST, "이미 예약된 기간입니다."),
     RESERVATION_CONFIRM(HttpStatus.BAD_REQUEST,"PENDING 상태에서만 CONFIRMED 가능"),
     RESERVATION_CANCEL_OVERLAP(HttpStatus.BAD_REQUEST, "이미 취소된 예약입니다."),
-    CART_NOT_FOUND(HttpStatus.NOT_FOUND,"해당 카트를 찾을 수 없습니다.");
+    CART_NOT_FOUND(HttpStatus.NOT_FOUND,"해당 카트를 찾을 수 없습니다."),
+    PAYMENT_NOT_FOUND(HttpStatus.NOT_FOUND,"결제 정보를 찾을 수 없습니다."),
+    INVALID_PAYMENT_STATE(HttpStatus.BAD_REQUEST,"유효하지 않은 결제 상태입니다."),
+    PAYMENT_AMOUNT_MISMATCH(HttpStatus.BAD_REQUEST, "결제 금액이 일치하지 않습니다."),
+    PAYMENT_ALREADY_CANCELED(HttpStatus.BAD_REQUEST, "결제가 이미 취소되었습니다."),
+    PAYMENT_CANCEL_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "결제 취소(환불)에 실패했습니다."),
+    PORTONE_AUTH_FAILED(HttpStatus.UNAUTHORIZED,"api 인증에 문제가 있습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

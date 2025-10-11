@@ -1,4 +1,4 @@
-package com.example.zzserver.config.config;
+package com.example.zzserver.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
                 "com.example.zzserver.accommodation.repository",
                 "com.example.zzserver.cart.repository",
                 "com.example.zzserver.reservation.repository",
-                "com.example.zzserver.rooms.repository",
-                "com.example.zzserver.amenities.repository"
+                "com.example.zzserver.payment.repository"
         },
         excludeFilters = @ComponentScan.Filter(
                 type = FilterType.ASPECTJ,

@@ -1,0 +1,169 @@
+/* ------------------ 헤더 ------------------ */
+.main {
+    border-bottom: 2px solid;
+}
+html, body { margin: 0; padding: 0;}
+
+.headline {
+    height: 66px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border-bottom: 2px solid;
+    z-index: 2;
+}
+.inner_header {
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.top_logo {
+    margin-bottom: 0;  /* 아래 여백 제거 */
+
+    background-image: url("../assets/header/logo.png");
+    z-index:1;
+    scale: 1.16;
+    background-repeat: no-repeat;
+    width: 104px;
+    height: 54px;
+    background-size: contain;
+    background-position: center;
+}
+.auth_buttons {
+    display: flex;
+    gap: 10px;
+}
+.soft_button {
+    background-color: white;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.soft_button:hover {
+    border-color: #ff4d4f;
+    color: #ff4d4f;
+}
+
+/* ------------------ 메인 배너 ------------------ */
+.main_banner img {
+    width: 100%;
+    display: block;
+}
+
+/* ------------------ 여행지 섹션 ------------------ */
+.travel-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    max-width: 1320px;
+    margin: 32px auto;
+}
+.travel-container {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    overflow: hidden;
+}
+.travel-item {
+    min-width: 208px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.travel-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.travel-item div { margin-top: 12px; font-size: 18px; }
+
+.scroll-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* ------------------ 숙소 섹션 ------------------ */
+.middle-container {
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.middle-container h2 {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.category-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.category-buttons button {
+    padding: 10px 24px;
+    border-radius: 24px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+.category-buttons button.active {
+    background: #2563eb;
+    color: #fff;
+}
+.category-buttons button.inactive {
+    background: #f3f4f6;
+    color: #222;
+}
+
+.hotel-list {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.hotel-card {
+    width: 320px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+}
+.hotel-card img { width: 100%; height: 180px; object-fit: cover; }
+.hotel-card .info { padding: 16px; }
+.hotel-card .category { color: #888; font-size: 13px; }
+.hotel-card .name { font-weight: bold; font-size: 18px; margin: 6px 0; }
+.hotel-card .location { color: #555; font-size: 14px; }
+.hotel-card .rating { display: flex; align-items: center; margin: 8px 0; }
+.hotel-card .rating span { margin-right: 6px; }
+.hotel-card .price { font-weight: bold; font-size: 22px; margin: 4px 0; }
+.hotel-card .price .original {
+    color: #666;
+    font-size: 15px;
+    text-decoration: line-through;
+    margin-left: 8px;
+}

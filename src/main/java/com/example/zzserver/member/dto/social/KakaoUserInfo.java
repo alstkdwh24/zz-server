@@ -21,19 +21,19 @@ public class KakaoUserInfo   {
         KakaoAccount.Profile profile = null;
         if (profileMap != null) {
             profile = new KakaoAccount.Profile(
-                    (String) profileMap.getOrDefault("profile_nickname", ""),
-                    (String) profileMap.getOrDefault("profile_image", ""),
-                    (String) profileMap.getOrDefault("account_email", "")
-                     // thumbnail_image는 선택사항, 카카오가 안 줌
+                    (String) profileMap.getOrDefault("nickname", ""),
+                    (String) profileMap.getOrDefault("profile_image_url", ""),
+                    (String) profileMap.getOrDefault("thumbnail_image_url", "")
+                    // thumbnail_image는 선택사항, 카카오가 안 줌
             );
         }
 
         this.kakaoAccount = new KakaoAccount(
-                    id, accountMap.get("has_email") != null && (Boolean) accountMap.get("has_email"),
-                    (String) accountMap.get("email"),
-                    profile,
-                    accountMap.get("has_profile") != null && (Boolean) accountMap.get("has_profile"));
-        }
+                id, accountMap.get("has_email") != null && (Boolean) accountMap.get("has_email"),
+                (String) accountMap.get("email"),
+                profile,
+                accountMap.get("has_profile") != null && (Boolean) accountMap.get("has_profile"));
+    }
 
 
 
@@ -52,6 +52,11 @@ public class KakaoUserInfo   {
         private Profile profile;
         private boolean hasProfile;
 
+
+        @Override
+        public String getProvider() {
+            return "kakao";
+        }
 
         @Override
         public String getProviderId() {

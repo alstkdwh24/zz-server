@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/login/login.css">
+    <link rel="stylesheet" href="/css/header.css">
+</head>
+<body>
+<header th:replace="header/header :: header"></header>
+<div class="middle-container">
+<div class="login-container">
+    <!-- 로고 -->
+    <h1 class="logo">여기잘까</h1>
+
+    <!-- 설명 텍스트 -->
+    <p class="desc">로그인/회원가입</p>
+
+    <!-- 소셜 로그인 버튼 영역 -->
+    <div class="button-container">
+        <button class="social-btn kakao" onclick="handleKakaoLogin()">
+            카카오로 시작하기
+        </button>
+        <button class="social-btn naver" onclick="handleNaverLogin()">
+            네이버로 시작하기
+        </button>
+        <button class="social-btn email" onclick="location.href='/login/sign-up'">
+            이메일로 시작하기
+        </button>
+
+    </div>
+
+    <!-- 비즈니스 로그인 링크 -->
+    <div class="footer" onclick="handleBusinessLogin()">
+        비즈니스 로그인/회원가입
+    </div>
+</div>
+</div>
+<script src="/js/login.js"></script>
+</body>
+</html>

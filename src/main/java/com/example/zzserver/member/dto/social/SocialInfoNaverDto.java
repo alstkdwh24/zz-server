@@ -47,6 +47,11 @@ public class SocialInfoNaverDto implements SocialUserInfo {
     //내부 클래스 타입 사용 가능, NaverLoginInfoDto. 없어도 됨
 
     @Override
+    public String getProvider() {
+        return "naver";
+    }
+
+    @Override
     public String getProviderId() {
         return response != null ? response.getId() : null;
     }

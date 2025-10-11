@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/login/emailResister.css">
+</head>
+<body>
+<header th:replace="header/header :: header"></header>
+<div class="middle-container"></div>
+<div class="register-container">
+    <h2>이메일로 회원가입</h2>
+    <form id="registerForm">
+        <label for="email">이메일</label>
+        <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="abc@example.com"
+                required
+        />
+
+        <label for="password">비밀번호</label>
+        <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="비밀번호를 입력하세요."
+                required
+        />
+
+        <label for="confirm">비밀번호 확인</label>
+        <input
+                type="password"
+                id="confirm"
+                name="confirm"
+                placeholder="비밀번호를 다시 입력하세요."
+                required
+        />
+        <p class="error-message" id="errorMessage">비밀번호가 일치하지 않습니다.</p>
+
+        <button type="submit" class="register-btn">회원가입</button>
+    </form>
+
+    <p class="login-link">
+        이미 계정이 있으신가요?
+        <span id="loginLink">로그인</span>
+    </p>
+</div>
+<script src="/js/login/emailLogin.js"></script>
+</body>
+</html>

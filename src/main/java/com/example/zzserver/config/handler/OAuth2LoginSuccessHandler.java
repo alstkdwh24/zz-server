@@ -5,8 +5,10 @@ import com.example.zzserver.config.dto.TokenResponseDTO;
 import com.example.zzserver.config.jwt.JwtUtil;
 import com.example.zzserver.member.service.RefreshTokenService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -14,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.util.Map;
@@ -29,7 +32,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
-                                        Authentication authentication) throws IOException{
+                                        Authentication authentication) throws IOException {
         System.out.println("OAuth2LoginSuccessHandler.onAuthenticationSuccess");
         logger.debug("123456890");
         SecurityContextHolder.getContext().setAuthentication(authentication); // ✅ 반드시 저장
@@ -39,16 +42,22 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         String email = extractEmail(oAuth2User);
         CustomUserInfoDto userInfoDto = new CustomUserInfoDto();
         userInfoDto.setEmail(email);
-        TokenResponseDTO accessToken = jwtUtil.createAccessToken(userInfoDto);
+        TokenResponseDTO tokenResponse = jwtUtil.createAccessToken(userInfoDto);
 
-        refreshTokenService.insertRefreshToken(accessToken.getRefresh_token(),accessToken.getAccess_token());
-
-        Map<String, String> tokens = Map.of(
-                "accessToken", accessToken.getAccess_token(),
-                "refreshToken", accessToken.getRefresh_token()
+        refreshTokenService.insertRefreshToken(
+                tokenResponse.getRefresh_token(),
+                tokenResponse.getAccess_token()
         );
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        new ObjectMapper().writeValue(response.getWriter(), tokens);
+
+// Access Token 쿠키 추가
+        response.addCookie(createCookie("Authorization", tokenResponse.getAccess_token()));
+
+// Refresh Token도 쿠키로 추가 (선택사항)
+        response.addCookie(createCookie("RefreshToken", tokenResponse.getRefresh_token()));
+
+        // 중간 페이지로 리다이렉트 (토큰 없이!)
+        response.sendRedirect("/mains/main");
+
 
     }
 
@@ -59,5 +68,13 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             return (String) kakaoAccount.get("email");
         }
         return (String) attributes.get("email");
+    }
+
+    private Cookie createCookie(String name, String value) {
+        Cookie cookie = new Cookie(name, value);
+        cookie.setMaxAge(60 * 60 * 24);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        return cookie;
     }
 }

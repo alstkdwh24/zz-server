@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>여기어때 - 메인</title>
+    <link rel="stylesheet" href="/css/header.css">
+</head>
+<body>
+
+<!-- 헤더 -->
+<header class="headline">
+    <div class="inner_header">
+        <div class="top_logo"></div>
+        <div class="auth_buttons">
+            <button class="soft_button" onclick="location.href='/login/login'">로그인</button>
+            <button class="soft_button">회원가입</button>
+        </div>
+    </div>
+</header>
+
+<!-- 메인 페이지 -->
+<div id="mainPage">
+    <div class="main_banner">
+        <img src="/assets/banner/main-banner.webp" alt="메인 배너">
+    </div>
+
+    <!-- 여행지 섹션 -->
+    <div class="travel-section">
+        <button class="scroll-btn" id="scrollLeft">&#8592;</button>
+        <div class="travel-container" id="travelContainer"></div>
+        <button class="scroll-btn" id="scrollRight">&#8594;</button>
+    </div>
+
+    <!-- 숙소 섹션 -->
+    <div class="middle-container">
+        <h2>인기 추천 숙소</h2>
+        <div class="category-buttons" id="categoryButtons"></div>
+        <div class="hotel-list" id="hotelList"></div>
+    </div>
+</div>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

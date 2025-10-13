@@ -7,8 +7,10 @@ import com.example.zzserver.config.handler.OAuth2LoginSuccessHandler;
 import com.example.zzserver.config.jwt.JwtAuthFilter;
 import com.example.zzserver.config.jwt.JwtUtil;
 import com.example.zzserver.member.service.CustomUserDetailsService;
-import com.example.zzserver.member.service.OAuth2UserService;
+import com.example.zzserver.config.service.OAuth2UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -32,22 +34,25 @@ public class SecurityConfig {
 
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    @Qualifier("oAuth2UserService")
+    private final OAuth2UserService oAuth2UserService;
 
     private static final String[] AUTH_WHITELIST = {"/**", "/member/login", "/member/signup",
             "/swagger-ui/**", "/api-docs", "swagger-ui-custom.html", "**/h2-console/**", "/api/**"
-,"/api/kakao/**"  ,"/member/logout"  };
+,"/api/kakao/**"  ,"/member/logout","/login/login"  };
 
 
 
-    public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtUtil jwtUtil, CustomAccessDeniedHandler customAccessDeniedHandler, CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {
+    public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtUtil jwtUtil, CustomAccessDeniedHandler customAccessDeniedHandler, CustomAuthenticationEntryPoint customAuthenticationEntryPoint, OAuth2UserService oAuth2UserService) {
         this.customUserDetailsService = customUserDetailsService;
         this.jwtUtil = jwtUtil;
         this.customAccessDeniedHandler = customAccessDeniedHandler;
         this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
+        this.oAuth2UserService = oAuth2UserService;
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http,   OAuth2UserService oAuth2UserService,
+    public SecurityFilterChain filterChain(HttpSecurity http,
                                            OAuth2LoginSuccessHandler successHandler) throws Exception {
         //CSRF, CORS 설정
 
@@ -62,6 +67,7 @@ public class SecurityConfig {
         );
         //추가로 설정한 OAuth2에 관한 것
         http.oauth2Login(oauth -> oauth
+                .loginPage("/login/login")
                 .userInfoEndpoint(userInfo -> userInfo.userService(oAuth2UserService))
                 .successHandler(successHandler));
         //세션 관리 상태 없음으로 구성, Spring Security가 세션을 생성하지 않도록 설정

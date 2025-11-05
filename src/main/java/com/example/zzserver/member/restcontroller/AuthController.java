@@ -1,9 +1,9 @@
 package com.example.zzserver.member.restcontroller;
 
-import com.example.zzserver.config.dto.TokenResponseDTO;
+import com.example.zzserver.member.dto.response.TokenResponseDTO;
 import com.example.zzserver.config.jwt.JwtUtil;
 import com.example.zzserver.member.dto.request.LoginRequestDto;
-import com.example.zzserver.member.service.AuthService;
+import com.example.zzserver.member.service.auth.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

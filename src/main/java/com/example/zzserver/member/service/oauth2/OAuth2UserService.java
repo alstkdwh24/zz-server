@@ -1,4 +1,4 @@
-package com.example.zzserver.config.service;
+package com.example.zzserver.member.service.oauth2;
 
 import com.example.zzserver.member.dto.social.*;
 import com.example.zzserver.member.entity.Members;

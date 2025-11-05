@@ -1,4 +1,4 @@
-package com.example.zzserver.member.service;
+package com.example.zzserver.member.service.redis;
 
 import com.example.zzserver.config.jwt.JwtUtil;
 import com.example.zzserver.member.entity.redis.RedisRefreshToken;

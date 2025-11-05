@@ -1,4 +1,4 @@
-package com.example.zzserver.member.service;
+package com.example.zzserver.member.service.auth;
 
 
 import com.example.zzserver.config.dto.CustomUserDetails;

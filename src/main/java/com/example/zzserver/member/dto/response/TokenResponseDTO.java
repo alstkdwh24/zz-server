@@ -1,4 +1,4 @@
-package com.example.zzserver.config.dto;
+package com.example.zzserver.member.dto.response;
 
 import com.example.zzserver.config.message.Messages;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,6 +1,6 @@
 package com.example.zzserver;
 
-import com.example.zzserver.config.dto.TokenResponseDTO;
+import com.example.zzserver.member.dto.response.TokenResponseDTO;
 import com.example.zzserver.member.dto.request.LoginRequestDto;
 import com.example.zzserver.member.dto.request.MemberRequestDto;
 import com.example.zzserver.member.entity.Role;

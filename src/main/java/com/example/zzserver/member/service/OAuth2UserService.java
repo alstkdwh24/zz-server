@@ -38,7 +38,7 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
         //provider별로 attributes 구조가 다르니 파싱 / 정규화(팩토리 / 어뎁터)
         SocialUserInfo info = SocialUserInfoFactory.getSocialUserInfo(registrationId, attributes);
         //DB에 해당 소셜로 가입한 사용자가 있는지 확인
-        Members userOptional = memberRepository.findMemberByEmail(info.getEmail());
+        Members userOptional = memberRepository.findByEmail(info.getEmail());
         Members user;
         if(userOptional!= null){
             user =Members.builder()

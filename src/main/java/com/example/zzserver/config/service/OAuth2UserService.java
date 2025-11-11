@@ -25,7 +25,7 @@ import java.util.Map;
 public class OAuth2UserService extends DefaultOAuth2UserService {
     private final MemberRepository memberRepository;
     @Override
-    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException{
+        public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException{
         //프로바이더에서 사용자 정보를 가져온다.
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
@@ -47,7 +47,7 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
         Members existData = memberRepository.findByEmail(email);
 
         if(existData == null){
-
+            //Members 엔터티를 통해 db에 저장
             Members userEntity = new Members();
             userEntity.ChangeEmail(socialUserInfo.getEmail());
             userEntity.ChangeName(socialUserInfo.getName());
@@ -59,6 +59,7 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
             userDTO.setEmail(socialUserInfo.getEmail());
             userDTO.setName(socialUserInfo.getName());
             userDTO.setRole("ROLE_USER");
+            //객체로 저장
             return new CustomOAuth2User(userDTO, oAuth2User.getAttributes());
         } else {
 

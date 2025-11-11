@@ -1,5 +1,6 @@
 package com.example.zzserver.amenities.controller;
 
+
 import com.example.zzserver.amenities.dto.request.RoomAmenityRequest;
 import com.example.zzserver.amenities.dto.response.RoomAmenityResponse;
 import com.example.zzserver.amenities.service.RoomsAmenitiesService;

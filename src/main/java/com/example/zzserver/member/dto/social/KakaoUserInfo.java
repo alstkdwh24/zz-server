@@ -37,7 +37,7 @@ public class KakaoUserInfo   {
 
 
 
-
+    //카카오 계정에 관한 것
 
     @Setter
     @Getter

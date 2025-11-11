@@ -7,7 +7,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
-
+//클라이언트 또는 SrcurityContext에 저장을 하기 위한 객체
 public class CustomOAuth2User implements OAuth2User {
     private final UserDTO userDTO;
     private final Map<String, Object> attributes;  // ✅ attributes 저장

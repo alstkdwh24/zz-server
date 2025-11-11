@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 @Repository
 public interface MemberRepository extends JpaRepository<Members, UUID> {
-    Members findMemberByEmail(String email);
+//    Members findMemberByEmail(String email);
     boolean existsByEmail(String email);
 
 

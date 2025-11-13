@@ -1,4 +1,4 @@
-package com.example.zzserver.config.handler;
+package com.example.zzserver.config.security;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package com.example.zzserver.config.handler;
+package com.example.zzserver.config.security;
 
 import com.example.zzserver.member.dto.response.CustomErrorResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;

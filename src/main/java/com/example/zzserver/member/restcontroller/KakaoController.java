@@ -1,6 +1,6 @@
 package com.example.zzserver.member.restcontroller;
 
-import com.example.zzserver.config.dto.TokenResponseDTO;
+import com.example.zzserver.member.dto.response.TokenResponseDTO;
 import com.example.zzserver.member.entity.redis.RedisRefreshToken;
 import com.example.zzserver.member.service.KakaoService;
 import org.springframework.beans.factory.annotation.Autowired;

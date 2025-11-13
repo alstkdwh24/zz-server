@@ -1,6 +1,6 @@
 package com.example.zzserver.member.service;
 
-import com.example.zzserver.config.dto.TokenResponseDTO;
+import com.example.zzserver.member.dto.response.TokenResponseDTO;
 import com.example.zzserver.config.message.Messages;
 import com.example.zzserver.member.dto.response.KakaoTokenDto;
 import com.example.zzserver.member.entity.RefreshToken;

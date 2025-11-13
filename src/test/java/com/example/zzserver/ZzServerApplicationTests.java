@@ -4,7 +4,7 @@ import com.example.zzserver.member.dto.request.LoginRequestDto;
 import com.example.zzserver.member.dto.request.MemberRequestDto;
 import com.example.zzserver.member.entity.Members;
 import com.example.zzserver.member.repository.jpa.MemberRepository;
-import com.example.zzserver.member.service.AuthService;
+import com.example.zzserver.member.service.auth.AuthService;
 import com.example.zzserver.member.service.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;

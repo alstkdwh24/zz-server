@@ -1,4 +1,4 @@
-package com.example.zzserver.config.config;
+package com.example.zzserver.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,6 +1,6 @@
 package com.example.zzserver.member.restcontroller;
 
-import com.example.zzserver.member.service.RedisService;
+import com.example.zzserver.member.service.redis.RedisService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

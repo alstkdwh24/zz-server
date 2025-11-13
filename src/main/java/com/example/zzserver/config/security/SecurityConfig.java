@@ -1,15 +1,11 @@
-package com.example.zzserver.config.config;
+package com.example.zzserver.config.security;
 
 
-import com.example.zzserver.config.handler.CustomAccessDeniedHandler;
-import com.example.zzserver.config.handler.CustomAuthenticationEntryPoint;
-import com.example.zzserver.config.handler.OAuth2LoginSuccessHandler;
 import com.example.zzserver.config.jwt.JwtAuthFilter;
 import com.example.zzserver.config.jwt.JwtUtil;
-import com.example.zzserver.member.service.CustomUserDetailsService;
-import com.example.zzserver.config.service.OAuth2UserService;
+import com.example.zzserver.member.service.auth.CustomUserDetailsService;
+import com.example.zzserver.member.service.oauth2.OAuth2UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

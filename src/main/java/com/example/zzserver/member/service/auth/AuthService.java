@@ -1,12 +1,14 @@
-package com.example.zzserver.member.service;
+package com.example.zzserver.member.service.auth;
 
 import com.example.zzserver.config.dto.CustomUserInfoDto;
-import com.example.zzserver.config.dto.TokenResponseDTO;
+import com.example.zzserver.member.dto.response.TokenResponseDTO;
 import com.example.zzserver.config.jwt.JwtUtil;
 import com.example.zzserver.member.dto.request.LoginRequestDto;
 import com.example.zzserver.member.entity.Members;
 import com.example.zzserver.member.entity.redis.RedisRefreshToken;
 import com.example.zzserver.member.repository.jpa.MemberRepository;
+import com.example.zzserver.member.service.MemberService;
+import com.example.zzserver.member.service.redis.RedisService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -26,7 +28,7 @@ public class AuthService {
     private final ModelMapper modelMapper;
     private final RedisService redisService;
 
-    public AuthService(MemberRepository memberRepository,  JwtUtil jwtUtil, BCryptPasswordEncoder encoder, RedisService redisService, ModelMapper modelMapper, MemberService memberService, RedisService redisService1) {
+    public AuthService(MemberRepository memberRepository, JwtUtil jwtUtil, BCryptPasswordEncoder encoder, RedisService redisService, ModelMapper modelMapper, MemberService memberService, RedisService redisService1) {
         this.memberRepository = memberRepository;
         this.jwtUtil = jwtUtil;
         this.encoder = encoder;

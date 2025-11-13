@@ -1,7 +1,7 @@
 package com.example.zzserver.config.jwt;
 
 import com.example.zzserver.config.dto.CustomUserInfoDto;
-import com.example.zzserver.config.dto.TokenResponseDTO;
+import com.example.zzserver.member.dto.response.TokenResponseDTO;
 import com.example.zzserver.config.exception.UnauthorizedException;
 import com.example.zzserver.config.message.Messages;
 import io.jsonwebtoken.*;

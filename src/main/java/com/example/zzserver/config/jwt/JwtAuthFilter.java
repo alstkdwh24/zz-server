@@ -1,6 +1,6 @@
 package com.example.zzserver.config.jwt;
 
-import com.example.zzserver.member.service.CustomUserDetailsService;
+import com.example.zzserver.member.service.auth.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

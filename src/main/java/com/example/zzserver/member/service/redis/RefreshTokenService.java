@@ -1,4 +1,4 @@
-package com.example.zzserver.member.service;
+package com.example.zzserver.member.service.redis;
 
 import com.example.zzserver.member.dto.request.KakaoRefreshTokenDto;
 import com.example.zzserver.member.dto.response.KakaoRefreshTokenResDto;

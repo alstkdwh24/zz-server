@@ -211,3 +211,18 @@ body {
     padding-left: 1rem;
     font-size: 1rem;
 }
+
+/*right-sideBar*/
+.right-side-bar{
+    display: none;
+    z-index: 1;
+    width: 16%;
+    height: 38rem;
+    border: 1px solid black;
+    position: absolute;
+    left: 69.5rem;
+    background-color: white;
+    border-radius: 1rem;
+    flex-direction: column;
+
+}

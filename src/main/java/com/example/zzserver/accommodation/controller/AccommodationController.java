@@ -6,10 +6,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/list")
-public class AccommodationListController {
+public class AccommodationController {
 
     @GetMapping("/accommodation/accommodationList")
     public String accommodationList(){
         return "list/accommodation/accommodationList";
+    }
+
+
+    @GetMapping("/accommodation/accommodationDetail")
+    public String accommodationDetail(){
+        return "list/accommodation/accommodationDetail";
     }
 }

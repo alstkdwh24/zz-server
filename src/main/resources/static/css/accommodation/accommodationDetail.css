@@ -1,0 +1,130 @@
+html {
+    height: 100%;
+    width: 100%;
+
+}
+
+@media screen and (max-width: 1400px) {
+    html {
+        font-size: 16px;
+    }
+
+}
+
+@media screen and (max-width: 1300px) {
+    html {
+        font-size: 15px;
+    }
+}
+
+@media screen and (max-width: 1200px ) {
+    html {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 1100px ) {
+    html {
+        font-size: 13px;
+    }
+}
+
+@media screen and (max-width: 1000px ) {
+    html {
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 900px ) {
+    html {
+        font-size: 11px;
+    }
+}
+
+@media screen and (max-width: 800px ) {
+    html {
+        font-size: 10px;
+    }
+}
+
+@media screen and (max-width: 700px ) {
+    html {
+        font-size: 9px;
+    }
+}
+
+@media screen and (max-width: 600px ) {
+    html {
+        font-size: 8px;
+    }
+}
+
+@media screen and (max-width: 500px ) {
+    html {
+        font-size: 7px;
+    }
+}
+
+@media screen and (max-width: 400px ) {
+    html {
+        font-size: 6px;
+    }
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 400rem;
+}
+
+.header-container {
+    border: 1px solid black;
+    width: 76rem;
+    height: 38rem;
+    margin-top: 1.5rem;
+    border-radius: 1rem;
+    display: flex;
+
+}
+/*숙소 사진에 관련된 css*/
+.header-container > div{
+    border: 1px solid black;
+    height: 38rem;
+    display: flex;
+    flex-wrap: wrap;
+
+}
+.header-container > div:nth-child(1){
+    width: 35.305rem;
+
+    border-bottom-left-radius: 1rem;
+    border-top-left-radius: 1rem;
+}
+
+.header-container > div:nth-child(2){
+    width: 40.695rem;
+
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+}
+
+[class^="img-"]{
+    width: 19.5rem;
+    height: 18.5rem;
+    border: 1px solid black;
+    margin-left: 0.694rem;
+
+}
+
+.img-3, .img-4 {
+    margin-top: 0.694rem;
+}
+
+.img-2{
+    border-top-right-radius: 1rem;
+}
+
+.img-4{
+    border-bottom-right-radius: 1rem;
+}

@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="/css/header.css">
-    <link rel="stylesheet" href="/css/accommodationList/accommodationList.css">
+    <link rel="stylesheet" href="/css/accommodation/accommodationList.css">
+    <link rel="stylesheet" href="/css/sideBar/sideBar.css">
 
 </head>
 <body>
@@ -75,8 +76,11 @@
             <p>></p>
         </div>
     </div>
+    <div th:replace="~{sideBar/sideBar.html :: sideBar}">
+
+    </div>
 
 </div>
-
+<script src="/js/header/differentHeader.js"></script>
 </body>
 </html>

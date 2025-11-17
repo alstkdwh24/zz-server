@@ -133,13 +133,43 @@ body {
     border: 1px solid black;
 }
 
+.middle-container-mark-top{
+    display: flex;
+    width: 8rem;
+    height: 8rem;
+    border: 1px solid black;
+    justify-content: center;
+    align-items: center;
+}
 
+.middle-container-mark-middle{
+    width: 56rem;
+    height: 8rem;
+    border: 1px solid black;
+}
+
+.middle-container-mark-bottom{
+    width: 12rem;
+    height: 8rem;
+    border: 1px solid black;
+}
+
+.mark-container{
+    width: 6rem;
+    height: 6rem;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .middle-container-mark {
     margin-top: 1rem;
     width: 76rem;
     height: 8rem;
     border: 1px solid black;
     border-radius: 1rem;
+    display: flex;
+
 }
 
 .middle-container-detail {
@@ -164,6 +194,18 @@ body {
     width: 76rem;
     height: 61rem;
     border: 1px solid black;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.roomList-content{
+    width: 76rem;
+    height: 56rem;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
 .roomList-title {
@@ -176,7 +218,78 @@ body {
 
 .roomList-card{
     width: 76rem;
-    height: 28rem;
+    height: 24rem;
+    border: 1px solid black;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: row;
+
+
+}
+
+
+
+.card-image{
+    width: 20rem;
+    height: 24rem;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.card-image-mark{
+    width: 18rem;
+    height: 22rem;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+}
+
+.image-image{
+    width: 18rem;
+    height: 22rem;
+    border: 1px solid black;
+    border-radius: 1rem;
+
+}
+
+.roomList-card-list{
+    width: 56rem;
+    height: 24rem;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-contents{
+    width: 54rem;
+    height: 22rem;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-contents-top{
+    width: 54rem;
+    height: 7rem;
+    border: 1px solid black;
+}
+
+.card-contents-middle{
+    width: 54rem;
+    height: 10rem;
+    border: 1px solid black;
+}
+
+.card-contents-botton{
+    width: 54rem;
+    height: 5rem;
     border: 1px solid black;
 }
 

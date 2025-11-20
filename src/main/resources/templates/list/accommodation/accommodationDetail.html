@@ -25,11 +25,26 @@
     <div class="middle-container-mark">
         <div class="middle-container-mark-top">
             <div class="mark-container">
-                <img src="/assets/image/free-icon-medal-4211074.png" style="width: 5rem; height: 5rem">
+                <img src="/assets/image/free-icon-medal-4211074.png" alt="" style="width: 5rem; height: 5rem">
             </div>
         </div>
-        <div class="middle-container-mark-middle"></div>
-        <div class="middle-container-mark-bottom"></div>
+        <div class="middle-container-mark-middle">
+            <p style="margin-left: 2rem; font-size: 1.8rem">여기잘까 게스트들이 선호하는 숙소</p>
+        </div>
+        <div class="middle-container-mark-bottom">
+            <div class="middle-rank-top">
+                <p>몇점 4.0</p>
+            </div>
+            <div class="middle-rank-bottom">
+                <div class="star-rating">
+                    <span class="star" data-value="1">★</span>
+                    <span class="star" data-value="2">★</span>
+                    <span class="star" data-value="3">★</span>
+                    <span class="star" data-value="4">★</span>
+                    <span class="star" data-value="5">★</span>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="middle-container-detail">
         <div></div>
@@ -74,7 +89,11 @@
         <h2>자세한 리뷰</h2>
     </div>
     <div class="review-content">
-        <div class="review-content-picture"></div>
+        <div class="review-content-picture">
+            <div>
+                <img src="/assets/image/free-icon-medal-4211074.png" alt="alt">
+            </div>
+        </div>
         <div class="review-content-word"></div>
     </div>
 </div>
@@ -82,5 +101,23 @@
 
 </div>
 <div class="bottom-word"></div>
+<script>
+    const stars = document.querySelectorAll('.star-rating .star');
+
+    stars.forEach(star => {
+        star.addEventListener('click', () => {
+            const value = parseInt(star.getAttribute('data-value'));
+
+            stars.forEach(s => {
+                const starValue = parseInt(s.getAttribute('data-value'));
+                if (starValue <= value) {
+                    s.classList.add('selected');
+                } else {
+                    s.classList.remove('selected');
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>

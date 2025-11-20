@@ -10,10 +10,12 @@ import com.example.zzserver.reservation.consts.ReservationStatus;
 import com.example.zzserver.reservation.dto.ReservationDto;
 import com.example.zzserver.reservation.entity.RoomReservations;
 import com.example.zzserver.reservation.repository.RoomReservationRepository;
+import com.example.zzserver.rooms.service.PriceService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import static java.time.temporal.ChronoUnit.DAYS;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -29,6 +31,8 @@ public class RoomReservationService {
     private final RoomsRepository roomsRepository;
 
     private final CartRepository cartRepository;
+
+    private final PriceService priceService;
 
     /**
      * 특정 회원(Member) 예약 내역 조회
@@ -106,6 +110,12 @@ public class RoomReservationService {
         // 예약 생성시 재고 차감
         room.decreaseAvailable(request.getRoomCount());
 
+        // 할인율 계산
+        long nights = DAYS.between(cart.getCheckInDate(), cart.getCheckOutDate());
+        LocalDateTime now = LocalDateTime.now();
+
+        BigDecimal finalPrice = priceService.calculatePrice(room, nights, now);
+
         // 예약 저장
         RoomReservations reservation = RoomReservations.builder()
                 .memberId(request.getMemberId())
@@ -114,6 +124,8 @@ public class RoomReservationService {
                 .checkOut(request.getCheckOutDate())
                 .reservedAt(LocalDateTime.now())
                 .status(ReservationStatus.PENDING)
+                .originalPrice(room.getBasePrice().multiply(BigDecimal.valueOf(nights)))
+                .finalPrice(finalPrice) // 할인된 가격
                 .build();
 
         UUID reservationId = roomReservationRepository.save(reservation).getId();

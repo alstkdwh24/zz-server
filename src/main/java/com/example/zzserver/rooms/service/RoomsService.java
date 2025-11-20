@@ -21,7 +21,6 @@ public class RoomsService {
 
     private final RoomImageService roomImageService;
 
-    /*여기는 컨트롤러가 에러가 떠서 주석으로 처리했습니다.*/
     /**
      * 방생성
      * @param request 방생성에 필요한 DTO

@@ -7,6 +7,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
+import java.math.BigDecimal;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
@@ -39,6 +41,12 @@ public class Rooms {
   private boolean available;
 
   private Integer peopleCount;
+
+  // 방 가격
+  private BigDecimal basePrice;
+
+  // 할인된 가격
+  private BigDecimal discountedPrice;
 
   public void update(String name, Long maxOccupacy, boolean isAvailable, Integer peopleCount){
     this.name = name;

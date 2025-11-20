@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -29,6 +30,10 @@ public class RoomReservations {
   private LocalDateTime checkOut;
 
   private LocalDateTime reservedAt;
+
+  private BigDecimal originalPrice;  // 예약 시점 기본가
+
+  private BigDecimal finalPrice;     // 할인 적용 후 결제금액
 
   // TODO 엔티티 관계 매핑
   private UUID memberId;

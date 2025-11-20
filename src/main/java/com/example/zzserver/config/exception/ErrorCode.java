@@ -21,7 +21,8 @@ public enum ErrorCode {
     PAYMENT_AMOUNT_MISMATCH(HttpStatus.BAD_REQUEST, "결제 금액이 일치하지 않습니다."),
     PAYMENT_ALREADY_CANCELED(HttpStatus.BAD_REQUEST, "결제가 이미 취소되었습니다."),
     PAYMENT_CANCEL_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "결제 취소(환불)에 실패했습니다."),
-    PORTONE_AUTH_FAILED(HttpStatus.UNAUTHORIZED,"api 인증에 문제가 있습니다.");
+    PORTONE_AUTH_FAILED(HttpStatus.UNAUTHORIZED,"api 인증에 문제가 있습니다."),
+    DISCOUNT_POLICY_CONFLICT(HttpStatus.CONFLICT,"할인 정책에 충돌이 납니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

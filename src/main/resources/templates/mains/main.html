@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>여기어때 - 메인</title>
+    <title>여기잘까 - 메인</title>
     <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
 
@@ -21,8 +22,28 @@
 
 <!-- 메인 페이지 -->
 <div id="mainPage">
-    <div class="main_banner">
-        <img src="/assets/banner/main-banner.webp" alt="메인 배너">
+    <div class="main_banner" style="background-image: url('/assets/banner/main-banner.webp')">
+        <div style="color:white; font-size: 2rem">국내 여행지 여기잘까??</div>
+        <div class="search-container">
+            <div class="search-top">
+                <div class="search-div">
+                <h2>국내 숙소</h2>
+                </div>
+            </div>
+            <div class="search-bottom">
+                <label>
+                    <input class="search-date">
+                </label>
+                <label >
+                    <input class="search-date">
+                </label>
+                <label >
+                    <input class="search-date">
+                </label>
+                <button class="search-date-button">검색</button>
+
+            </div>
+        </div>
     </div>
 
     <!-- 여행지 섹션 -->
@@ -37,6 +58,11 @@
         <h2>인기 추천 숙소</h2>
         <div class="category-buttons" id="categoryButtons"></div>
         <div class="hotel-list" id="hotelList"></div>
+    </div>
+    <div class="middle-container">
+        <h2>이번주 인기 숙소</h2>
+        <div class="category-buttons" id="categoryButtonss"></div>
+        <div class="hotel-list" id="hotelLists"></div>
     </div>
 </div>
 

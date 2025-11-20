@@ -13,6 +13,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
                 "com.example.zzserver.cart.repository",
                 "com.example.zzserver.reservation.repository",
                 "com.example.zzserver.payment.repository"
+                ,"com.example.zzserver.amenities.repository",
+                "com.example.zzserver.rooms.repository"
         },
         excludeFilters = @ComponentScan.Filter(
                 type = FilterType.ASPECTJ,

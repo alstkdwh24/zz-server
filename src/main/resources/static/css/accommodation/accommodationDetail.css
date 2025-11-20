@@ -1,0 +1,369 @@
+
+@media screen and (max-width: 1600px) {
+    html {
+        font-size: 16px;
+    }
+
+}
+
+@media screen and (max-width: 1300px) {
+    html {
+        font-size: 15px;
+    }
+}
+
+@media screen and (max-width: 1200px ) {
+    html {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 1100px ) {
+    html {
+        font-size: 13px;
+    }
+}
+
+@media screen and (max-width: 1000px ) {
+    html {
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 900px ) {
+    html {
+        font-size: 11px;
+    }
+}
+
+@media screen and (max-width: 800px ) {
+    html {
+        font-size: 10px;
+    }
+}
+
+@media screen and (max-width: 700px ) {
+    html {
+        font-size: 9px;
+    }
+}
+
+@media screen and (max-width: 600px ) {
+    html {
+        font-size: 8px;
+    }
+}
+
+@media screen and (max-width: 500px ) {
+    html {
+        font-size: 7px;
+    }
+}
+
+@media screen and (max-width: 400px ) {
+    html {
+        font-size: 6px;
+    }
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 350rem;
+}
+
+.header-container {
+    border: 1px solid black;
+    width: 76rem;
+    height: 38rem;
+    margin-top: 1.5rem;
+    border-radius: 1rem;
+    display: flex;
+
+}
+
+/*숙소 사진에 관련된 css*/
+.header-container > div {
+    border: 1px solid black;
+    height: 38rem;
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.header-container > div:nth-child(1) {
+    width: 35.305rem;
+
+    border-bottom-left-radius: 1rem;
+    border-top-left-radius: 1rem;
+}
+
+.header-container > div:nth-child(2) {
+    width: 40.695rem;
+
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+}
+
+[class^="img-"] {
+    width: 19.3rem;
+    height: 18.5rem;
+    border: 1px solid black;
+    margin-left: 0.694rem;
+
+}
+
+.img-3, .img-4 {
+    margin-top: 0.694rem;
+}
+
+.img-2 {
+    border-top-right-radius: 1rem;
+}
+
+.img-4 {
+    border-bottom-right-radius: 1rem;
+}
+
+/*숙소에 관한 css*/
+.middle-container {
+    width: 76rem;
+    height: 36rem;
+    border: 1px solid black;
+}
+
+.middle-container-mark-top{
+    display: flex;
+    width: 8rem;
+    height: 8rem;
+    border: 1px solid black;
+    justify-content: center;
+    align-items: center;
+}
+
+.middle-container-mark-middle{
+    width: 56rem;
+    height: 8rem;
+    border: 1px solid black;
+}
+
+.middle-container-mark-bottom{
+    width: 12rem;
+    height: 8rem;
+    border: 1px solid black;
+}
+
+.mark-container{
+    width: 6rem;
+    height: 6rem;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.middle-container-mark {
+    margin-top: 1rem;
+    width: 76rem;
+    height: 8rem;
+    border: 1px solid black;
+    border-radius: 1rem;
+    display: flex;
+
+}
+
+.middle-container-detail {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    width: 76rem;
+    height: 22rem;
+    border: 1px solid black;
+    border-radius: 1rem;
+}
+
+.middle-container-detail > div {
+    width: 37.5rem;
+    height: 22rem;
+    border: 1px solid black;
+    border-radius: 1rem;
+}
+
+/*방리스트 css*/
+.roomList {
+    width: 76rem;
+    height: 61rem;
+    border: 1px solid black;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.roomList-content{
+    width: 76rem;
+    height: 56rem;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.roomList-title {
+    width: 76rem;
+    height: 5rem;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+}
+
+.roomList-card{
+    width: 76rem;
+    height: 24rem;
+    border: 1px solid black;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: row;
+
+
+}
+
+
+
+.card-image{
+    width: 20rem;
+    height: 24rem;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.card-image-mark{
+    width: 18rem;
+    height: 22rem;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+}
+
+.image-image{
+    width: 18rem;
+    height: 22rem;
+    border: 1px solid black;
+    border-radius: 1rem;
+
+}
+
+.roomList-card-list{
+    width: 56rem;
+    height: 24rem;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-contents{
+    width: 54rem;
+    height: 22rem;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-contents-top{
+    width: 54rem;
+    height: 7rem;
+    border: 1px solid black;
+}
+
+.card-contents-middle{
+    width: 54rem;
+    height: 10rem;
+    border: 1px solid black;
+}
+
+.card-contents-botton{
+    width: 54rem;
+    height: 5rem;
+    border: 1px solid black;
+}
+
+.service{
+    width: 76rem;
+    height: 24rem;
+    border: 1px solid black;
+}
+
+.information{
+    width: 76rem;
+    height: 40rem;
+    border: 1px solid black;
+}
+/*지도 관련 css*/
+.location{
+    width: 76rem;
+    height: 40rem;
+    border: 1px solid black;
+}
+
+.location-title{
+    width: 76rem;
+    height: 4rem;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+}
+/*댓글*/
+.review{
+    width: 76rem;
+    height: 54rem;
+    border: 1px solid black;
+}
+
+.review-title{
+    width: 76rem;
+    height: 4rem;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+}
+
+.review-content{
+    width: 76rem;
+    height: 49.8rem;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.review-content-picture{
+    width: 12rem;
+    height: 50rem;
+    border: 1px solid black;
+}
+
+.review-content-word{
+    width: 64rem;
+    height: 50rem;
+    border: 1px solid black;
+}
+
+/*고객센터 css*/
+.customer{
+    width: 100%;
+    height: 20rem;
+    border: 1px solid black;
+    margin-top: 10rem;
+}
+
+.bottom-word{
+    width: 100%;
+    height: 20rem;
+    border: 1px solid black;
+}

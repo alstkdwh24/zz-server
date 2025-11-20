@@ -1,0 +1,228 @@
+html {
+    height: 100%;
+    width: 100%;
+}
+
+@media screen and (max-width: 1400px) {
+    html {
+        font-size: 16px;
+    }
+
+}
+
+@media screen and (max-width: 1300px) {
+    html {
+        font-size: 15px;
+    }
+}
+
+@media screen and (max-width: 1200px ) {
+    html {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 1100px ) {
+    html {
+        font-size: 13px;
+    }
+}
+
+@media screen and (max-width: 1000px ) {
+    html {
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 900px ) {
+    html {
+        font-size: 11px;
+    }
+}
+
+@media screen and (max-width: 800px ) {
+    html {
+        font-size: 10px;
+    }
+}
+
+@media screen and (max-width: 700px ) {
+    html {
+        font-size: 9px;
+    }
+}
+
+@media screen and (max-width: 600px ) {
+    html {
+        font-size: 8px;
+    }
+}
+
+@media screen and (max-width: 500px ) {
+    html {
+        font-size: 7px;
+    }
+}
+
+@media screen and (max-width: 400px ) {
+    html {
+        font-size: 6px;
+    }
+}
+
+
+.middle-container {
+    display: flex;
+
+    width: 76rem;
+    border: 1px solid black;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/*사이드바 css*/
+.middle-sideBar {
+    width: 28rem;
+    height: 50rem;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+
+}
+
+.middle-sideBar div {
+    display: flex;
+    align-items: center;
+    max-height: 46px;
+}
+
+.middle-sideBar div p {
+    margin-left: 10px;
+}
+
+
+/*미들 내용*/
+.middle-content {
+    width: 70rem;
+    height: 50rem;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    min-height: 648px;
+    align-items: center;
+}
+
+.title-container {
+    width: 56rem;
+    border: 1px solid black;
+    height: 3rem;
+    margin: 1.5rem;
+    display: flex;
+
+}
+
+/*리스트 카드*/
+
+.card-container {
+    width: 56rem;
+    border: 1px solid black;
+    height: 19rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+
+}
+
+.card-container > div:nth-child(1) {
+    padding: 0;
+    width: 26rem;
+    height: 16rem;
+    border: 1px solid black;
+    margin-left: 1rem;
+}
+
+.card-container > div:nth-child(2) {
+    margin-left: 1rem;
+    padding: 0;
+    width: 26rem;
+    height: 16rem;
+    border: 1px solid black;
+    margin-right: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.card-container > div > p {
+    font-size: 2rem;
+}
+
+.card-container > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-text{
+    margin-top: 0.3rem;
+    margin-left: 0.3rem;
+    margin-right: 0.3rem;
+    font-size: 0.95rem;
+}
+
+.card-p-text{
+    margin: 0.3rem;
+    font-size: 1.4rem;
+}
+
+.card-price{
+    width: 6rem;
+    font-size: 1.5rem;
+    margin: 8.75rem 19rem;
+}
+/*페이지네이션*/
+.pageNation {
+    width: 16rem;
+    border: 1px solid black;
+    height: 2rem;
+    margin-bottom: 1.5rem;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+}
+
+/*타이틀 카드*/
+.title-container > div{
+    width: 23.5rem;
+    height: 2.95em;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    padding-left: 1rem;
+    font-size: 1rem;
+}
+
+/*right-sideBar*/
+.right-side-bar{
+    display: none;
+    z-index: 1;
+    width: 16%;
+    height: 38rem;
+    border: 1px solid black;
+    position: absolute;
+    left: 69.5rem;
+    background-color: white;
+    border-radius: 1rem;
+    flex-direction: column;
+
+}

@@ -42,7 +42,7 @@ public class AuthService {
         String userPw = dto.getUserPw();
 
 
-        Members member = memberRepository.findMemberByEmail(email);
+        Members member = memberRepository.findByEmail(email);
         if (member == null) {
             throw new IllegalArgumentException("사용자를 찾을 수 없습니다.");
         }

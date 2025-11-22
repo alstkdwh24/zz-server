@@ -1,0 +1,8 @@
+.middle-div-title-location {
+    height: 13rem;
+    width: 35.5rem;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}

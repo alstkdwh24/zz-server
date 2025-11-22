@@ -70,7 +70,7 @@ jwt:
   refreshTokenExpiration: 2592000000
   secret: ${zzServerKey}
 kakao:
-  KakaoLoginJavaScriptKey: ${kakao_login_javaScriptKey:default-key-if-not-set}
+  KakaoLoginJavaScriptKey: ${jsKey:default-key-if-not-set}
   kakaoLoginRestApi: ${kakao_login_restApi:default-rest-api}
   kakaoNativeAppKey: ${kakao_native_appKey:default-native-key}
   kakaoLoginSecretCode: ${kakao_login_secretCode:default-secret-code}

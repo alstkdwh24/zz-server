@@ -51,4 +51,6 @@
     width: 12rem;
     height: 3rem;
     margin-right: 2rem;
+    border: none;
+    border-radius: 1rem;
 }

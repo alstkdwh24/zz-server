@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/accommodation/accommodationDetail.css">
+    <link rel="stylesheet" href="/css/beforeReservation/beforeReservation.css">
+
+
+</head>
+<body>
+<header th:replace="header/differentHeader.html :: headers"></header>
+<div class="middle-container-large">
+    <div class="middle-information">
+        <div class="middle-information-top-name"><h2>예약 요청</h2>
+        </div>
+        <div class="middle-information-top">
+            <h3 class="main-title">예약자 정보</h3>
+            <h3>예약자 이름</h3>
+            <label class="input-label-container">
+                <input type="text" name="name" class="input-label">
+            </label>
+            <h3>휴대폰 번호</h3>
+            <label class="input-label-container">
+                <input type="text" name="phone" class="input-label">
+            </label>
+        </div>
+        <button class="middle-information-bottom">결제
+
+        </button>
+
+    </div>
+    <div class="accommodation-information">
+        <div class="accommodation-information-top">
+            <p>숙소 이름</p>
+            <div class="accommodation-information-image"></div>
+            <div class="container">
+                <div class="contents-container">
+
+                    <h4>객실</h4>
+                    <h4>입실</h4>
+                    <h4>기준인원</h4>
+                    <h4>추가정보</h4>
+                    <h4>객실 가격(1박)</h4>
+                    <h4>총 객실 가격</h4>
+                </div>
+                <div class="loader">
+                    <div class="information-accommodation">ss</div>
+                    <div class="information-accommodation">ss</div>
+                    <div class="information-accommodation">ss</div>
+                    <div class="information-accommodation">ss</div>
+                    <div class="information-accommodation">ss</div>
+                    <div class="information-accommodation">ss</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -73,6 +73,15 @@
 
 }
 
+
+.cancel-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding-top: 3rem;
+
+}
+
 .cancel-sideBar {
     width: 24rem;
     border: 1px solid black;
@@ -98,64 +107,5 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
-}
-
-.reservation-cancel-title {
-    width: 60rem;
-    height: 4rem;
-    border: 1px solid black;
-    display: flex;
-    align-items: center;
-
-}
-
-.reservation-cancel-explain {
-    width: 60rem;
-    height: 3rem;
-    border: 1px solid black;
-    display: flex;
-    align-items: center;
-}
-
-.reservation-cancel-contents {
-    width: 60rem;
-    height: 20rem;
-    border: 1px solid black;
-    display: flex;
-    flex-direction: row;
-}
-
-.reservation-cancel-title {
-    font-size: 1.2rem;
-}
-
-.reservation-cancel-index {
-    width: 12rem;
-    height: 20rem;
-    border: 1px solid black;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-}
-
-.reservation-cancel-index > h2{
-    margin: 0;
-}
-
-.reservation-cancel-real{
-    width: 20rem;
-    height: 20rem;
-    border: 1px solid black;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-direction: column;
-}
-
-.reservation-cancel-real > .reservation-cancel-word{
-    font-size: 1.2rem;
-
 
 }

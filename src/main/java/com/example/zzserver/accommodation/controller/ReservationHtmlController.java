@@ -17,4 +17,14 @@ public class ReservationHtmlController {
     public String reservationCancel(){
         return "reservation/reservationCancel";
     }
+
+    @GetMapping("/afterReservation")
+    public String afterReservation(){
+        return "reservation/afterReservation";
+    }
+
+    @GetMapping("/reservationDetail")
+    public String reservationDetail(){
+        return "reservation/reservationDetail";
+    }
 }

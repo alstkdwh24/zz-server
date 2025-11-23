@@ -1,7 +1,6 @@
 package com.example.zzserver.reservation.dto;
 
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.LocalDateTime;

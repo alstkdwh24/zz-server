@@ -1,6 +1,7 @@
 package com.example.zzserver.accommodation.restcontroller;
 
 import com.example.zzserver.accommodation.dto.request.AccommodationRequest;
+import com.example.zzserver.accommodation.dto.request.AccommodationSearchCondition;
 import com.example.zzserver.accommodation.service.AccommodationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,11 @@ public class AccommodationRestController {
   @GetMapping("/{id}")
   public ResponseEntity<?> getAccommodationById(@PathVariable("id") UUID id) {
     return ResponseEntity.ok(accommodationService.findById(id));
+  }
+
+  @GetMapping("/search")
+  public ResponseEntity<?> getAccommodationSearch(@RequestBody AccommodationSearchCondition condition) {
+    return ResponseEntity.ok(accommodationService.search(condition));
   }
 
   @PostMapping("/")

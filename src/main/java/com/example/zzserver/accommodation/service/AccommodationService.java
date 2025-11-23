@@ -1,7 +1,9 @@
 package com.example.zzserver.accommodation.service;
 
 import com.example.zzserver.accommodation.dto.request.AccommodationRequest;
+import com.example.zzserver.accommodation.dto.request.AccommodationSearchCondition;
 import com.example.zzserver.accommodation.dto.response.AccommodationResponseDto;
+import com.example.zzserver.accommodation.dto.response.AccommodationSearchResponse;
 import com.example.zzserver.accommodation.entity.Accommodations;
 import com.example.zzserver.accommodation.repository.AccommodationRepository;
 import java.util.List;
@@ -49,6 +51,17 @@ public class AccommodationService {
             .map(AccommodationResponseDto::from)
             .orElseThrow(()-> new CustomException(ErrorCode.ACCOMMODATION_NOT_FOUND));
   }
+
+  /**
+   * 숙소 검색
+   * @param condition 숙소검색에 필요한 dto
+   * @return List<AccommodationSearchResponse>
+   **/
+  @Transactional(readOnly = true)
+  public List<AccommodationSearchResponse> search(AccommodationSearchCondition condition) {
+    return accommodationRepository.search(condition);
+  }
+
 
   /**
    * 숙소 생성

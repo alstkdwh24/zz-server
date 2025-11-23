@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>포트원 결제 테스트</title>
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+</head>
+<body>
+<button id="payBtn">결제하기</button>
+<button id="cancelBtn">결제 취소</button>
+<button id="refundBtn">환불 요청</button>
+
+<script>
+    // PortOne 초기화
+    IMP.init("imp26127114"); // PortOne 가맹점 식별코드
+    // 예약번호도 예약이 된 예약 번호를 가져오기
+    const RESERVATION_ID = "f1b2c3d4-e5f6-47a8-9b0c-1d2e3f4a5b6c";
+    const AMOUNT = 1000; // 가격도 디비에 있는 값으로 하기.
+    let latestImpUid = null;
+    let latestMerchantUid = null;
+
+    document.getElementById("payBtn").addEventListener("click", requestPay);
+    document.getElementById("cancelBtn").addEventListener("click", cancelPayment);
+    document.getElementById("refundBtn").addEventListener("click", refundPayment);
+
+    function log(msg) {
+        document.getElementById("log").textContent += msg + "\n";
+        console.log(msg);
+    }
+
+    // -----------------------------
+    // [1] 결제 요청 시작
+    // -----------------------------
+    async function requestPay() {
+        try {
+            const ready = await getReady(RESERVATION_ID, AMOUNT);
+            // 해당 요청 부분은 샘플이므로 예약 및 숙박정보를 넣기.
+            const payRequest = {
+                pg: "html5_inicis",
+                pay_method: "card",
+                merchant_uid: ready.merchantUid,
+                name: "디럭스룸 숙박 결제 (1박)",
+                amount: Number(ready.amount),
+                buyer_email: "testuser@example.com",
+                buyer_name: "양경빈",
+                buyer_tel: "010-1234-5678",
+            };
+
+            IMP.request_pay(payRequest, function (rsp) {
+
+                if (rsp.success) {
+                    verifySuccess(rsp, ready.merchantUid);
+                } else {
+                    notifyFail(rsp);
+                }
+            });
+        } catch (err) {
+            alert("결제 준비 중 오류 발생: " + err.message);
+        }
+    }
+
+    // -----------------------------
+    // [2] Ready API (서버에 결제 정보 등록)
+    // -----------------------------
+    function getReady(reservationId, amount) {
+        return fetch("/api/payments/ready", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ reservationId, amount }),
+        })
+            .then((res) => {
+                if (!res.ok) throw new Error("Ready API 실패 (" + res.status + ")");
+                return res.json();
+            })
+            .then((data) => {
+                if (!data.merchantUid) throw new Error("merchantUid 누락됨");
+                return data;
+            });
+    }
+
+    // -----------------------------
+    // [3] 결제 성공 후 서버 검증 요청
+    // -----------------------------
+    function verifySuccess(rsp, fallbackMerchantUid) {
+
+        const merchantUid =
+            rsp.merchant_uid || rsp.merchantUid || fallbackMerchantUid;
+
+        const body = {
+            portonePaymentId: rsp.imp_uid,
+            merchantUid: merchantUid,
+            method: rsp.pay_method,
+            amount: rsp.paid_amount || AMOUNT,
+            approvedAt: new Date().toISOString(),
+        };
+
+        fetch("/api/payments/success", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+        })
+            .then(async (res) => {
+                const text = await res.text();
+
+                if (res.ok) {
+                    alert("결제 성공! DB 반영 완료");
+                } else {
+                    alert("서버 검증 실패: " + text);
+                }
+            })
+            .catch((err) => {
+                alert("서버 통신 오류: " + err.message);
+            });
+    }
+
+    // -----------------------------
+    // [4] 결제 실패 시 서버 알림
+    // -----------------------------
+    function notifyFail(rsp) {
+
+        const body = {
+            portonePaymentId: rsp.imp_uid,
+            pgCode: rsp.error_code,
+            pgMessage: rsp.error_msg,
+        };
+
+        console.log("서버 실패 알림 요청:", body);
+
+        fetch("/api/payments/fail", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+        })
+            .then((res) => {
+                console.log("서버 실패 알림 응답 상태:", res.status);
+            })
+            .catch((err) => {
+                console.error("서버 실패 알림 중 오류:", err);
+            });
+
+        alert("결제 실패: " + rsp.error_msg);
+    }
+
+    // [5] 결제 취소
+    function cancelPayment() {
+        if (!latestImpUid) {
+            alert("먼저 결제를 완료해야 합니다.");
+            return;
+        }
+
+        const body = {
+            portonePaymentId: latestImpUid,
+            pgCode: "PG_CANCEL",
+            pgMessage: "테스트 결제 취소",
+        };
+
+        fetch("/api/payments/cancel", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+        })
+            .then(async (res) => {
+                const text = await res.text();
+                if (res.ok) {
+                    log("결제 취소 성공: " + text);
+                    alert("결제 취소 완료");
+                } else {
+                    log("결제 취소 실패: " + text);
+                    alert("취소 실패: " + text);
+                }
+            })
+            .catch((err) => log("결제 취소 오류: " + err.message));
+    }
+
+    // [6] 결제 환불
+    function refundPayment() {
+        if (!latestImpUid) {
+            alert("먼저 결제를 완료해야 합니다.");
+            return;
+        }
+
+        const params = new URLSearchParams({
+            portonePaymentId: latestImpUid,
+            reason: "테스트 환불",
+        });
+
+        fetch("/api/payments/refund?" + params.toString(), {
+            method: "POST",
+        })
+            .then(async (res) => {
+                const text = await res.text();
+                if (res.ok) {
+                    log("환불 성공: " + text);
+                    alert("환불 완료");
+                } else {
+                    log("환불 실패: " + text);
+                    alert("환불 실패: " + text);
+                }
+            })
+            .catch((err) => log("환불 요청 오류: " + err.message));
+    }
+</script>
+</body>
+</html>

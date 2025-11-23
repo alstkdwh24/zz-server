@@ -68,7 +68,7 @@ spring:
 jwt:
   expiration: 86400000
   refreshTokenExpiration: 2592000000
-  secret: ${zzServerKey}
+  secret: zzServer123123Client123123===+++zzAuth123123123=======++zzWeProject123123
 kakao:
   KakaoLoginJavaScriptKey: ${kakao_login_javaScriptKey:default-key-if-not-set}
   kakaoLoginRestApi: ${kakao_login_restApi:default-rest-api}
@@ -84,6 +84,10 @@ file:
   upload-dir: ./uploads
   access-base-url: http://localhost:9090/uploads
 
+portone:
+  v1:
+    api-key: 5216378783355458
+    api-secret: 76S2DdItAzHeiB186zawLfBMNWYKJsa3tDoZONs5l6nzUUSXx5tC0Uu7K8oiJ87OqFdXZQ3LKuvfqbxA
 
 server:
   port: 9090

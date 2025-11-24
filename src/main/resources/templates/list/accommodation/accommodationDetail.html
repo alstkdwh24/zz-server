@@ -16,10 +16,9 @@
 
 </head>
 <body>
-<input type="hidden" id="hotelId" th:value="${kakaoMap}">
 <header th:replace="~{header/differentHeader.html :: headers}"></header>
 <div class="header-container">
-    <div></div>
+    <div class="header-container-image"></div>
     <div>
         <div class="img-1"></div>
         <div class="img-2"></div>
@@ -181,7 +180,7 @@
         <h2>자세한 리뷰</h2>
     </div>
     <div class="review-content">
-        <div style="object-fit: cover; margin: 1rem">
+        <div style="object-fit: cover; ">
             <img src="/assets/image/free-icon-medal-4211074.png" alt="alt" style="width:6rem; height: 6rem">
         </div>
         <div class="review-content-view"></div>

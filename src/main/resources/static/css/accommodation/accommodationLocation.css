@@ -1,7 +1,6 @@
 .middle-div-title-location {
     height: 13rem;
     width: 35.5rem;
-    border: 1px solid black;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -11,7 +10,6 @@
 .middle-div-title-image-container3 {
     display: flex;
     justify-content: flex-start;
-    border: 1px solid black;
     width: 31.1rem;
 
 }
@@ -19,13 +17,11 @@
 .middle-div-title-image-image {
     width: 3.9rem;
     height: 3.6rem;
-    border: 1px solid black;
 }
 
 .location-contents {
     width: 27.2rem;
     height: 3.6rem;
-    border: 1px solid black;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -2,7 +2,6 @@
 .card-contents-top {
     width: 54rem;
     height: 6rem;
-    border: 1px solid black;
     display: flex;
     justify-content: space-around;
     flex-direction: column;
@@ -35,7 +34,7 @@
 .card-contents-middle {
     width: 54rem;
     height: 9rem;
-    border: 1px solid black;
+    border: 1px solid rgb(202, 200, 200);
     margin-top: 1.5rem;
     border-radius: 0.5rem;
     display: flex;
@@ -44,7 +43,6 @@
 .middle-contents{
     width: 38rem;
     height: 9rem;
-    border: 1px solid black;
     border-radius: 0.5rem;
 }
 
@@ -60,7 +58,6 @@
 .middle-price-button{
     width: 16rem;
     height: 9rem;
-    border: 1px solid black;
     border-radius: 0.5rem;
     display: flex;
     flex-direction: column;
@@ -102,7 +99,6 @@
 .card-contents-botton {
     width: 54rem;
     height: 4rem;
-    border: 1px solid black;
     margin-top: 1.5rem;
     border-radius: 0.5rem;
     display: flex;

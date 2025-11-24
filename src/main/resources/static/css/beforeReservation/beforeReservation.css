@@ -46,7 +46,6 @@
 
 .middle-container-large{
     width:77rem;
-    border: 1px solid black;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -60,7 +59,6 @@
 .middle-information{
     width: 36rem;
     height: 44rem;
-    border: 1px solid black;
     display: flex;
     flex-direction: column;
 
@@ -69,7 +67,7 @@
 .middle-information-top{
     width: 35rem;
     height: 22.2rem;
-    border: 1px solid black;
+    border: 1px solid rgb(202, 200, 200);
     display: flex;
     flex-direction: column;
     margin-bottom: 2rem;
@@ -88,16 +86,16 @@
 
 .accommodation-information{
     width: 36rem;
-    border: 1px solid black;
     height: 44rem;
 
 }
 
 .accommodation-information-top{
     width: 34rem;
-    border: 1px solid black;
+    border: 1px solid rgb(202, 200, 200);
     margin-top: 5rem;
     padding: 1rem;
+    border-radius: 0.5rem;
 }
 
 .accommodation-information-top > p{
@@ -115,7 +113,7 @@
 .accommodation-information-image{
     width: 34rem;
     height: 16rem;
-    border: 1px solid black;
+    border: 1px solid rgb(202, 200, 200);
 }
 
 .middle-information-top > h3{
@@ -146,6 +144,7 @@
     height: 2.6rem;
     width: 33.4rem;
     border-radius: 0.5rem;
+    border: 1px solid rgb(202, 200, 200);
 
 }
 

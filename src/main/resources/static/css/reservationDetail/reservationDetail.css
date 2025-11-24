@@ -59,7 +59,7 @@
 
 .cancel-sideBar {
     width: 24rem;
-    border: 1px solid black;
+    border: 1px solid rgb(202, 200, 200);
     height: 30rem;
     display: flex;
     flex-direction: column;
@@ -68,7 +68,7 @@
 
 .cancel-sideBar > button {
     height: 9rem;
-    border: 1px solid black;
+    border: 1px solid rgb(202, 200, 200);
     background-color: white;
     display: flex;
     justify-content: center;
@@ -78,7 +78,6 @@
 
 .reservation-cancel {
     width: 60rem;
-    border: 1px solid black;
     height: 70rem;
     display: flex;
     flex-direction: column;
@@ -89,34 +88,37 @@
 .reservation-cancel-title {
     width: 60rem;
     height: 4rem;
-    border: 1px solid black;
+    border: 1px solid rgb(202, 200, 200);
     display: flex;
     align-items: center;
+    border-radius: 0.5rem;
 
 }
 
 .before-use {
     width: 59rem;
     height: 5rem;
-    border: 1px solid black;
+    border: 1px solid rgb(202, 200, 200);
     display: flex;
     align-items: center;
     font-size: 1rem;
     padding-left: 1rem;
     font-weight: bold;
+    border-radius: 0.5rem;
 }
 
 .reservation-detail-container {
     height: 14rem;
-    border: 1px solid black;
+    border: 1px solid rgb(202, 200, 200);
     display: flex;
     flex-direction: column;
+    border-radius: 0.5rem;
 }
 
 
 .reservation-detail-container-top {
     height: 3.5rem;
-    border: 1px solid black;
+    border-bottom: 1px solid rgb(202, 200, 200);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -131,7 +133,7 @@
 .reservation-detail-container-image {
     width: 30rem;
     height: 14rem;
-    border: 1px solid black;
+    border-right: 1px solid rgb(202, 200, 200);
     display: flex;
     flex-direction: row;
 }
@@ -141,34 +143,46 @@
     justify-content: space-around;
     flex-direction: column;
     align-items: center;
-    border: 1px solid black;
+    width: 14.9rem;
+
+}
+
+.reservation-detail-container-image-index2 {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+    border-left: 1px solid rgb(202, 200, 200);
     width: 14.9rem;
 
 }
 
 .reservation-detail-container-title {
     height: 7rem;
-    border: 1px solid black;
+    border: 1px solid rgb(202, 200, 200);
     display: flex;
     align-items: center;
     padding-left: 1rem;
+    border-radius: 0.5rem;
 }
 
 .reservation-detail-container-2 {
     height: 14rem;
-    border: 1px solid black;
+    border: 1px solid rgb(202, 200, 200);
     display: flex;
+    border-radius: 0.5rem;
 }
 
 .reservation-detail-container-3 {
     height: 16rem;
-    border: 1px solid black;
+    border: 1px solid rgb(202, 200, 200);
     display: flex;
     flex-direction: column;
     padding-left: 1rem;
+    border-radius: 0.5rem;
 }
 
-.reservation-detail-container-3 > button{
+.reservation-detail-container-3 > button {
     width: 16rem;
     height: 8rem;
     border: none;
@@ -177,7 +191,6 @@
 .reservation-detail-container-bottom-index {
     width: 14.9rem;
     height: 10.3rem;
-    border: 1px solid black;
     padding-left: 1rem;
     display: flex;
     flex-direction: column;
@@ -185,15 +198,15 @@
 
 }
 
-.reservation-detail-container-bottom-index > h4{
+.reservation-detail-container-bottom-index > h4 {
     margin: 0;
     font-size: 1.2rem;
 }
 
 .reservation-detail-container-bottom-index2 {
     width: 44rem;
-    border: 1px solid black;
     padding-left: 3rem;
     justify-content: center;
     font-size: 1.2rem;
+    border-left: 1px solid rgb(202, 200, 200);
 }

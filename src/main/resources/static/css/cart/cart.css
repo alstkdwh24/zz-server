@@ -1,3 +1,45 @@
+@media screen and (max-width: 1600px) {
+    html {
+        font-size: 16px;
+    }
+
+}
+
+
+@media screen and (max-width: 1200px ) {
+    html {
+        font-size: 14px;
+    }
+}
+
+
+@media screen and (max-width: 1000px ) {
+    html {
+        font-size: 12px;
+    }
+}
+
+
+@media screen and (max-width: 800px ) {
+    html {
+        font-size: 10px;
+    }
+}
+
+
+@media screen and (max-width: 600px ) {
+    html {
+        font-size: 8px;
+    }
+}
+
+
+@media screen and (max-width: 400px ) {
+    html {
+        font-size: 6px;
+    }
+}
+
 .cancel-container {
     display: flex;
     flex-direction: row;
@@ -8,7 +50,7 @@
 
 .cancel-sideBar {
     width: 24rem;
-    border: 1px solid black;
+    border: 1px solid rgb(202, 200, 200);
     height: 30rem;
     display: flex;
     flex-direction: column;
@@ -17,7 +59,7 @@
 
 .cancel-sideBar > button {
     height: 9rem;
-    border: 1px solid black;
+    border: 1px solid rgb(202, 200, 200);
     background-color: white;
     display: flex;
     justify-content: center;
@@ -27,34 +69,37 @@
 
 .reservation-cancel {
     width: 60rem;
-    border: 1px solid black;
     display: flex;
     flex-direction: column;
 
 }
 
-.cart-input{
+.cart-input {
     height: 3rem;
     width: 50rem;
-    border: 1px solid black;
     display: flex;
 }
 
-.cart-input > input{
+.cart-input > input {
     height: 2.5rem;
     width: 46rem;
+    border: 1px solid rgb(202, 200, 200);
+
 }
 
-.cart-input > button{
+.cart-input > button {
     height: 2.8rem;
     width: 6rem;
     margin-left: 2rem;
+    border: 1px solid rgb(202, 200, 200);
+
 }
 
 .cart-card {
     margin-top: 1rem;
     width: 59rem;
-    border: 1px solid black;
+    border: 1px solid rgb(202, 200, 200);
+
     height: 18rem;
     margin-bottom: 1.5rem;
     display: flex;
@@ -64,27 +109,27 @@
     justify-content: space-around;
     padding: 0.5rem;
 
+
 }
 
-.cart-card-image{
+.cart-card-image {
     width: 24rem;
     height: 18rem;
-    border: 1px solid black;
+    border: 1px solid rgb(202, 200, 200);
 }
 
-.cart-card-contents{
+.cart-card-contents {
     width: 34rem;
     height: 18rem;
-    border: 1px solid black;
     display: flex;
     flex-direction: row;
 }
 
-.cart-card-contents-title > h2{
+.cart-card-contents-title > h2 {
     margin: 0;
 }
 
-.cart-card-contents-title > h3{
+.cart-card-contents-title > h3 {
     margin: 0;
 }
 
@@ -127,35 +172,34 @@
     animation: heartbeat 0.3s ease;
 }
 
-.cart-card-contents-title{
+.cart-card-contents-title {
     width: 18rem;
 }
 
-.cart-card-contents-heart{
+.cart-card-contents-heart {
     width: 18rem;
     display: flex;
     justify-content: flex-start;
     align-items: flex-end;
     height: 18rem;
-    border: 1px solid black;
     flex-direction: column;
 
 }
-.cart-card-contents-heart-div{
+
+.cart-card-contents-heart-div {
     display: flex;
     flex-direction: column;
     height: 14rem;
-    border: 1px solid black;
     justify-content: flex-end;
     align-items: flex-end;
 
 }
 
-.cart-card-contents-heart-div > h4{
+.cart-card-contents-heart-div > h4 {
     margin: 0;
 
 }
 
-.cart-card-contents-heart-div > h2{
+.cart-card-contents-heart-div > h2 {
     margin: 0;
 }

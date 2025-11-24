@@ -53,7 +53,7 @@
 
 .cancel-sideBar {
     width: 24rem;
-    border: 1px solid black;
+    border: 1px solid rgb(202, 200, 200);
     height: 30rem;
     display: flex;
     flex-direction: column;
@@ -62,17 +62,17 @@
 
 .cancel-sideBar > button {
     height: 9rem;
-    border: 1px solid black;
+    border: 1px solid rgb(202, 200, 200);
     background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 1.5rem;
+
 }
 
 .reservation-cancel {
     width: 60rem;
-    border: 1px solid black;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -83,21 +83,23 @@
 .reservation-cancel-title {
     width: 60rem;
     height: 4rem;
-    border: 1px solid black;
+    border: 1px solid rgb(202, 200, 200);
     display: flex;
     align-items: center;
+    border-radius: 0.5rem;
 
 }
 
 .reservation-read {
     width: 59rem;
     height: 5rem;
-    border: 1px solid black;
+    border: 1px solid rgb(202, 200, 200);
     display: flex;
     align-items: center;
     font-size: 1.6rem;
     font-weight: bold;
     padding-left: 1rem;
+    border-radius: 0.5rem;
 
 
 }
@@ -105,41 +107,45 @@
 .before-use {
     width: 59rem;
     height: 5rem;
-    border: 1px solid black;
+    border: 1px solid rgb(202, 200, 200);
     display: flex;
     align-items: center;
     font-size: 1rem;
     padding-left: 1rem;
     font-weight: bold;
+    border-radius: 0.5rem;
 }
 
 .before-reservation {
     width: 60rem;
     height: 22rem;
-    border: 1px solid black;
+     border: 1px solid rgb(202, 200, 200);
+
     display: flex;
     align-items: center;
     font-size: 1rem;
     flex-direction: row;
+    border-radius: 0.5rem;
 }
 
 .before-reservation-image {
     width: 21rem;
     height: 22rem;
-    border: 1px solid black;
+    border-radius: 0.5rem 0 0 0.5rem;
 }
 
 .before-reservation-contents {
     width: 39rem;
     height: 22rem;
-    border: 1px solid black;
     display: flex;
     flex-direction: column;
 }
 
 .before-reservation-contents-title {
     height: 6rem;
-    border: 1px solid black;
+border-bottom: 1px solid rgb(202, 200, 200);
+    border-left: 1px solid rgb(202, 200, 200);
+
     display: flex;
     align-items: center;
     font-size: 1.5rem;
@@ -147,7 +153,7 @@
 
 .before-reservation-contents-contents {
     height: 15.5rem;
-    border: 1px solid black;
+    border-left: 1px solid rgb(202, 200, 200);
     padding: 0.5rem 0 0 0.5rem;
     display: flex;
     flex-direction: row;
@@ -156,7 +162,6 @@
 
 .contents-title-reservation {
     width: 28rem;
-    border: 1px solid black;
     display: flex;
     height: 5.5rem;
     flex-direction: column;
@@ -166,7 +171,6 @@
 
 .contents-title-chatting {
     width: 11rem;
-    border: 1px solid black;
     display: flex;
     justify-content: center;
     font-size: 1.2rem;
@@ -176,7 +180,6 @@
 
 .contents-title-chatting2{
     width: 10.5rem;
-    border: 1px solid black;
     display: flex;
     justify-content: center;
     font-size: 1.2rem;
@@ -207,11 +210,11 @@
 }
 
 .before-reservation-contents-contents-date{
+    background-color: rgb(238, 238, 238);
     margin: 0.5rem 0 0 0;
 
     width:10rem;
     height: 5rem;
-    border: 1px solid black;
     display: flex;
 padding: 0.3rem 0 0 0.3rem;
     flex-direction: column;
@@ -239,7 +242,7 @@ padding: 0.3rem 0 0 0.3rem;
     width: 11rem;
     height: 4rem;
     background-color: white;
-    border: 1px solid black;
+    border: 1px solid rgb(202, 200, 200);
     border-radius: 0.5rem;
 }
 

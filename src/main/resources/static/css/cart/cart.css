@@ -1,0 +1,161 @@
+.cancel-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding-top: 3rem;
+
+}
+
+.cancel-sideBar {
+    width: 24rem;
+    border: 1px solid black;
+    height: 30rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: 1rem;
+}
+
+.cancel-sideBar > button {
+    height: 9rem;
+    border: 1px solid black;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+}
+
+.reservation-cancel {
+    width: 60rem;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.cart-input{
+    height: 3rem;
+    width: 50rem;
+    border: 1px solid black;
+    display: flex;
+}
+
+.cart-input > input{
+    height: 2.5rem;
+    width: 46rem;
+}
+
+.cart-input > button{
+    height: 2.8rem;
+    width: 6rem;
+    margin-left: 2rem;
+}
+
+.cart-card {
+    margin-top: 1rem;
+    width: 59rem;
+    border: 1px solid black;
+    height: 18rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0.5rem;
+
+}
+
+.cart-card-image{
+    width: 24rem;
+    height: 18rem;
+    border: 1px solid black;
+}
+
+.cart-card-contents{
+    width: 34rem;
+    height: 18rem;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+}
+
+.cart-card-contents-title > h2{
+    margin: 0;
+}
+
+.cart-card-contents-title > h3{
+    margin: 0;
+}
+
+/* 하트 버튼 스타일 */
+.heart-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    transition: all 0.3s ease;
+}
+
+.heart-btn:hover {
+    transform: scale(1.2);
+}
+
+.heart-btn:active {
+    transform: scale(0.9);
+}
+
+/* SVG 하트 스타일 */
+.heart-icon {
+    width: 3rem;
+    height: 3rem;
+    transition: all 0.3s ease;
+}
+
+/* 빈 하트 */
+.heart-icon.empty {
+    fill: none;
+    stroke: #333;
+    stroke-width: 2;
+}
+
+/* 채워진 하트 */
+.heart-icon.filled {
+    fill: #e74c3c;
+    stroke: #e74c3c;
+    stroke-width: 2;
+    animation: heartbeat 0.3s ease;
+}
+
+.cart-card-contents-title{
+    width: 18rem;
+}
+
+.cart-card-contents-heart{
+    width: 18rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    height: 18rem;
+    border: 1px solid black;
+    flex-direction: column;
+
+}
+.cart-card-contents-heart-div{
+    display: flex;
+    flex-direction: column;
+    height: 14rem;
+    border: 1px solid black;
+    justify-content: flex-end;
+    align-items: flex-end;
+
+}
+
+.cart-card-contents-heart-div > h4{
+    margin: 0;
+
+}
+
+.cart-card-contents-heart-div > h2{
+    margin: 0;
+}

@@ -6,7 +6,6 @@
 }
 
 
-
 @media screen and (max-width: 1200px ) {
     html {
         font-size: 14px;
@@ -21,7 +20,6 @@
 }
 
 
-
 @media screen and (max-width: 800px ) {
     html {
         font-size: 10px;
@@ -29,13 +27,11 @@
 }
 
 
-
 @media screen and (max-width: 600px ) {
     html {
         font-size: 8px;
     }
 }
-
 
 
 @media screen and (max-width: 400px ) {
@@ -110,24 +106,94 @@
     font-weight: bold;
 }
 
-.reservation-detail-container{
-    height: 16rem;
+.reservation-detail-container {
+    height: 14rem;
     border: 1px solid black;
     display: flex;
+    flex-direction: column;
 }
 
-.reservation-detail-container-title{
+
+.reservation-detail-container-top {
+    height: 3.5rem;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 1rem;
+}
+
+.reservation-detail-container-bottom {
+    display: flex;
+    flex-direction: row;
+}
+
+.reservation-detail-container-image {
+    width: 30rem;
+    height: 14rem;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+}
+
+.reservation-detail-container-image-index {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid black;
+    width: 14.9rem;
+
+}
+
+.reservation-detail-container-title {
     height: 7rem;
     border: 1px solid black;
+    display: flex;
+    align-items: center;
+    padding-left: 1rem;
 }
 
-.reservation-detail-container-2{
+.reservation-detail-container-2 {
     height: 14rem;
     border: 1px solid black;
     display: flex;
 }
 
-.reservation-detail-container-3{
+.reservation-detail-container-3 {
     height: 16rem;
     border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    padding-left: 1rem;
+}
+
+.reservation-detail-container-3 > button{
+    width: 16rem;
+    height: 8rem;
+    border: none;
+}
+
+.reservation-detail-container-bottom-index {
+    width: 14.9rem;
+    height: 10.3rem;
+    border: 1px solid black;
+    padding-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+}
+
+.reservation-detail-container-bottom-index > h4{
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.reservation-detail-container-bottom-index2 {
+    width: 44rem;
+    border: 1px solid black;
+    padding-left: 3rem;
+    justify-content: center;
+    font-size: 1.2rem;
 }

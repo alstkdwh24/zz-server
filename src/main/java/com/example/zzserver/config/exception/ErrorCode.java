@@ -22,7 +22,13 @@ public enum ErrorCode {
     PAYMENT_ALREADY_CANCELED(HttpStatus.BAD_REQUEST, "결제가 이미 취소되었습니다."),
     PAYMENT_CANCEL_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "결제 취소(환불)에 실패했습니다."),
     PORTONE_AUTH_FAILED(HttpStatus.UNAUTHORIZED,"api 인증에 문제가 있습니다."),
-    DISCOUNT_POLICY_CONFLICT(HttpStatus.CONFLICT,"할인 정책에 충돌이 납니다.");
+    DISCOUNT_POLICY_CONFLICT(HttpStatus.CONFLICT,"할인 정책에 충돌이 납니다."),
+    BASE_PRICE_NULL(HttpStatus.BAD_REQUEST,"기본 가격은 null일 수 없습니다."),
+    ACCOMMODATION_DAYS_NEGATIVE(HttpStatus.BAD_REQUEST,"숙박일은 0보다 크거나 같아야 합니다."),
+    RATE_NOT_NULL(HttpStatus.BAD_REQUEST,"할인율은 음수일수 없습니다."),
+    INVALID_RATE_RANGE(HttpStatus.BAD_REQUEST,"할인율은 0과 1 사이입니다."),
+    ACCOMMODATION_ZERO_NIGHTS(HttpStatus.BAD_REQUEST,"숙박일은 0일이 아닙니다."),
+    PRICE_NOT_NEGATIVE(HttpStatus.BAD_REQUEST,"가격은 음수일수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

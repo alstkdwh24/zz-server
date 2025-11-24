@@ -26,7 +26,7 @@ public class DiscountPolicy {
     @Enumerated(EnumType.STRING)
     private DiscountType type; // WEEKDAY, SEASONAL, MEMBERSHIP 등
 
-    private double rate; // 할인율 (예: 0.15 = 15%)
+    private Double rate; // 할인율 (예: 0.15 = 15%)
     private boolean active;
 
     private LocalDateTime startDate;

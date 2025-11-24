@@ -77,7 +77,7 @@ public class RoomsService {
         //방수정
         room.update(request.getName(), request.getMaxOccupacy(), request.isAvailable(), request.getPeopleCount());
         //이미지 삭제
-        if(deleteImageIds.isEmpty() && deleteImageIds != null) {
+        if(deleteImageIds != null && !deleteImageIds.isEmpty()) {
             roomImageService.deleteRoomImages(deleteImageIds);
         }
         //이미지 추가

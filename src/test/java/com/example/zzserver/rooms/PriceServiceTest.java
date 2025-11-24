@@ -1,5 +1,7 @@
 package com.example.zzserver.rooms;
 
+import com.example.zzserver.config.exception.CustomException;
+import com.example.zzserver.config.exception.ErrorCode;
 import com.example.zzserver.rooms.consts.DiscountType;
 import com.example.zzserver.rooms.entity.DiscountPolicy;
 import com.example.zzserver.rooms.entity.Rooms;
@@ -163,19 +165,21 @@ public class PriceServiceTest {
     }
 
     @Test
-    @DisplayName("숙박일수가 0일이면 항상 0원")
+    @DisplayName("숙박일수가 0일이면 예외처리")
     void zeroNights() {
         Rooms room = Rooms.builder()
                 .basePrice(BigDecimal.valueOf(100000))
                 .build();
 
-        BigDecimal result = priceService.calculatePrice(room, 0, LocalDateTime.now());
+        assertThatThrownBy(() ->
+                priceService.calculatePrice(room, 0, LocalDateTime.now()))
+                .isInstanceOf(CustomException.class)
+                .hasMessageContaining(ErrorCode.ACCOMMODATION_ZERO_NIGHTS.getMessage());
 
-        assertThat(result.compareTo(BigDecimal.ZERO)).isZero();
     }
 
     @Test
-    @DisplayName("basePrice = null → NPE 던짐")
+    @DisplayName("basePrice가 null이면 예외처리 ")
     void nullBasePrice() {
         Rooms room = Rooms.builder()
                 .basePrice(null)
@@ -183,6 +187,106 @@ public class PriceServiceTest {
 
         assertThatThrownBy(() ->
                 priceService.calculatePrice(room, 2, LocalDateTime.now()))
-                .isInstanceOf(NullPointerException.class);
+                .isInstanceOf(CustomException.class)
+                .hasMessageContaining(ErrorCode.BASE_PRICE_NULL.getMessage());
+    }
+
+    @Test
+    @DisplayName("숙박일수가 음수일 경우 CustomException")
+    void negativeNights() {
+        Rooms room = Rooms.builder()
+                .basePrice(BigDecimal.valueOf(100000))
+                .build();
+
+        assertThatThrownBy(() ->
+                priceService.calculatePrice(room, -1, LocalDateTime.now()))
+                .isInstanceOf(CustomException.class)
+                .hasMessageContaining(ErrorCode.ACCOMMODATION_DAYS_NEGATIVE.getMessage());
+    }
+
+    @Test
+    @DisplayName("기간 할인 rate가 null이면 예외")
+    void nullRate() {
+        Rooms room = Rooms.builder()
+                .basePrice(BigDecimal.valueOf(100000))
+                .build();
+
+        DiscountPolicy invalid = DiscountPolicy.builder()
+                .type(DiscountType.WEEKDAY)
+                .rate(null)
+                .build();
+
+        when(discountPolicyService.getApplicablePolicies(any(), any()))
+                .thenReturn(List.of(invalid));
+        when(discountPolicyService.selectPeriodPolicy(any()))
+                .thenReturn(invalid);
+
+        assertThatThrownBy(() ->
+                priceService.calculatePrice(room, 1, LocalDateTime.now()))
+                .isInstanceOf(CustomException.class)
+                .hasMessageContaining(ErrorCode.RATE_NOT_NULL.getMessage());
+    }
+
+    @Test
+    @DisplayName("할인율 < 0이면 예외")
+    void rateNegative() {
+        Rooms room = Rooms.builder().basePrice(BigDecimal.valueOf(100000)).build();
+
+        DiscountPolicy invalid = DiscountPolicy.builder()
+                .type(DiscountType.WEEKDAY)
+                .rate(-0.5)
+                .build();
+
+        when(discountPolicyService.getApplicablePolicies(any(), any()))
+                .thenReturn(List.of(invalid));
+        when(discountPolicyService.selectPeriodPolicy(any()))
+                .thenReturn(invalid);
+
+        assertThatThrownBy(() ->
+                priceService.calculatePrice(room, 1, LocalDateTime.now()))
+                .isInstanceOf(CustomException.class)
+                .hasMessageContaining(ErrorCode.INVALID_RATE_RANGE.getMessage());
+    }
+
+    @Test
+    @DisplayName("할인율 > 1 이면 예외")
+    void rateOverOne() {
+        Rooms room = Rooms.builder().basePrice(BigDecimal.valueOf(100000)).build();
+
+        DiscountPolicy invalid = DiscountPolicy.builder()
+                .type(DiscountType.WEEKDAY)
+                .rate(1.5)
+                .build();
+
+        when(discountPolicyService.getApplicablePolicies(any(), any()))
+                .thenReturn(List.of(invalid));
+        when(discountPolicyService.selectPeriodPolicy(any()))
+                .thenReturn(invalid);
+
+        assertThatThrownBy(() ->
+                priceService.calculatePrice(room, 1, LocalDateTime.now()))
+                .isInstanceOf(CustomException.class)
+                .hasMessageContaining(ErrorCode.INVALID_RATE_RANGE.getMessage());
+    }
+
+    @Test
+    @DisplayName("할인 결과가 0 미만이면 예외처리")
+    void priceBelowZero() {
+        Rooms room = Rooms.builder().basePrice(BigDecimal.valueOf(10)).build();
+
+        DiscountPolicy hugeDiscount = DiscountPolicy.builder()
+                .type(DiscountType.SEASONAL)
+                .rate(10.0)     // 1000%
+                .build();
+
+        when(discountPolicyService.getApplicablePolicies(any(), any()))
+                .thenReturn(List.of(hugeDiscount));
+        when(discountPolicyService.selectPeriodPolicy(any()))
+                .thenReturn(hugeDiscount);
+
+        assertThatThrownBy(() ->
+                priceService.calculatePrice(room, 1, LocalDateTime.now()))
+                .isInstanceOf(CustomException.class)
+                .hasMessageContaining(ErrorCode.INVALID_RATE_RANGE.getMessage());
     }
 }

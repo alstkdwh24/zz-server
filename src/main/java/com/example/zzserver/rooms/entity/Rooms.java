@@ -56,10 +56,20 @@ public class Rooms {
   }
 
   public void decreaseAvailable(int count) {
+    if (count < 0) {
+      throw new CustomException(ErrorCode.INVALID_REQUEST);
+    }
+
+    if (count == 0) {
+      return;
+    }
+
     if (this.peopleCount == null || this.peopleCount < count) {
       throw new CustomException(ErrorCode.RESERVATION_OVERLAP);
     }
+
     this.peopleCount -= count;
+
     if (this.peopleCount == 0) {
       this.available = false;
     }

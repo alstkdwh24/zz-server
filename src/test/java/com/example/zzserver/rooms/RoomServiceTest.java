@@ -27,7 +27,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class roomServiceTest {
+public class RoomServiceTest {
 
     @Mock
     private RoomsRepository roomsRepository;
@@ -94,6 +94,32 @@ public class roomServiceTest {
     }
 
     @Test
+    @DisplayName("재고 차감 - 0 차감 시 변화 없음")
+    void decreaseStock_zero() {
+        Rooms room = Rooms.builder()
+                .id(UUID.randomUUID())
+                .peopleCount(5)
+                .build();
+
+        room.decreaseAvailable(0);
+
+        assertThat(room.getPeopleCount()).isEqualTo(5);
+    }
+
+    @Test
+    @DisplayName("재고 차감 실패 - 음수 입력")
+    void decreaseStock_negative() {
+        Rooms room = Rooms
+                .builder()
+                .id(UUID.randomUUID())
+                .peopleCount(5)
+                .build();
+
+        assertThatThrownBy(() -> room.decreaseAvailable(-1))
+                .isInstanceOf(CustomException.class);
+    }
+
+    @Test
     @DisplayName("방 생성 성공 - 이미지 없음")
     void createRoom_noImages_success() {
         UUID id = UUID.randomUUID();
@@ -150,6 +176,28 @@ public class roomServiceTest {
     }
 
     @Test
+    @DisplayName("방 생성 성공 - 빈 이미지 리스트 전달 시 업로드 호출 안 됨")
+    void createRoom_emptyImages_success() {
+        RoomsRequest.Request req = RoomsRequest.Request.builder()
+                .accommodationId(UUID.randomUUID())
+                .name("Deluxe")
+                .maxOccupacy(4)
+                .peopleCount(4)
+                .available(true)
+                .build();
+
+        UUID generatedId = UUID.randomUUID();
+        when(roomsRepository.save(any()))
+                .thenReturn(Rooms.builder().id(generatedId).build());
+
+        UUID result = roomsService.create(req, List.of());
+
+        assertThat(result).isEqualTo(generatedId);
+        verify(roomImageService, never()).uploadRoomsImages(any(), any());
+    }
+
+
+    @Test
     @DisplayName("방 수정 성공")
     void updateRoom_success() {
         UUID roomId = UUID.randomUUID();
@@ -200,6 +248,98 @@ public class roomServiceTest {
         assertThatThrownBy(() -> roomsService.update(id, req, null, null))
                 .isInstanceOf(CustomException.class)
                 .hasMessageContaining(ErrorCode.ROOM_NOT_FOUND.getMessage());
+    }
+
+    @Test
+    @DisplayName("방 수정 성공 - newImages=null, deleteImageIds 존재")
+    void updateRoom_deleteOnly_success() {
+        UUID id = UUID.randomUUID();
+
+        Rooms room = Rooms.builder()
+                .id(id)
+                .name("Old")
+                .maxOccupacy(2)
+                .peopleCount(2)
+                .available(true)
+                .build();
+
+        RoomsRequest.Update req = RoomsRequest.Update.builder()
+                .name("NewName")
+                .maxOccupacy(3)
+                .peopleCount(3)
+                .available(false)
+                .build();
+
+        List<UUID> deleteImageIds = List.of(UUID.randomUUID(), UUID.randomUUID());
+
+        when(roomsRepository.findById(id)).thenReturn(Optional.of(room));
+
+        roomsService.update(id, req, null, deleteImageIds);
+
+        assertThat(room.getName()).isEqualTo("NewName");
+        assertThat(room.getPeopleCount()).isEqualTo(3);
+
+        verify(roomImageService, times(1)).deleteRoomImages(deleteImageIds);
+        verify(roomImageService, never()).uploadRoomsImages(any(), any());
+    }
+
+    @Test
+    @DisplayName("방 수정 성공 - newImages empty, deleteImageIds empty")
+    void updateRoom_noImageChanges_success() {
+        UUID id = UUID.randomUUID();
+
+        Rooms room = Rooms.builder()
+                .id(id)
+                .name("Old")
+                .maxOccupacy(2)
+                .peopleCount(2)
+                .available(true)
+                .build();
+
+        RoomsRequest.Update req = RoomsRequest.Update.builder()
+                .name("Updated")
+                .maxOccupacy(3)
+                .peopleCount(3)
+                .available(false)
+                .build();
+
+        when(roomsRepository.findById(id))
+                .thenReturn(Optional.of(room));
+
+        roomsService.update(id, req, List.of(), List.of());
+
+        assertThat(room.getName()).isEqualTo("Updated");
+        verify(roomImageService, never()).uploadRoomsImages(any(), any());
+        verify(roomImageService, never()).deleteRoomImages(any());
+    }
+
+    @Test
+    @DisplayName("방 수정 성공 - deleteImageIds null 처리")
+    void updateRoom_deleteNull_success() {
+        UUID id = UUID.randomUUID();
+
+        Rooms room = Rooms.builder()
+                .id(id)
+                .name("Old")
+                .maxOccupacy(2)
+                .peopleCount(2)
+                .available(true)
+                .build();
+
+        RoomsRequest.Update req = RoomsRequest.Update.builder()
+                .name("Updated")
+                .maxOccupacy(3)
+                .peopleCount(3)
+                .available(false)
+                .build();
+
+        when(roomsRepository.findById(id))
+                .thenReturn(Optional.of(room));
+
+        roomsService.update(id, req, List.of(), null);
+
+        assertThat(room.getName()).isEqualTo("Updated");
+        verify(roomImageService, never()).deleteRoomImages(any());
     }
 
     @Test

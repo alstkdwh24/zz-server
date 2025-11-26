@@ -47,7 +47,7 @@ public class RoomServiceTest {
         Rooms room = Rooms.builder()
                 .id(roomId)
                 .name("Deluxe Room")
-                .peopleCount(5)
+                .stockCount(5)
                 .build();
 
         when(roomsRepository.findById(roomId)).thenReturn(Optional.of(room));
@@ -73,12 +73,12 @@ public class RoomServiceTest {
     void decreaseStock_success() {
         Rooms room = Rooms.builder()
                 .id(UUID.randomUUID())
-                .peopleCount(3)
+                .stockCount(3)
                 .build();
 
         room.decreaseAvailable(2);
 
-        Assertions.assertThat(room.getPeopleCount()).isEqualTo(1);
+        Assertions.assertThat(room.getStockCount()).isEqualTo(1);
     }
 
     @Test
@@ -86,7 +86,7 @@ public class RoomServiceTest {
     void decreaseStock_fail() {
         Rooms room = Rooms.builder()
                 .id(UUID.randomUUID())
-                .peopleCount(1)
+                .stockCount(1)
                 .build();
 
         assertThatThrownBy(() -> room.decreaseAvailable(5))
@@ -98,12 +98,12 @@ public class RoomServiceTest {
     void decreaseStock_zero() {
         Rooms room = Rooms.builder()
                 .id(UUID.randomUUID())
-                .peopleCount(5)
+                .stockCount(5)
                 .build();
 
         room.decreaseAvailable(0);
 
-        assertThat(room.getPeopleCount()).isEqualTo(5);
+        assertThat(room.getStockCount()).isEqualTo(5);
     }
 
     @Test
@@ -112,7 +112,7 @@ public class RoomServiceTest {
         Rooms room = Rooms
                 .builder()
                 .id(UUID.randomUUID())
-                .peopleCount(5)
+                .stockCount(5)
                 .build();
 
         assertThatThrownBy(() -> room.decreaseAvailable(-1))
@@ -129,7 +129,7 @@ public class RoomServiceTest {
                 .accommodationId(UUID.randomUUID())
                 .name("Deluxe")
                 .maxOccupacy(4)
-                .peopleCount(4)
+                .stockCount(4)
                 .available(true)
                 .build();
 
@@ -137,7 +137,7 @@ public class RoomServiceTest {
                 .id(id)
                 .name(req.getName())
                 .maxOccupacy(req.getMaxOccupacy())
-                .peopleCount(req.getPeopleCount())
+                .stockCount(req.getStockCount())
                 .available(req.isAvailable())
                 .accommodationId(req.getAccommodationId())
                 .build();
@@ -159,7 +159,7 @@ public class RoomServiceTest {
                 .accommodationId(UUID.randomUUID())
                 .name("Standard")
                 .maxOccupacy(2)
-                .peopleCount(2)
+                .stockCount(2)
                 .available(true)
                 .build();
 
@@ -182,7 +182,7 @@ public class RoomServiceTest {
                 .accommodationId(UUID.randomUUID())
                 .name("Deluxe")
                 .maxOccupacy(4)
-                .peopleCount(4)
+                .stockCount(4)
                 .available(true)
                 .build();
 
@@ -205,14 +205,14 @@ public class RoomServiceTest {
                 .id(roomId)
                 .name("Old")
                 .maxOccupacy(2)
-                .peopleCount(2)
+                .stockCount(2)
                 .available(true)
                 .build();
 
         RoomsRequest.Update req = RoomsRequest.Update.builder()
                 .name("NewName")
                 .maxOccupacy(5)
-                .peopleCount(5)
+                .stockCount(5)
                 .available(false)
                 .build();
 
@@ -224,7 +224,7 @@ public class RoomServiceTest {
         roomsService.update(roomId, req, newImages, deleteImageIds);
 
         assertThat(room.getName()).isEqualTo("NewName");
-        assertThat(room.getPeopleCount()).isEqualTo(5);
+        assertThat(room.getStockCount()).isEqualTo(5);
         assertThat(room.isAvailable()).isFalse();
 
         //verify(roomImageService, times(1)).deleteRoomImages(deleteImageIds);
@@ -239,7 +239,7 @@ public class RoomServiceTest {
         RoomsRequest.Update req = RoomsRequest.Update.builder()
                 .name("test")
                 .maxOccupacy(4)
-                .peopleCount(4)
+                .stockCount(4)
                 .available(true)
                 .build();
 
@@ -259,14 +259,14 @@ public class RoomServiceTest {
                 .id(id)
                 .name("Old")
                 .maxOccupacy(2)
-                .peopleCount(2)
+                .stockCount(2)
                 .available(true)
                 .build();
 
         RoomsRequest.Update req = RoomsRequest.Update.builder()
                 .name("NewName")
                 .maxOccupacy(3)
-                .peopleCount(3)
+                .stockCount(3)
                 .available(false)
                 .build();
 
@@ -277,7 +277,7 @@ public class RoomServiceTest {
         roomsService.update(id, req, null, deleteImageIds);
 
         assertThat(room.getName()).isEqualTo("NewName");
-        assertThat(room.getPeopleCount()).isEqualTo(3);
+        assertThat(room.getStockCount()).isEqualTo(3);
 
         verify(roomImageService, times(1)).deleteRoomImages(deleteImageIds);
         verify(roomImageService, never()).uploadRoomsImages(any(), any());
@@ -292,14 +292,14 @@ public class RoomServiceTest {
                 .id(id)
                 .name("Old")
                 .maxOccupacy(2)
-                .peopleCount(2)
+                .stockCount(2)
                 .available(true)
                 .build();
 
         RoomsRequest.Update req = RoomsRequest.Update.builder()
                 .name("Updated")
                 .maxOccupacy(3)
-                .peopleCount(3)
+                .stockCount(3)
                 .available(false)
                 .build();
 
@@ -322,14 +322,14 @@ public class RoomServiceTest {
                 .id(id)
                 .name("Old")
                 .maxOccupacy(2)
-                .peopleCount(2)
+                .stockCount(2)
                 .available(true)
                 .build();
 
         RoomsRequest.Update req = RoomsRequest.Update.builder()
                 .name("Updated")
                 .maxOccupacy(3)
-                .peopleCount(3)
+                .stockCount(3)
                 .available(false)
                 .build();
 

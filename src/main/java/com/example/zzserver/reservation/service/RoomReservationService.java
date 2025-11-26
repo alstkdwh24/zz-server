@@ -94,39 +94,17 @@ public class RoomReservationService {
      **/
     public UUID createReservation(ReservationDto.Request request) {
         // 장바구니 조회
-        Cart cart = cartRepository.findById(request.getCartId())
-                .orElseThrow(() -> new CustomException(ErrorCode.CART_NOT_FOUND));
-
+        Cart cart = getCart(request.getCartId());
         // 방 확인 -> 동시성 고려
-        Rooms room = roomsRepository.findByIdForUpdate(cart.getRoomId())
-                .orElseThrow(() -> new CustomException(ErrorCode.ROOM_NOT_FOUND));
-        // 예약 충돌 확인
-        boolean overlap = roomReservationRepository
-                .existsOverlappingReservation(cart.getRoomId(), cart.getCheckInDate(),cart.getCheckOutDate());
-
-        if (overlap) {
-            throw new CustomException(ErrorCode.RESERVATION_OVERLAP);
-        }
+        Rooms room = getRoomWithLock(cart.getRoomId());
         // 예약 생성시 재고 차감
         room.decreaseAvailable(request.getRoomCount());
-
+        // 예약 충돌 확인
+        validateReservationOverlap(cart);
         // 할인율 계산
-        long nights = DAYS.between(cart.getCheckInDate(), cart.getCheckOutDate());
-        LocalDateTime now = LocalDateTime.now();
-
-        BigDecimal finalPrice = priceService.calculatePrice(room, nights, now);
-
+        BigDecimal finalPrice = calculateFinalPrice(room,cart);
         // 예약 저장
-        RoomReservations reservation = RoomReservations.builder()
-                .memberId(request.getMemberId())
-                .roomId(request.getRoomId())
-                .checkIn(request.getCheckInDate())
-                .checkOut(request.getCheckOutDate())
-                .reservedAt(LocalDateTime.now())
-                .status(ReservationStatus.PENDING)
-                .originalPrice(room.getBasePrice().multiply(BigDecimal.valueOf(nights)))
-                .finalPrice(finalPrice) // 할인된 가격
-                .build();
+        RoomReservations reservation = buildReservation(request,cart,room,finalPrice);
 
         UUID reservationId = roomReservationRepository.save(reservation).getId();
         // 장바구니 비우기
@@ -142,6 +120,10 @@ public class RoomReservationService {
     public void confirmReservation(UUID reservationId) {
         RoomReservations reservation = roomReservationRepository.findById(reservationId)
                 .orElseThrow(() -> new CustomException(ErrorCode.RESERVATION_NOT_FOUND));
+
+        if (reservation.getStatus() != ReservationStatus.PENDING) {
+            throw new CustomException(ErrorCode.RESERVATION_CONFIRM);
+        }
         // 예약 확인
         reservation.confirm(); 
     }
@@ -175,6 +157,52 @@ public class RoomReservationService {
                 .checkInDate(reservations.getCheckIn())
                 .checkOutDate(reservations.getCheckOut())
                 .reservedAt(reservations.getReservedAt())
+                .build();
+    }
+
+    private Cart getCart(UUID cartId) {
+        return cartRepository.findById(cartId)
+                .orElseThrow(() -> new CustomException(ErrorCode.CART_NOT_FOUND));
+    }
+
+    private Rooms getRoomWithLock(UUID roomId) {
+        return roomsRepository.findByIdForUpdate(roomId)
+                .orElseThrow(() -> new CustomException(ErrorCode.ROOM_NOT_FOUND));
+    }
+
+    private void validateReservationOverlap(Cart cart) {
+        boolean overlap = roomReservationRepository.existsOverlappingReservation(
+                cart.getRoomId(),
+                cart.getCheckInDate(),
+                cart.getCheckOutDate()
+        );
+        if (overlap) {
+            throw new CustomException(ErrorCode.RESERVATION_OVERLAP);
+        }
+    }
+
+    private BigDecimal calculateFinalPrice(Rooms room, Cart cart) {
+        long nights = DAYS.between(cart.getCheckInDate(), cart.getCheckOutDate());
+        return priceService.calculatePrice(room, nights, LocalDateTime.now());
+    }
+
+    private RoomReservations buildReservation(
+            ReservationDto.Request request,
+            Cart cart,
+            Rooms room,
+            BigDecimal finalPrice
+    ) {
+        long nights = DAYS.between(cart.getCheckInDate(), cart.getCheckOutDate());
+
+        return RoomReservations.builder()
+                .memberId(request.getMemberId())
+                .roomId(request.getRoomId())
+                .checkIn(cart.getCheckInDate())
+                .checkOut(cart.getCheckOutDate())
+                .reservedAt(LocalDateTime.now())
+                .status(ReservationStatus.PENDING)
+                .originalPrice(room.getBasePrice().multiply(BigDecimal.valueOf(nights)))
+                .finalPrice(finalPrice)
                 .build();
     }
 }

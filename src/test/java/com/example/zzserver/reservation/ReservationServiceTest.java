@@ -31,7 +31,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class reservationServiceTest {
+public class ReservationServiceTest {
 
     @Mock
     private CartRepository cartRepository;
@@ -65,7 +65,7 @@ public class reservationServiceTest {
         room = Rooms.builder()
                 .id(cart.getRoomId())
                 .basePrice(BigDecimal.valueOf(100_000))
-                .peopleCount(5)
+                .stockCount(5)
                 .build();
     }
 
@@ -113,7 +113,7 @@ public class reservationServiceTest {
         UUID result = reservationService.createReservation(req);
 
         assertThat(result).isEqualTo(reservationId);
-        assertThat(room.getPeopleCount()).isEqualTo(4);
+        assertThat(room.getStockCount()).isEqualTo(4);
 
         verify(cartRepository, times(1)).delete(cart);
         verify(reservationRepository, times(1)).save(any(RoomReservations.class));

@@ -24,7 +24,7 @@ public class RoomsRequest {
         @NotBlank(message = "허용수를 입력해 주세요.")
         private long maxOccupacy;
         private boolean available;
-        private Integer peopleCount;
+        private Integer stockCount;
     }
 
     @Getter
@@ -37,7 +37,7 @@ public class RoomsRequest {
         private String name;
         private long maxOccupacy;
         private boolean available;
-        private Integer peopleCount;
+        private Integer stockCount;
         private List<UUID> deleteImageIds;
     }
 }

@@ -75,7 +75,7 @@ public class RoomsService {
         //방조회
         Rooms room = roomsRepository.findById(id).orElseThrow(()->new CustomException(ErrorCode.ROOM_NOT_FOUND));
         //방수정
-        room.update(request.getName(), request.getMaxOccupacy(), request.isAvailable(), request.getPeopleCount());
+        room.update(request.getName(), request.getMaxOccupacy(), request.isAvailable(), request.getStockCount());
         //이미지 삭제
         if(deleteImageIds != null && !deleteImageIds.isEmpty()) {
             roomImageService.deleteRoomImages(deleteImageIds);
@@ -112,7 +112,7 @@ public class RoomsService {
                 .accommodationId(request.getAccommodationId())
                 .name(request.getName())
                 .maxOccupacy(request.getMaxOccupacy())
-                .peopleCount(request.getPeopleCount())
+                .stockCount(request.getStockCount())
                 .available(request.isAvailable())
                 .build();
 

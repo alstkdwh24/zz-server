@@ -40,7 +40,7 @@ public class Rooms {
   @ColumnDefault("true")
   private boolean available;
 
-  private Integer peopleCount;
+  private Integer stockCount;
 
   // 방 가격
   private BigDecimal basePrice;
@@ -48,11 +48,11 @@ public class Rooms {
   // 할인된 가격
   private BigDecimal discountedPrice;
 
-  public void update(String name, Long maxOccupacy, boolean isAvailable, Integer peopleCount){
+  public void update(String name, Long maxOccupacy, boolean isAvailable, Integer stockCount){
     this.name = name;
     this.maxOccupacy = maxOccupacy;
     this.available = isAvailable;
-    this.peopleCount = peopleCount;
+    this.stockCount = stockCount;
   }
 
   public void decreaseAvailable(int count) {
@@ -64,19 +64,22 @@ public class Rooms {
       return;
     }
 
-    if (this.peopleCount == null || this.peopleCount < count) {
+    if (this.stockCount == null || this.stockCount < count) {
       throw new CustomException(ErrorCode.RESERVATION_OVERLAP);
     }
 
-    this.peopleCount -= count;
+    this.stockCount -= count;
 
-    if (this.peopleCount == 0) {
+    if (this.stockCount == 0) {
       this.available = false;
     }
   }
 
   public void increaseAvailable(int count) {
-    this.peopleCount += count;
+    if (count <= 0) {
+      throw new CustomException(ErrorCode.INVALID_REQUEST);
+    }
+    this.stockCount += count;
     this.available = true;
   }
 }

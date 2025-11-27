@@ -28,7 +28,8 @@ public enum ErrorCode {
     RATE_NOT_NULL(HttpStatus.BAD_REQUEST,"할인율은 음수일수 없습니다."),
     INVALID_RATE_RANGE(HttpStatus.BAD_REQUEST,"할인율은 0과 1 사이입니다."),
     ACCOMMODATION_ZERO_NIGHTS(HttpStatus.BAD_REQUEST,"숙박일은 0일이 아닙니다."),
-    PRICE_NOT_NEGATIVE(HttpStatus.BAD_REQUEST,"가격은 음수일수 없습니다.");
+    PRICE_NOT_NEGATIVE(HttpStatus.BAD_REQUEST,"가격은 음수일수 없습니다."),
+    PAYMENT_MERCHANT_MISMATCH(HttpStatus.CONFLICT,"merchant_id가 일치하지 않습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

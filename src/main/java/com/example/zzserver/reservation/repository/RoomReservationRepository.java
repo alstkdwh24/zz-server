@@ -2,12 +2,15 @@ package com.example.zzserver.reservation.repository;
 
 import com.example.zzserver.reservation.consts.ReservationStatus;
 import com.example.zzserver.reservation.entity.RoomReservations;
+import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface RoomReservationRepository extends JpaRepository<RoomReservations, UUID> {
@@ -42,4 +45,8 @@ public interface RoomReservationRepository extends JpaRepository<RoomReservation
             @Param("checkIn") LocalDateTime checkIn,
             @Param("checkOut") LocalDateTime checkOut
     );
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT r FROM RoomReservations r WHERE r.id = :id")
+    Optional<RoomReservations> findByIdForUpdate(@Param("id") UUID id);
 }

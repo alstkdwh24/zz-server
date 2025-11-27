@@ -16,13 +16,10 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -67,7 +64,9 @@ public class PaymentServiceTest {
     @DisplayName("ready(): 예약정보와 금액을 기반으로 결제정보 생성")
     void ready_success() {
         // given
-        given(reservationRepository.findById(reservationId)).willReturn(Optional.of(reservation));
+        given(reservationRepository.findByIdForUpdate(reservationId)).willReturn(Optional.of(reservation));
+        given(paymentRepository.findByReservationIdForUpdate(reservationId))
+                .willReturn(Optional.empty());
         given(paymentRepository.save(any(Payment.class)))
                 .willAnswer(invocation -> invocation.getArgument(0));
 
@@ -78,6 +77,27 @@ public class PaymentServiceTest {
         assertThat(result.getAmount()).isEqualTo(1000L);
         assertThat(result.getStatus()).isEqualTo(PaymentStatus.PENDING);
         verify(paymentRepository).save(any(Payment.class));
+    }
+
+    @Test
+    @DisplayName("ready(): 기존 PENDING 결제가 있으면 그대로 반환")
+    void ready_existing_pending() {
+        Payment existing = Payment.builder()
+                .reservationId(reservationId)
+                .merchantUid("order_old")
+                .status(PaymentStatus.PENDING)
+                .amount(3000L)
+                .build();
+
+        given(reservationRepository.findByIdForUpdate(reservationId))
+                .willReturn(Optional.of(reservation));
+
+        given(paymentRepository.findByReservationIdForUpdate(reservationId))
+                .willReturn(Optional.of(existing));
+
+        Payment result = paymentService.ready(reservationId, 9999L);
+
+        assertThat(result).isEqualTo(existing);
     }
 
     @Test
@@ -110,7 +130,7 @@ public class PaymentServiceTest {
         given(portOnePaymentService.getPayment(impUid)).willReturn(mockDto);
         given(paymentRepository.findByMerchantUidForUpdate(merchantUid))
                 .willReturn(Optional.of(payment));
-        given(reservationRepository.findById(payment.getReservationId()))
+        given(reservationRepository.findByIdForUpdate(payment.getReservationId()))
                 .willReturn(Optional.of(reservation));
 
         // when
@@ -118,7 +138,30 @@ public class PaymentServiceTest {
 
         // then
         assertThat(payment.getStatus()).isEqualTo(PaymentStatus.SUCCESS);
+        assertThat(reservation.getStatus()).isEqualTo(ReservationStatus.CONFIRMED);
         assertThat(payment.getMethod()).isEqualTo("card");
+    }
+
+    @Test
+    @DisplayName("verifyFail(): 결제 실패 시 FAILED + 예약 CANCEL")
+    void verifyFail_success() {
+
+        Payment payment = Payment.builder()
+                .portonePaymentId("imp_xxx")
+                .status(PaymentStatus.PENDING)
+                .reservationId(reservationId)
+                .build();
+
+        given(paymentRepository.findByPortonePaymentIdForUpdate("imp_xxx"))
+                .willReturn(Optional.of(payment));
+
+        given(reservationRepository.findByIdForUpdate(reservationId))
+                .willReturn(Optional.of(reservation));
+
+        paymentService.verifyFail("imp_xxx", "ERR01", "결제 실패");
+
+        assertThat(payment.getStatus()).isEqualTo(PaymentStatus.FAILED);
+        assertThat(reservation.getStatus()).isEqualTo(ReservationStatus.CANCELED);
     }
 
     @Test
@@ -132,13 +175,13 @@ public class PaymentServiceTest {
 
         given(paymentRepository.findByPortonePaymentIdForUpdate("imp_9999"))
                 .willReturn(Optional.of(payment));
-        given(reservationRepository.findById(reservationId))
+        given(reservationRepository.findByIdForUpdate(reservationId))
                 .willReturn(Optional.of(reservation));
 
         paymentService.cancel("imp_9999", "C001", "사용자 요청 취소");
-
+        assertThat(reservation.getStatus()).isEqualTo(ReservationStatus.CANCELED);
         assertThat(payment.getStatus()).isEqualTo(PaymentStatus.CANCELED);
-        verify(portOnePaymentService) .cancelPayment("imp_9999", "사용자 요청 취소");
+        verify(portOnePaymentService).cancelPayment("imp_9999", "사용자 요청 취소");
     }
 
     @Test
@@ -152,11 +195,12 @@ public class PaymentServiceTest {
 
         given(paymentRepository.findByPortonePaymentIdForUpdate("imp_8888"))
                 .willReturn(Optional.of(payment));
-        given(reservationRepository.findById(reservationId))
+        given(reservationRepository.findByIdForUpdate(reservationId))
                 .willReturn(Optional.of(reservation));
 
         paymentService.refund("imp_8888", "테스트 환불");
 
+        assertThat(reservation.getStatus()).isEqualTo(ReservationStatus.CANCELED);
         Assertions.assertThat(payment.getStatus()).isEqualTo(PaymentStatus.CANCELED);
         Mockito.verify(portOnePaymentService).cancelPayment("imp_8888", "테스트 환불");
     }
@@ -164,7 +208,7 @@ public class PaymentServiceTest {
     @Test
     @DisplayName("ready(): 예약정보가 없으면 예외 발생")
     void ready_fail_reservationNotFound() {
-        given(reservationRepository.findById(reservationId)).willReturn(Optional.empty());
+        given(reservationRepository.findByIdForUpdate(reservationId)).willReturn(Optional.empty());
         assertThatThrownBy(() -> paymentService.ready(reservationId, 1000L))
                 .isInstanceOf(CustomException.class);
     }

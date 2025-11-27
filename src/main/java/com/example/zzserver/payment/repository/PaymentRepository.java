@@ -37,6 +37,6 @@ public interface PaymentRepository extends JpaRepository<Payment, UUID> {
 
     // 예약 ID 기반으로 락 잡기 (예약 ↔ 결제 상태 전환 동기화)
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("SELECT p FROM Payment p WHERE p.reservationId = :reservationId")
+    @Query("SELECT p FROM Payment p WHERE p.reservationId = :reservationId AND p.status = 'PENDING'")
     Optional<Payment> findByReservationIdForUpdate(@Param("reservationId") UUID reservationId);
 }

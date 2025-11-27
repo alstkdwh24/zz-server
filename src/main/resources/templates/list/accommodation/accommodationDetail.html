@@ -1,17 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/accommodation/accommodationDetail.css">
+    <link rel="stylesheet" href="/css/accommodation/accommodationLocation.css">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_forward_ios"/>
+    <link rel="stylesheet" href="/css/accommodation/accommodationRoomList.css">
+    <link rel="stylesheet" href="/css/accommodation/accommodationReview.css">
+    <link rel="stylesheet" href="/css/accommodation/accommodationBottom.css">
+    <script th:src="@{//dapi.kakao.com/v2/maps/sdk.js(appkey=${kakaoMap})}"></script>
 
 
 </head>
 <body>
 <header th:replace="~{header/differentHeader.html :: headers}"></header>
 <div class="header-container">
-    <div></div>
+    <div class="header-container-image"></div>
     <div>
         <div class="img-1"></div>
         <div class="img-2"></div>
@@ -25,15 +32,89 @@
     <div class="middle-container-mark">
         <div class="middle-container-mark-top">
             <div class="mark-container">
-                <img src="/assets/image/free-icon-medal-4211074.png" style="width: 5rem; height: 5rem">
+                <img src="/assets/image/free-icon-medal-4211074.png" alt="" style="width: 5rem; height: 5rem">
             </div>
         </div>
-        <div class="middle-container-mark-middle"></div>
-        <div class="middle-container-mark-bottom"></div>
+        <div class="middle-container-mark-middle">
+            <p style="margin-left: 2rem; font-size: 1.8rem">여기잘까 게스트들이 선호하는 숙소</p>
+        </div>
+        <div class="middle-container-mark-bottom">
+
+        </div>
     </div>
     <div class="middle-container-detail">
-        <div></div>
-        <div></div>
+        <div class="middle-container-div">
+            <div class="middle-div-title">
+                <h2>서비스 및 부대시설</h2>
+                <div style="font-size: 6rem; height: 10.4rem; margin-left: 0.4rem"> ›</div>
+
+            </div>
+            <div class="middle-div-title-image">
+                <div class="middle-div-title-image-con1">
+                    <div class="facility-image"><img src="/assets/image/wifi.svg" alt="alt" class="image-image"
+                                                     style=" object-fit: contain; width: 3rem; height: 3rem; /* 비율 유지하며 DIV에 맞춤 */
+    display: block; border: none;"></div>
+                    <div class="facility-name">와이파이</div>
+                </div>
+                <div class="middle-div-title-image-con2">
+                    <div class="facility-image">
+                        <img src="/assets/image/wifi.svg" alt="alt" class="image-image" style=" object-fit: contain; width: 3rem; height: 3rem; /* 비율 유지하며 DIV에 맞춤 */
+    display: block; border: none;">
+                    </div>
+                    <div class="facility-name">와이파이</div>
+                </div>
+                <div class="middle-div-title-image-con3">
+                    <div class="facility-image">
+                        <img src="/assets/image/wifi.svg" alt="alt" class="image-image" style=" object-fit: contain; width: 3rem; height: 3rem; /* 비율 유지하며 DIV에 맞춤 */
+    display: block; border: none;">
+                    </div>
+                    <div class="facility-name">와이파이</div>
+                </div>
+                <div class="middle-div-title-image-con3">
+                    <div class="facility-image">
+                        <img src="/assets/image/wifi.svg" alt="alt" class="image-image" style=" object-fit: contain; width: 3rem; height: 3rem; /* 비율 유지하며 DIV에 맞춤 */
+    display: block; border: none;">
+                    </div>
+                    <div class="facility-name">와이파이</div>
+                </div>
+
+            </div>
+            <div>
+
+            </div>
+        </div>
+        <div>
+            <div class="middle-container-div">
+                <div class="middle-div-title">
+                    <h2>위치 정보</h2>
+                    <div style="font-size: 6rem; height: 10.4rem; margin-left: 0.4rem"> ›</div>
+
+                </div>
+                <div class="middle-div-title-location">
+                    <div class="middle-div-title-image-container3">
+                        <div class="middle-div-title-image-image">
+                            <img src="/assets/image/location_on_26dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="alt"
+                                 class="location-image">
+                        </div>
+                        <div class="location-contents">
+                            <h3>강원특별자치도 속초시 중앙동 111-56</h3>
+                        </div>
+                    </div>
+                    <div class="middle-div-title-image-container3">
+                        <div class="middle-div-title-image-image">
+                            <img src="/assets/image/map_26dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="alt"
+                                 class="location-image">
+                        </div>
+                        <div class="location-contents">
+                            <h3>속초중앙시장 도보 5분</h3>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
     </div>
 </div>
 <div class="roomList">
@@ -49,38 +130,174 @@
             </div>
             <div class="roomList-card-list">
                 <div class="card-contents">
-                    <div class="card-contents-top"></div>
-                    <div class="card-contents-middle"></div>
-                    <div class="card-contents-botton"></div>
+                    <div class="card-contents-top">
+                        <p>오션뷰 파노라마 아메리칸 드림(조식)</p>
+                        <div style="width: 53.5rem">위치 정보
+                            <div style="font-size: 3.4rem; height: 4rem; margin-left: 0.5rem;">›</div>
+                        </div>
+                    </div>
+                    <div class="card-contents-middle">
+                        <div class="middle-contents">
+                            <div class="middle-contents-text-one">무료취소 - 10월 23일 전까지</div>
+                            <div class="middle-contents-text-two">입실 15:00 - 퇴실 11:00</div>
+                        </div>
+                        <div class="middle-price-button">
+                            <p>특가</p>
+                            <div class="middle-price">
+                                <div class="original-price">90000원</div>
+                                <div class="discount-price">80000원</div>
+                            </div>
+                            <button class="reservation-button">객실 예약</button>
+
+                        </div>
+                    </div>
+                    <div class="card-contents-botton">
+                        <div class="card-title-index">
+                            <p>객실 정보</p>
+                            <p>추가 정보</p>
+                        </div>
+                        <div class="card-title-content">
+                            <p>기준2인*최대2인</p>
+                            <p>룸 업그래이드 제공</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="roomList-card">
 
-        </div>
     </div>
 </div>
-<div class="service"></div>
-<div class="information"></div>
+
 <div class="location">
     <div class="location-title">
         <h2>위치</h2>
 
     </div>
-    <div class="location-map"></div>
+    <div class="location-map" id="map" style="    width: 76rem; height:36rem;"></div>
 </div>
 <div class="review">
     <div class="review-title">
         <h2>자세한 리뷰</h2>
     </div>
     <div class="review-content">
-        <div class="review-content-picture"></div>
-        <div class="review-content-word"></div>
+        <div style="object-fit: cover; ">
+            <img src="/assets/image/free-icon-medal-4211074.png" alt="alt" style="width:6rem; height: 6rem">
+        </div>
+        <div class="review-content-view"></div>
+
     </div>
 </div>
 <div class="customer">
+    <div class="customer-content">
+        <div style="font-size: 1.2rem ;margin-top: 1.5rem">고객센터<br><br>
 
+            고객상담센터(전화): 오전 9시 ~ 새벽 3시 운영<br>
+            채팅 상담 문의 : 24시간 운영
+        </div>
+        <div class="customer-button">
+            <button class="button-chat1">0000-0000</button>
+            <button class="button-chat2">채팅상담</button>
+        </div>
+    </div>
+    <div class="customer-picture"></div>
+    <div class="customer-picture"></div>
 </div>
-<div class="bottom-word"></div>
+<div class="bottom-word">
+    <div class="bottom-card">(주)여기잘까컴퍼니<br>
+        주소 : 경기도 성남시 봉은사로 101, 740타워 20층 | 대표이사: 홍길동 | 사업자등록번호 : 000-00-00000<br>
+        전자우편주소 : aaaa@aaaaa.aaa | 전화번호 : 0000-0000<br>
+        (주)여기잘까컴퍼니는 통신판매중개자로서 통신판매의 당사자가 아니며, 상품의 예약, 이용 및 환불 등과 관련한 의무와 책임은 각 판매자에 있습니다.
+
+        <div class="bottom-card-button">
+            <button class="card-button-1">이용약관</button>
+            <button class="card-button-1">개인정보처리방침</button>
+            <button class="card-button-1">소비자 분쟁해결 기준</button>
+            <button class="card-button-1">콘텐츠 산업진흥법에 의한 표시</button>
+        </div>
+        <p>Copyright SISH COMPANY Corp. All rights reserved.</p>
+    </div>
+</div>
+<!-- 기존 콘텐츠... -->
+
+<!-- 카카오맵 SDK를 body 끝에서 로드 -->
+<script th:inline="javascript">
+    var KAKAO_API_KEY = /*[[${kakaoMap}]]*/ 'test-key';
+    console.log('🔑 API Key:', KAKAO_API_KEY);
+</script>
+
+<script>
+    // 카카오맵 SDK 동적 로드
+    (function () {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://dapi.kakao.com/v2/maps/sdk.js?appkey=' + KAKAO_API_KEY + '&autoload=false';
+        script.onload = function () {
+            console.log(' 카카오맵 SDK 로드 완료');
+            kakao.maps.load(initMap);
+        };
+        script.onerror = function () {
+            console.error(' 카카오맵 SDK 로드 실패');
+        };
+        document.head.appendChild(script);
+    })();
+
+    function initMap() {
+        console.log('🗺 지도 초기화 시작');
+
+        var mapContainer = document.getElementById('map');
+
+        if (!mapContainer) {
+            console.error('❌ 지도 컨테이너를 찾을 수 없습니다!');
+            return;
+        }
+
+        console.log('📍 컨테이너 크기:', mapContainer.offsetWidth, 'x', mapContainer.offsetHeight);
+
+        try {
+            var mapOption = {
+                center: new kakao.maps.LatLng(38.207228, 128.591621),
+                level: 3
+            };
+
+            var map = new kakao.maps.Map(mapContainer, mapOption);
+            console.log(' 지도 생성 완료');
+
+            var markerPosition = new kakao.maps.LatLng(38.207228, 128.591621);
+            var marker = new kakao.maps.Marker({
+                position: markerPosition
+            });
+            marker.setMap(map);
+            console.log(' 마커 표시 완료');
+
+            var infowindow = new kakao.maps.InfoWindow({
+                content: '<div style="padding:5px; font-size:12px; text-align:center;">' +
+                    '<strong>호텔 원스토리</strong><br/>' +
+                    '강원특별자치도 속초시 중앙동 111-56' +
+                    '</div>'
+            });
+            infowindow.open(map, marker);
+            console.log(' 인포윈도우 표시 완료');
+
+        } catch (error) {
+            console.error(' 지도 생성 중 에러:', error);
+        }
+    }
+
+    // 별점 기능 (기존 코드)
+    const stars = document.querySelectorAll('.star-rating .star');
+    stars.forEach(star => {
+        star.addEventListener('click', () => {
+            const value = parseInt(star.getAttribute('data-value'));
+            stars.forEach(s => {
+                const starValue = parseInt(s.getAttribute('data-value'));
+                if (starValue <= value) {
+                    s.classList.add('selected');
+                } else {
+                    s.classList.remove('selected');
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>

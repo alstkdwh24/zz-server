@@ -21,6 +21,7 @@ html, body { margin: 0; padding: 0;}
     align-items: center;
 }
 .top_logo {
+    cursor: pointer;
     margin-bottom: 0;  /* 아래 여백 제거 */
     background-image: url("../assets/header/logo.png");
     z-index:1;

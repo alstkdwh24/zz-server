@@ -90,3 +90,66 @@ hotelsss.forEach(hotels => {
   `;
     hotelListDivs.appendChild(div);
 });
+const categoryButtonsArr = categoryButtons.querySelectorAll("button");
+
+categoryButtonsArr.forEach(btn => {
+    btn.addEventListener("click", () => {
+
+        // 클릭된 버튼 스타일 적용
+        categoryButtonsArr.forEach(b => b.className = "inactive");
+        btn.className = "active";
+
+        const selected = btn.textContent;
+
+        // 전체 선택 시 모두 보여주기
+        if (selected === "전체") {
+            renderHotels(hotels, hotelListDiv);
+        } else {
+            // 선택된 카테고리만 필터링
+            const filtered = hotels.filter(h => h.category === selected);
+            renderHotels(filtered, hotelListDiv);
+        }
+    });
+});
+
+function renderHotels(list, container) {
+    container.innerHTML = "";
+
+    list.forEach(hotel => {
+        const div = document.createElement("div");
+        div.className = "hotel-card";
+        div.innerHTML = `
+        <img src="${hotel.img}" alt="${hotel.name}">
+        <div class="info">
+          <div class="category">${hotel.category}</div>
+          <div class="name">${hotel.name}</div>
+          <div class="location">${hotel.location}</div>
+          <div class="rating"><span>★ ${hotel.rating}</span> <span>${hotel.reviews.toLocaleString()}명 평가</span></div>
+          <div>쿠폰 적용시</div>
+          <div class="price">${hotel.price.toLocaleString()}원 
+            <span class="original">${hotel.originalPrice.toLocaleString()}원</span>
+          </div>
+        </div>
+        `;
+        container.appendChild(div);
+    });
+}
+
+const categoryButtonsArr2 = categoryButtonss.querySelectorAll("button");
+
+categoryButtonsArr2.forEach(btn => {
+    btn.addEventListener("click", () => {
+
+        categoryButtonsArr2.forEach(b => b.className = "inactive");
+        btn.className = "active";
+
+        const selected = btn.textContent;
+
+        if (selected === "전체") {
+            renderHotels(hotelsss, hotelListDivs);
+        } else {
+            const filtered = hotelsss.filter(h => h.category === selected);
+            renderHotels(filtered, hotelListDivs);
+        }
+    });
+});

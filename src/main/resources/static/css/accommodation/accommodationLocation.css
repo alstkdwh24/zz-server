@@ -1,0 +1,42 @@
+.middle-div-title-location {
+    height: 13rem;
+    width: 35.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.middle-div-title-image-container3 {
+    display: flex;
+    justify-content: flex-start;
+    width: 31.1rem;
+
+}
+
+.middle-div-title-image-image {
+    width: 3.9rem;
+    height: 3.6rem;
+}
+
+.location-contents {
+    width: 27.2rem;
+    height: 3.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.location-image {
+    object-fit: contain;
+    width: 3.9rem;
+    height: 3.6rem;
+    display: block;
+    border: none;
+
+}
+
+.location-contents > h3{
+    font-size: 1.2rem;
+    font-weight: normal;
+}

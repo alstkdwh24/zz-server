@@ -1,0 +1,334 @@
+@media screen and (max-width: 1600px) {
+    html {
+        font-size: 16px;
+    }
+
+}
+
+
+
+@media screen and (max-width: 1200px ) {
+    html {
+        font-size: 14px;
+    }
+}
+
+
+@media screen and (max-width: 1000px ) {
+    html {
+        font-size: 12px;
+    }
+}
+
+
+
+@media screen and (max-width: 800px ) {
+    html {
+        font-size: 10px;
+    }
+}
+
+
+
+@media screen and (max-width: 600px ) {
+    html {
+        font-size: 8px;
+    }
+}
+
+
+
+@media screen and (max-width: 400px ) {
+    html {
+        font-size: 6px;
+    }
+}
+.cancel-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding-top: 3rem;
+
+}
+
+.cancel-sideBar {
+    width: 24rem;
+    border: 1px solid rgb(202, 200, 200);
+    height: 30rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: 1rem;
+}
+
+.cancel-sideBar > button {
+    height: 9rem;
+    border: 1px solid rgb(202, 200, 200);
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+
+}
+
+.reservation-cancel {
+    width: 60rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 40rem;
+
+}
+
+.reservation-cancel-title {
+    width: 60rem;
+    height: 4rem;
+    border: 1px solid rgb(202, 200, 200);
+    display: flex;
+    align-items: center;
+    border-radius: 0.5rem;
+
+}
+
+.reservation-read {
+    width: 59rem;
+    height: 5rem;
+    border: 1px solid rgb(202, 200, 200);
+    display: flex;
+    align-items: center;
+    font-size: 1.6rem;
+    font-weight: bold;
+    padding-left: 1rem;
+    border-radius: 0.5rem;
+
+
+}
+
+.before-use {
+    width: 59rem;
+    height: 5rem;
+    border: 1px solid rgb(202, 200, 200);
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    padding-left: 1rem;
+    font-weight: bold;
+    border-radius: 0.5rem;
+}
+
+.before-reservation {
+    width: 60rem;
+    height: 22rem;
+     border: 1px solid rgb(202, 200, 200);
+
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    flex-direction: row;
+    border-radius: 0.5rem;
+}
+
+.before-reservation-image {
+    width: 21rem;
+    height: 22rem;
+    border-radius: 0.5rem 0 0 0.5rem;
+}
+
+.before-reservation-contents {
+    width: 39rem;
+    height: 22rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.before-reservation-contents-title {
+    height: 6rem;
+border-bottom: 1px solid rgb(202, 200, 200);
+    border-left: 1px solid rgb(202, 200, 200);
+
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+}
+
+.before-reservation-contents-contents {
+    height: 15.5rem;
+    border-left: 1px solid rgb(202, 200, 200);
+    padding: 0.5rem 0 0 0.5rem;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.contents-title-reservation {
+    width: 28rem;
+    display: flex;
+    height: 5.5rem;
+    flex-direction: column;
+    padding: 0.5rem 0 0 0.5rem;
+
+}
+
+.contents-title-chatting {
+    width: 11rem;
+    display: flex;
+    justify-content: center;
+    font-size: 1.2rem;
+    padding-top: 1rem;
+    height: 5rem;
+}
+
+.contents-title-chatting2{
+    width: 10.5rem;
+    display: flex;
+    justify-content: center;
+    font-size: 1.2rem;
+    height: 14rem;
+    padding: 0.5rem 0 0 0.5rem;
+}
+
+.contents-title-reservation > p {
+    font-size: 1rem;
+    margin: 0.2rem 0 0 0;
+}
+
+.contents-title-reservation > h4 {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+
+
+.before-reservation-contents-contents>.before-reservation-contents-contents-real > h4{
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.before-reservation-contents-contents>.before-reservation-contents-contents-real >  p{
+    margin: 0.5rem 0 0 0;
+    font-size: 1rem;
+}
+
+.before-reservation-contents-contents-date{
+    background-color: rgb(238, 238, 238);
+    margin: 0.5rem 0 0 0;
+
+    width:10rem;
+    height: 5rem;
+    display: flex;
+padding: 0.3rem 0 0 0.3rem;
+    flex-direction: column;
+
+}
+
+.before-reservation-contents-contents-date > h3{
+    font-size: 1.4rem;
+    margin: 0;
+}
+
+.before-reservation-contents-contents-date > p{
+    font-size: 1rem;
+}
+
+.before-reservation-contents-contents-date-container{
+    width: 21rem;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+}
+
+.before-reservation-button{
+    margin-top: 0.5rem;
+    width: 11rem;
+    height: 4rem;
+    background-color: white;
+    border: 1px solid rgb(202, 200, 200);
+    border-radius: 0.5rem;
+}
+
+.before-reservation-contents-contents-real{
+    display: flex;
+    flex-direction: column;
+    width: 28rem;
+}
+
+/*고객센터 css*/
+.customer{
+    width: 92.9rem;
+    height: 22rem;
+    border: 1px solid black;
+    margin-top: 10rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: space-evenly;
+    justify-content: space-evenly;
+}
+
+.customer-content{
+    width: 38rem;
+    border: 1px solid black;
+    height: 22rem;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.customer-button{
+    display: flex;
+
+    justify-content: flex-start;
+    align-content: flex-start;
+    width: 38rem;
+    height: 6rem;
+}
+
+.customer-button{
+    display: flex;
+
+    justify-content: flex-start;
+    align-content: flex-start;
+    width: 38rem;
+    height: 6rem;
+}
+
+.button-chat1, .button-chat2{
+    width: 18rem;
+    height: 6rem;
+    border: none;
+    margin-top: 1.5rem;
+    border-radius: 1rem;
+}
+
+.bottom-word {
+    width: 92.9rem;
+    border: 1px solid black;
+    padding-top: 1rem;
+    padding-left: 2rem;
+
+}
+
+.button-chat1{
+    margin-right: 2rem;
+}
+
+.bottom-card-button{
+    display: flex;
+    justify-content: flex-start;
+
+}
+
+.card-button-1{
+    margin-top: 1rem;
+    width: 12rem;
+    height: 3rem;
+    margin-right: 2rem;
+    border: none;
+    border-radius: 1rem;
+}
+.customer-picture{
+    width: 25rem;
+    height: 22rem;
+    border: 1px solid black;
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/accommodation/accommodationDetail.css">
+    <link rel="stylesheet" href="/css/beforeReservation/beforeReservation.css">
+
+
+</head>
+<body>
+<header th:replace="header/differentHeader.html :: headers"></header>
+<div class="middle-container-large">
+    <div class="middle-information">
+        <div class="middle-information-top-name"><h2>예약 요청</h2>
+        </div>
+        <div class="middle-information-top">
+            <h3 class="main-title">예약자 정보</h3>
+            <h3>예약자 이름</h3>
+            <label class="input-label-container">
+                <input type="text" name="name" class="input-label">
+            </label>
+            <h3>휴대폰 번호</h3>
+            <label class="input-label-container">
+                <input type="text" name="phone" class="input-label">
+            </label>
+        </div>
+        <button class="middle-information-bottom">결제
+
+        </button>
+
+    </div>
+    <div class="accommodation-information">
+        <div class="accommodation-information-top">
+            <p>숙소 이름</p>
+            <div class="accommodation-information-image"></div>
+            <div class="container">
+                <div class="contents-container">
+
+                    <h4>객실</h4>
+                    <h4>입실</h4>
+                    <h4>기준인원</h4>
+                    <h4>추가정보</h4>
+                    <h4>객실 가격(1박)</h4>
+                    <h4>총 객실 가격</h4>
+                </div>
+                <div class="loader">
+                    <div class="information-accommodation">ss</div>
+                    <div class="information-accommodation">ss</div>
+                    <div class="information-accommodation">ss</div>
+                    <div class="information-accommodation">ss</div>
+                    <div class="information-accommodation">ss</div>
+                    <div class="information-accommodation">ss</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="customer">
+    <div class="customer-content">
+        <div style="font-size: 1.2rem ;margin-top: 1.5rem">고객센터<br><br>
+
+            고객상담센터(전화): 오전 9시 ~ 새벽 3시 운영<br>
+            채팅 상담 문의 : 24시간 운영
+        </div>
+        <div class="customer-button">
+            <button class="button-chat1">0000-0000</button>
+            <button class="button-chat2">채팅상담</button>
+        </div>
+    </div>
+    <div class="customer-picture"></div>
+    <div class="customer-picture"></div>
+</div>
+<div class="bottom-word">
+    <div class="bottom-card">(주)여기잘까컴퍼니<br>
+        주소 : 경기도 성남시 봉은사로 101, 740타워 20층 | 대표이사: 홍길동 | 사업자등록번호 : 000-00-00000<br>
+        전자우편주소 : aaaa@aaaaa.aaa | 전화번호 : 0000-0000<br>
+        (주)여기잘까컴퍼니는 통신판매중개자로서 통신판매의 당사자가 아니며, 상품의 예약, 이용 및 환불 등과 관련한 의무와 책임은 각 판매자에 있습니다.
+
+        <div class="bottom-card-button">
+            <button class="card-button-1">이용약관</button>
+            <button class="card-button-1">개인정보처리방침</button>
+            <button class="card-button-1">소비자 분쟁해결 기준</button>
+            <button class="card-button-1">콘텐츠 산업진흥법에 의한 표시</button>
+        </div>
+        <p>Copyright SISH COMPANY Corp. All rights reserved.</p>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,143 @@
+
+.card-contents-top {
+    width: 54rem;
+    height: 6rem;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    border-radius: 0.5rem;
+    margin-right: 1rem;
+
+}
+
+.card-contents-top > p {
+    display: flex;
+    justify-content: flex-start;
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.card-contents-top > div {
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    width: 54rem;
+    height: 2rem;
+    border: none;
+    background-color: white;
+    padding: 0;
+}
+
+
+
+.card-contents-middle {
+    width: 54rem;
+    height: 9rem;
+    border: 1px solid rgb(202, 200, 200);
+    margin-top: 1.5rem;
+    border-radius: 0.5rem;
+    display: flex;
+}
+
+.middle-contents{
+    width: 38rem;
+    height: 9rem;
+    border-radius: 0.5rem;
+}
+
+.middle-contents-text-one{
+    margin: 1rem 1rem 0 1rem;
+}
+
+.middle-contents-text-two{
+    margin: 0 1rem 0 1rem;
+
+}
+
+.middle-price-button{
+    width: 16rem;
+    height: 9rem;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+}
+
+.middle-price-button > p{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin: 1rem  1rem 0 1rem;
+}
+
+.middle-price{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.original-price{
+
+
+}
+
+.discount-price{
+    margin: 0 1rem 0 0.5rem;
+    font-size: 1.2rem;
+
+}
+
+.reservation-button{
+    width: 8rem;
+    height: 3rem;
+    border: none;
+    border-radius: 0.5rem;
+}
+
+.card-contents-botton {
+    width: 54rem;
+    height: 4rem;
+    margin-top: 1.5rem;
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.reservation-button{
+    justify-content: flex-end;
+    margin: 1rem;
+}
+
+.card-title-index{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+
+    border: 1px solid black;
+    width: 9rem;
+    height: 4rem;
+}
+
+.card-title-index > p{
+    margin: 0;
+}
+
+.card-title-content{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 18rem;
+    border: 1px solid black;
+    height: 4rem;
+
+}
+
+.card-title-content > p {
+    margin: 0;
+}
+

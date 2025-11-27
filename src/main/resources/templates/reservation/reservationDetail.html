@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/reservationDetail/reservationDetail.css">
+
+</head>
+<body>
+<header th:replace="header/differentHeader.html :: headers"></header>
+<div class="cancel-container">
+    <div class="cancel-sideBar">
+        <button style="border-radius: 1rem 1rem 0 0 ">예약 내역</button>
+        <button>예약 취소</button>
+        <button>장바구니</button>
+        <button style="border-radius: 0 0 1rem 1rem">내정보 관리</button>
+    </div>
+    <div class="reservation-cancel">
+        <div>
+            <div class="reservation-cancel-title">
+
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="5rem" height="4rem">
+                    <!-- 뒤로가기 화살표 <- -->
+                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" fill="#666"/>
+                </svg>
+                <h2>예약내역 상세</h2>
+            </div>
+        </div>
+        <div class="before-use">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <!-- 원형 테두리 -->
+                <circle cx="12" cy="12" r="10" fill="none" stroke="#333" stroke-width="2"/>
+
+                <!-- 느낌표 위 점 -->
+                <circle cx="12" cy="8" r="1.5" fill="#333"/>
+
+                <!-- 느낌표 아래 선 -->
+                <rect x="11" y="11" width="2" height="6" rx="1" fill="#333"/>
+            </svg>
+            <h4 style="margin-left: 0.2rem">2025년 10월 22일 (수) 16:00 부터 체크인 가능해요</h4>
+
+        </div>
+        <div class="reservation-detail-container">
+            <div class="reservation-detail-container-top">
+                <h3>예약정보</h3>
+            </div>
+            <div class="reservation-detail-container-bottom">
+                <div class="reservation-detail-container-bottom-index">
+                    <h4>예약정보</h4>
+                    <h4>예약자 이름</h4>
+                    <h4>안심번호</h4>
+                </div>
+                <div class="reservation-detail-container-bottom-index2">
+                    <p>n</p>
+                    <p>n</p>
+                    <p>n</p>
+                </div>
+            </div>
+
+        </div>
+        <div class="reservation-detail-container-title">
+            <h2>결제 정보</h2>
+        </div>
+        <div class="reservation-detail-container-2">
+            <div class="reservation-detail-container-image">
+                <div class="reservation-detail-container-image-index">
+                    <p>결제일시</p>
+                    <p>결제수단</p>
+                </div>
+                <div class="reservation-detail-container-image-index2">
+                </div>
+            </div>
+            <div class="reservation-detail-container-image">
+                <div class="reservation-detail-container-image-index">
+                    <p>객실가격</p>
+                    <p>취소금액</p>
+                </div>
+                <div class="reservation-detail-container-image-index2">
+                </div>
+            </div>
+        </div>
+        <div class="reservation-detail-container-3">
+            <h1>예약취소</h1>
+            <button>에약취소</button>
+
+        </div>
+    </div>
+</div>
+
+<div class="customer">
+    <div class="customer-content">
+        <div style="font-size: 1.2rem ;margin-top: 1.5rem">고객센터<br><br>
+
+            고객상담센터(전화): 오전 9시 ~ 새벽 3시 운영<br>
+            채팅 상담 문의 : 24시간 운영
+        </div>
+        <div class="customer-button">
+            <button class="button-chat1">0000-0000</button>
+            <button class="button-chat2">채팅상담</button>
+        </div>
+    </div>
+    <div class="customer-picture"></div>
+    <div class="customer-picture"></div>
+</div>
+<div class="bottom-word">
+    <div class="bottom-card">(주)여기잘까컴퍼니<br>
+        주소 : 경기도 성남시 봉은사로 101, 740타워 20층 | 대표이사: 홍길동 | 사업자등록번호 : 000-00-00000<br>
+        전자우편주소 : aaaa@aaaaa.aaa | 전화번호 : 0000-0000<br>
+        (주)여기잘까컴퍼니는 통신판매중개자로서 통신판매의 당사자가 아니며, 상품의 예약, 이용 및 환불 등과 관련한 의무와 책임은 각 판매자에 있습니다.
+
+        <div class="bottom-card-button">
+            <button class="card-button-1">이용약관</button>
+            <button class="card-button-1">개인정보처리방침</button>
+            <button class="card-button-1">소비자 분쟁해결 기준</button>
+            <button class="card-button-1">콘텐츠 산업진흥법에 의한 표시</button>
+        </div>
+        <p>Copyright SISH COMPANY Corp. All rights reserved.</p>
+    </div>
+</div>
+</body>
+</html>
